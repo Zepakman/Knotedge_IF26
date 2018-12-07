@@ -1,30 +1,21 @@
 package fr.if26.projet.knotedge_if26.entity;
 
-public class Event {
+public class Place {
 
-    private int id;
     private String name;
-    private String date;
     private String description;
+    private int id;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setDescription(String description) {

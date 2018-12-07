@@ -2,6 +2,7 @@ package fr.if26.projet.knotedge_if26.entity;
 
 public class Person {
 
+    private int id;
     private String name;
     private String description;
     private String date;
@@ -28,5 +29,13 @@ public class Person {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
