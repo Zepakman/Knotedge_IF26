@@ -2,6 +2,11 @@
     <string name="app_name">Knotedge</string>
     <string name="profil">Profil</string>
     <string name="new_class">New Class</string>
+    <string name="new_class_categorie">Catégorie :</string>
+    <string name="new_class_date">Date :</string>
+    <string name="new_class_nom">Nom :</string>
+    <string name="new_class_description">Description :</string>
+    <string name="new_class_create">Créer</string>
     <string name="new_note">New Note</string>
     <string name="view_classes">View Classes</string>
     <string name="view_by">View By...</string>
@@ -15,4 +20,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="classes_string_array">
+        <item>Objet</item>
+        <item>Tag</item>
+        <item>Lieu</item>
+        <item>Evenement</item>
+        <item>Autre</item>
+        <item>Personne</item>
+    </string-array>
 </resources>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graylight"
+    android:orientation="vertical"
+    tools:context="fr.if26.projet.knotedge_if26.MainActivity">
+
+    //NAME OF THE OBJECT
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center_vertical"
+            android:text="@string/new_class_nom"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/new_class_name"
+                style="@style/DatePickerTheme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:hint="Nom"
+                android:textColor="@color/colorAccent"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+    //SPINNER
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:text="@string/new_class_categorie"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/class_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:textSize="20sp"
+                android:theme="@style/AppTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+    //DATE PICKER
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center_vertical"
+            android:text="@string/new_class_date"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/objDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="JJ/MM/YY"
+                android:inputType="date"
+                android:longClickable="false"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+    //Description
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center_vertical"
+            android:text="@string/new_class_description"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/new_class_name2"
+                style="@style/DatePickerTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorAccent"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </FrameLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/button"
+                android:theme="@style/AppTheme"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/new_class_create"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

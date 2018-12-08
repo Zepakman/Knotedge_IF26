@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -22,18 +24,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Calligrapher calligrapher = new Calligrapher(this);
-        calligrapher.setFont(this, "montserrat_regular.ttf", true);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //ActionBar actionbar = getSupportActionBar();
-        //actionbar.setDisplayHomeAsUpEnabled(true);
-        //actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -58,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_profil:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
                 break;
+            case R.id.nav_new_class:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewClassFragment()).commit();
+                break;
+
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -82,5 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_view, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
 }
