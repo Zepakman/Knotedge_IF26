@@ -58,7 +58,7 @@ public class SettingsProfilFragment extends Fragment {
         });
 
         int permissionCheck = ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.CAMERA);
-        
+
         if (permissionCheck == PackageManager.PERMISSION_DENIED) {
             RequestRuntimePermission();
         }
@@ -100,11 +100,20 @@ public class SettingsProfilFragment extends Fragment {
 
     private void CameraOpen() {
         CamIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Environment.getExternalStorageDirectory(), "Knotedge" + String.valueOf(System.currentTimeMillis()) + ".jpg");
-        uri = Uri.fromFile(file);
-        CamIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        CamIntent.putExtra("return-data", true);
-        startActivityForResult(CamIntent, REQUEST_CAMERA);
+        CamIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
+        CamIntent.putExtra("crop", "true");
+        CamIntent.putExtra("aspectX", 1);
+        CamIntent.putExtra("aspectY", 1);
+        try {
+
+            CamIntent.putExtra("return-data", true);
+            startActivityForResult(CamIntent, REQUEST_CAMERA);
+
+        } catch (ActivityNotFoundException e) {
+// Do nothing for now
+        }
+
     }
 
     private void GaleryOpen() {
@@ -118,7 +127,15 @@ public class SettingsProfilFragment extends Fragment {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
-                CropImage();
+                //uri = data.getData();
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    Bitmap bmp = bundle.getParcelable("data");
+                    BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bmp);
+                    profilePictureButton.setBackground(bmpdrawable);
+                }
+
+                //CropImage();
             } else if (requestCode == SELECT_FILE) {
                 if (data != null) {
                     uri = data.getData();
@@ -144,7 +161,10 @@ public class SettingsProfilFragment extends Fragment {
             cropIntent = new Intent("com.android.camera.action.CROP");
             cropIntent.setDataAndType(uri, "image/*");
 
+
             cropIntent.putExtra("crop", true);
+            cropIntent.putExtra("outputX", 256);
+            cropIntent.putExtra("outputY", 256);
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
             cropIntent.putExtra("scaleUpIfNeeded", true);
