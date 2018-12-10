@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import me.anwarshahriar.calligrapher.Calligrapher;
 
 //test
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +55,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_new_class:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewClassFragment()).commit();
                 break;
-
+            case R.id.nav_new_note:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewNoteFragment()).commit();
+                break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);

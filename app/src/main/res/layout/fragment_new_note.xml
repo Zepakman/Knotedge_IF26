@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/new_note_title"
+        style="@style/DatePickerTheme"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:hint="Titre"
+        android:inputType="text"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:theme="@style/DatePickerTheme" />
+
+    <EditText
+        android:id="@+id/new_note_note"
+        style="@style/DatePickerTheme"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginVertical="5dp"
+        android:background="@android:color/transparent"
+        android:gravity="top"
+        android:hint="Note"
+        android:inputType="text"
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp"
+        android:theme="@style/DatePickerTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/button_write_note"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/new_note_create"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:theme="@style/AppTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.widget.LinearLayout>

@@ -44,7 +44,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
-    private int pk_tag;
+    private int pk_tag=0;
 
     private static final String RELATION_NAME = "relation_name";
 
@@ -53,7 +53,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     private static final String NOTE_CONTENT = "note_content";
     private static final String NOTE_DATE_CREATE = "note_date_create";
     private static final String NOTE_DATE_EDIT = "note_date_edit";
-    private int pk_note;
+    private int pk_note=0;
 
     private static final String PROFILE_ID = "user_id";
     private static final String PROFILE_NAME = "user_name";

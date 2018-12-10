@@ -1,23 +1,21 @@
 package fr.if26.projet.knotedge_if26;
 
 import android.app.DatePickerDialog;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -27,6 +25,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     private View view;
     final Calendar myCalendar = Calendar.getInstance();
     private EditText txtDate;
+    private Button createClassButton;
 
     @Nullable
     @Override
@@ -74,7 +73,14 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
-        //
+        createClassButton = (Button) view.findViewById(R.id.buttonCreateClass);
+
+        createClassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(view.getContext(), "Classe créée", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         return view;
