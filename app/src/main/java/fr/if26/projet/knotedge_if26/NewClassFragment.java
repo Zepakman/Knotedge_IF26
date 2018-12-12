@@ -24,8 +24,21 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
 
     private View view;
     final Calendar myCalendar = Calendar.getInstance();
+
+    private Spinner spinner;
+    private EditText txtName;
     private EditText txtDate;
+    private EditText txtDescription;
     private Button createClassButton;
+
+    private TransmissionListener listener;
+
+    @Override
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        listener = (TransmissionListener) getActivity();
+    }
 
     @Nullable
     @Override
@@ -33,10 +46,12 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
         final View view = inflater.inflate(R.layout.fragment_new_class, container, false);
 
         //SET NAME CODE
-        EditText editText = view.findViewById(R.id.new_class_name);
+        txtName = view.findViewById(R.id.new_class_name);
+        //SET DESCRPTION CODE
+        txtDescription = view.findViewById(R.id.new_class_name2);
 
         //SPINNER CODE
-        Spinner spinner = view.findViewById(R.id.class_spinner);
+        spinner = view.findViewById(R.id.class_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.classes_string_array, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -78,7 +93,16 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
         createClassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), "Classe créée", Toast.LENGTH_LONG).show();
+                String name = txtName.getText().toString();
+                String date = txtDate.getText().toString();
+                String description = txtDescription.getText().toString();
+                //TODO : set value fro type
+                int type = 0;
+                if (name != null && !name.equals("")) {
+                    listener.createNewObject(name, date, description, type);
+                    Toast.makeText(view.getContext(), "Classe créée", Toast.LENGTH_LONG).show();
+                }
+                //TODO : return
             }
         });
 

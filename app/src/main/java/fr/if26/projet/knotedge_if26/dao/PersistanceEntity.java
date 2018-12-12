@@ -7,10 +7,11 @@ import fr.if26.projet.knotedge_if26.entity.Note;
 import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.entity.Person;
 import fr.if26.projet.knotedge_if26.entity.Place;
-import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.entity.Tag;
 
-public interface Persistance {
+public interface PersistanceEntity {
+
+    /* ----------------- add ----------------- */
 
     void addPerson(Person p);
 
@@ -20,19 +21,25 @@ public interface Persistance {
 
     void addObject(Object o);
 
-    void addProfile(Profile p);
-
     void addBook(Book b);
 
     void addTag(Tag t);
 
     void addNote(Note n);
 
-    void addTagObject(Tag t, Object o);
+    /* ----------------- update ----------------- */
 
-    void addTagBook(Tag t, Book b);
+    /* ----------------- get All ----------------- */
 
-    void addRelationObjects(Object o1, Object o2);
+    /* ----------------- get ----------------- */
 
+    Note getNote(int id);
+
+    /* ----------------- count ----------------- */
+    int countNote();
+
+    int countClass();
+
+    int countTag();
 
 }
