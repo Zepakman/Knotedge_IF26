@@ -109,7 +109,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
 
                 if (name != null && !name.equals("") && typeClass != 0) {
                     listener.createNewObject(name, date, description, typeClass);
-                } else if (name != null && !name.equals("") && typeClass != 0) {
+                } else if (name != null && !name.equals("") && typeClass == 0) {
                     listener.createNewBook(name, date, description, author);
                 }
             }

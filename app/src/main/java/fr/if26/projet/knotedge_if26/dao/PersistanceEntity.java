@@ -42,4 +42,6 @@ public interface PersistanceEntity {
 
     int countTag();
 
+    int countBook();
+
 }

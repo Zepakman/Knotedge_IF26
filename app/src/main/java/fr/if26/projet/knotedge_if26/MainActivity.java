@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private KnotedgePersistance knotedgePersistance;
 
     //TODO: À changer
-    private int USER_ID = 0;
+    private int USER_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         //for test
-        knotedgePersistance.testInit();
+        //knotedgePersistance.testInit();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadFragmentProfile();
             navigationView.setCheckedItem(R.id.nav_profil);
         }
+
     }
 
     @Override
@@ -127,12 +128,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Profile profile = knotedgePersistance.getProfile(USER_ID);
         int countNote = knotedgePersistance.countNote();
         int countClass = knotedgePersistance.countClass();
+        int countBook = knotedgePersistance.countBook();
         int countTag = knotedgePersistance.countTag();
         bundle.putString("firstName", profile.getFirstName());
         bundle.putString("lastName", profile.getLastName());
         bundle.putString("photo", profile.getPhoto());
         bundle.putInt("nNote", countNote);
         bundle.putInt("nClass", countClass);
+        bundle.putInt("nBook", countBook);
         bundle.putInt("nTag", countTag);
         profilFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profilFragment).commit();
@@ -142,24 +145,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void createNewObject(String name, String date, String description, int type) {
         switch (type) {
-            case 0 :
+            case 1 :
                 Person p = new Person(name, description, date);
                 knotedgePersistance.addPerson(p);
-                Toast.makeText(this, "Personne créée", Toast.LENGTH_LONG).show();
-            case 1 :
+                Toast.makeText(this, "Personne créée", Toast.LENGTH_SHORT).show();
+                break;
+            case 2 :
                 Event e = new Event(name, description, date);
                 knotedgePersistance.addEvent(e);
-                Toast.makeText(this, "Événement créé", Toast.LENGTH_LONG).show();
-            case 2 :
+                Toast.makeText(this, "Événement créé", Toast.LENGTH_SHORT).show();
+                break;
+            case 3 :
                 Place pl = new Place(name, description);
                 knotedgePersistance.addPlace(pl);
-                Toast.makeText(this, "Lieu créée", Toast.LENGTH_LONG).show();
-            case 3 :
+                Toast.makeText(this, "Lieu créée", Toast.LENGTH_SHORT).show();
+                break;
+            case 4 :
                 Object o = new Object(name, description);
                 knotedgePersistance.addObject(o);
-                Toast.makeText(this, "Objet créée", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Objet créée", Toast.LENGTH_SHORT).show();
+                break;
             default :
-                Toast.makeText(this, "Erreur", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Erreur", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -167,19 +175,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void createNewBook(String name, String description, String author, String date) {
         Book b = new Book(name, description, author, date);
         knotedgePersistance.addBook(b);
-        Toast.makeText(this, "Livre créé", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Livre créé", Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
-    public boolean createNewNote(String title, String content) {
+    public void createNewNote(String title, String content) {
 
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Calendar calendar = Calendar.getInstance();
         String date = sdf.format(calendar.getTime());
-
         Note n = new Note(title, content, date, date);
         knotedgePersistance.addNote(n);
-        return true;
+        Toast.makeText(this, "Note Envoyée", Toast.LENGTH_SHORT).show();
     }
+
+
 }

@@ -6,6 +6,6 @@ public interface TransmissionListener {
 
     void createNewBook(String name, String description, String author, String date);
 
-    boolean createNewNote(String title, String content);
+    void createNewNote(String title, String content);
 
 }

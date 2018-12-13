@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class NewNoteFragment extends Fragment {
 
@@ -17,6 +16,8 @@ public class NewNoteFragment extends Fragment {
     private EditText noteTitle;
     private EditText noteContent;
     private View view;
+    private String title;
+    private String content;
 
     private TransmissionListener listener;
 
@@ -33,20 +34,15 @@ public class NewNoteFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_new_note, container, false);
 
         writeNoteButton = (Button) view.findViewById(R.id.button_write_note);
-        noteTitle = view.findViewById(R.id.new_note_title);
-        noteContent = view.findViewById(R.id.nav_new_note);
+        noteTitle = (EditText) view.findViewById(R.id.new_note_title);
+        noteContent = (EditText) view.findViewById(R.id.nav_new_note);
 
         writeNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = noteTitle.getText().toString();
-                String content = noteContent.getText().toString();
-                boolean indice = listener.createNewNote(title, content);
-                if (indice) {
-                    Toast.makeText(view.getContext(), "Note Envoyée", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(view.getContext(), "Erreur", Toast.LENGTH_LONG).show();
-                }
+                title = noteTitle.getText().toString();
+                content = noteTitle.getText().toString();
+                listener.createNewNote(title, content);
             }
         });
 
