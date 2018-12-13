@@ -8,6 +8,13 @@ public class Profile {
     private String email;
     private String photo;
 
+    public Profile (String firstName, String lastName, String email, String photo) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.photo = photo;
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -24,11 +24,10 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="classes_string_array">
-        <item>Objet</item>
-        <item>Tag</item>
-        <item>Lieu</item>
-        <item>Evenement</item>
-        <item>Autre</item>
+        <item>Livre</item>
         <item>Personne</item>
+        <item>Evenement</item>
+        <item>Lieu</item>
+        <item>Objet</item>
     </string-array>
 </resources>

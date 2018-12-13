@@ -8,6 +8,13 @@ public class Note {
     private String date_create;
     private String date_edit;
 
+    public Note (String title, String content, String date_create, String date_edit) {
+        this.title = title;
+        this.content = content;
+        this.date_create = date_create;
+        this.date_edit = date_edit;
+    }
+
     public String getTitle() {
         return title;
     }

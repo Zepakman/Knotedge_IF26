@@ -84,8 +84,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
                 TABLE_OBJECT + "(" +
                 OBJECT_ID + " INTEGER primary key, " +
                 OBJECT_NAME + " TEXT, " +
-                OBJECT_DATE + " DATE, " +
                 OBJECT_DESCRIPTION + " TEXT," +
+                OBJECT_DATE + " DATE, " +
                 OBJECT_TYPE + " TEXT" + ")";
 
         final String table_book_create = "CREATE TABLE IF NOT EXISTS " +
@@ -168,8 +168,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         values.put(OBJECT_ID, id);
         p.setId(id);
         values.put(OBJECT_NAME, p.getName());
-        values.put(OBJECT_DATE, p.getDate());
         values.put(OBJECT_DESCRIPTION, p.getDescription());
+        values.put(OBJECT_DATE, p.getDate());
         values.put(OBJECT_TYPE, "person");
 
         db.insert(TABLE_OBJECT, null, values);
@@ -186,8 +186,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         values.put(OBJECT_ID, id);
         t.setId(id);
         values.put(OBJECT_NAME, t.getName());
-        values.put(OBJECT_DATE, t.getDate());
         values.put(OBJECT_DESCRIPTION, t.getDescription());
+        values.put(OBJECT_DATE, t.getDate());
         values.put(OBJECT_TYPE, "event");
 
         db.insert(TABLE_OBJECT, null, values);
@@ -204,8 +204,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         values.put(OBJECT_ID, id);
         p.setId(id);
         values.put(OBJECT_NAME, p.getName());
-        values.put(OBJECT_DATE, "");
         values.put(OBJECT_DESCRIPTION, p.getDescription());
+        values.put(OBJECT_DATE, "");
         values.put(OBJECT_TYPE, "place");
 
         db.insert(TABLE_OBJECT, null, values);
@@ -222,8 +222,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         values.put(OBJECT_ID, id);
         o.setId(id);
         values.put(OBJECT_NAME, o.getName());
-        values.put(OBJECT_DATE, "");
         values.put(OBJECT_DESCRIPTION, o.getDescription());
+        values.put(OBJECT_DATE, "");
         values.put(OBJECT_TYPE, "object");
 
         db.insert(TABLE_OBJECT, null, values);
@@ -304,7 +304,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.query(TABLE_NOTE, null, NOTE_ID + "= ? ", new String[]{id+""}, null, null, null);
         Note note = null;
         if (cursor.moveToNext()) {
-            note = new Note();
+            note = null;
             note.setId(cursor.getInt(cursor.getColumnIndex(PROFILE_ID)));
             note.setTitle(cursor.getString(cursor.getColumnIndex(PROFILE_FIRST_NAME)));
             note.setContent(cursor.getString(cursor.getColumnIndex(PROFILE_LAST_NAME)));
@@ -390,42 +390,6 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     }
 
-    @Override
-    public void createDefaultUser() {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = pk_increment("object");
-
-        ContentValues values = new ContentValues();
-        values.put(PROFILE_ID, 0);
-        values.put(PROFILE_FIRST_NAME, "Sifei");
-        values.put(PROFILE_LAST_NAME, "LI");
-        values.put(PROFILE_EMAIL, "doe.john@utt.fr");
-        values.put(PROFILE_PHOTO, "");
-
-        db.insert(TABLE_PROFILE, null, values);
-        db.close();
-
-    }
-
-    public void testInit() {
-
-        Person p1 = new Person();
-        p1.setName("1");
-        p1.setDate("2014-02-02");
-        p1.setDescription("123");
-        addPerson(p1);
-        Tag t1 = new Tag();
-        t1.setName("tag1");
-        addTag(t1);
-        Note n1 = new Note();
-        n1.setTitle("123");
-        n1.setContent("456");
-        n1.setDate_create("2014-02-02");
-        n1.setDate_edit("2014-02-02");
-        addNote(n1);
-    }
 
     @Override
     public int countProfile() {
@@ -442,9 +406,9 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     public Profile getProfile(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_PROFILE, null, PROFILE_ID + "= ? ", new String[]{id+""}, null, null, null);
-        Profile profile = null;
+        Profile profile = new Profile("","","","");
         if (cursor.moveToNext()) {
-            profile = new Profile();
+            profile = new Profile("","","","");
             profile.setId(cursor.getInt(cursor.getColumnIndex(PROFILE_ID)));
             profile.setFirstName(cursor.getString(cursor.getColumnIndex(PROFILE_FIRST_NAME)));
             profile.setLastName(cursor.getString(cursor.getColumnIndex(PROFILE_LAST_NAME)));
@@ -477,5 +441,35 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
             default:
                 return 0;
         }
+    }
+
+
+    @Override
+    public void createDefaultUser() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int id = pk_increment("object");
+
+        ContentValues values = new ContentValues();
+        values.put(PROFILE_ID, 0);
+        values.put(PROFILE_FIRST_NAME, "Sifei");
+        values.put(PROFILE_LAST_NAME, "LI");
+        values.put(PROFILE_EMAIL, "doe.john@utt.fr");
+        values.put(PROFILE_PHOTO, "");
+
+        db.insert(TABLE_PROFILE, null, values);
+        db.close();
+
+    }
+
+    public void testInit() {
+
+        Person p1 = new Person("p1", "123", "2014-02-02");
+        addPerson(p1);
+        Tag t1 = new Tag("tag1");
+        addTag(t1);
+        Note n1 = new Note("title1", "contentnote","2014-02-02", "2014-02-02");
+        addNote(n1);
     }
 }

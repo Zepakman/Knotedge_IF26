@@ -78,6 +78,37 @@
 
     </LinearLayout>
 
+    //AUTHOR
+
+    <LinearLayout
+        android:id="@+id/layout_author_for_hide"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/new_author"
+                style="@style/DatePickerTheme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:hint="Auteur"
+                android:textColor="@color/colorAccent"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+
 
     //DATE PICKER
 

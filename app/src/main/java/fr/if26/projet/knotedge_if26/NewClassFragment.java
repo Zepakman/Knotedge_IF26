@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,11 +25,15 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     private View view;
     final Calendar myCalendar = Calendar.getInstance();
 
+    private LinearLayout layoutAuthorHide;
     private Spinner spinner;
     private EditText txtName;
     private EditText txtDate;
     private EditText txtDescription;
+    private EditText txtAuthor;
     private Button createClassButton;
+
+    private int typeClass = 0;
 
     private TransmissionListener listener;
 
@@ -43,12 +47,17 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_new_class, container, false);
+        view = inflater.inflate(R.layout.fragment_new_class, container, false);
+
+        //SET LAYOUT AUTHOR HIDDING
+        layoutAuthorHide = view.findViewById(R.id.layout_author_for_hide);
 
         //SET NAME CODE
         txtName = view.findViewById(R.id.new_class_name);
         //SET DESCRPTION CODE
         txtDescription = view.findViewById(R.id.new_class_name2);
+        //SET AUTHOR CODE
+        txtAuthor = view.findViewById(R.id.new_author);
 
         //SPINNER CODE
         spinner = view.findViewById(R.id.class_spinner);
@@ -96,13 +105,13 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                 String name = txtName.getText().toString();
                 String date = txtDate.getText().toString();
                 String description = txtDescription.getText().toString();
-                //TODO : set value fro type
-                int type = 0;
-                if (name != null && !name.equals("")) {
-                    listener.createNewObject(name, date, description, type);
-                    Toast.makeText(view.getContext(), "Classe créée", Toast.LENGTH_LONG).show();
+                String author = txtAuthor.getText().toString();
+
+                if (name != null && !name.equals("") && typeClass != 0) {
+                    listener.createNewObject(name, date, description, typeClass);
+                } else if (name != null && !name.equals("") && typeClass != 0) {
+                    listener.createNewBook(name, date, description, author);
                 }
-                //TODO : return
             }
         });
 
@@ -113,6 +122,14 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+        typeClass = position;
+        if(typeClass == 0) {
+            txtAuthor.setVisibility(View.VISIBLE);
+            layoutAuthorHide.setVisibility(View.VISIBLE);
+        } else {
+            txtAuthor.setVisibility(View.GONE);
+            layoutAuthorHide.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -11,8 +11,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
+import fr.if26.projet.knotedge_if26.entity.Book;
+import fr.if26.projet.knotedge_if26.entity.Event;
+import fr.if26.projet.knotedge_if26.entity.Note;
+import fr.if26.projet.knotedge_if26.entity.Object;
+import fr.if26.projet.knotedge_if26.entity.Person;
+import fr.if26.projet.knotedge_if26.entity.Place;
 import fr.if26.projet.knotedge_if26.entity.Profile;
 
 
@@ -130,11 +141,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void createNewObject(String name, String date, String description, int type) {
-
+        switch (type) {
+            case 0 :
+                Person p = new Person(name, description, date);
+                knotedgePersistance.addPerson(p);
+                Toast.makeText(this, "Personne créée", Toast.LENGTH_LONG).show();
+            case 1 :
+                Event e = new Event(name, description, date);
+                knotedgePersistance.addEvent(e);
+                Toast.makeText(this, "Événement créé", Toast.LENGTH_LONG).show();
+            case 2 :
+                Place pl = new Place(name, description);
+                knotedgePersistance.addPlace(pl);
+                Toast.makeText(this, "Lieu créée", Toast.LENGTH_LONG).show();
+            case 3 :
+                Object o = new Object(name, description);
+                knotedgePersistance.addObject(o);
+                Toast.makeText(this, "Objet créée", Toast.LENGTH_LONG).show();
+            default :
+                Toast.makeText(this, "Erreur", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void createNewNote(String title, String content) {
+    public void createNewBook(String name, String description, String author, String date) {
+        Book b = new Book(name, description, author, date);
+        knotedgePersistance.addBook(b);
+        Toast.makeText(this, "Livre créé", Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public boolean createNewNote(String title, String content) {
+
+        String myFormat = "dd/MM/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Calendar calendar = Calendar.getInstance();
+        String date = sdf.format(calendar.getTime());
+
+        Note n = new Note(title, content, date, date);
+        knotedgePersistance.addNote(n);
+        return true;
     }
 }
