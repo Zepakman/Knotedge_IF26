@@ -1,6 +1,8 @@
 package fr.if26.projet.knotedge_if26.dao;
 
 
+import java.util.ArrayList;
+
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Event;
 import fr.if26.projet.knotedge_if26.entity.Note;
@@ -30,6 +32,20 @@ public interface PersistanceEntity {
     /* ----------------- update ----------------- */
 
     /* ----------------- get All ----------------- */
+
+    ArrayList<Object> getAllObjects();
+
+    ArrayList<Person> getAllPersons();
+
+    ArrayList<Event> getAllEvents();
+
+    ArrayList<Place> getAllPlaces();
+
+    ArrayList<Book> getAllBooks();
+
+    ArrayList<Note> getAllNotes();
+
+    ArrayList<Tag> getAllTags();
 
     /* ----------------- get ----------------- */
 

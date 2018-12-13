@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
 
     private KnotedgePersistance knotedgePersistance;
+    private ArrayList<Object> listAllClasses;
 
     //TODO: À changer
     private int USER_ID = 1;
@@ -87,8 +89,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_new_note:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewNoteFragment()).commit();
                 break;
+            case R.id.nav_view_classes:
+                loadFragmentAllClasses();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewClassFragment()).commit();
+                break;
+            case R.id.nav_view_by:
+                break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+                break;
+            case R.id.nav_help:
+                break;
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -141,6 +152,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profilFragment).commit();
     }
 
+    public void loadFragmentAllClasses() {
+        ViewClassFragment fragment = new ViewClassFragment();
+        Bundle bundle = new Bundle();
+        listAllClasses = knotedgePersistance.getAllObjects();
+        bundle.putSerializable("classes", listAllClasses);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
 
     @Override
     public void createNewObject(String name, String date, String description, int type) {
@@ -156,12 +176,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Événement créé", Toast.LENGTH_SHORT).show();
                 break;
             case 3 :
-                Place pl = new Place(name, description);
+                Place pl = new Place(name, description, "");
                 knotedgePersistance.addPlace(pl);
                 Toast.makeText(this, "Lieu créée", Toast.LENGTH_SHORT).show();
                 break;
             case 4 :
-                Object o = new Object(name, description);
+                Object o = new Object(name, description, "","object");
                 knotedgePersistance.addObject(o);
                 Toast.makeText(this, "Objet créée", Toast.LENGTH_SHORT).show();
                 break;
