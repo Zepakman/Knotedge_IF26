@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import fr.if26.projet.knotedge_if26.util.DividerItemDecoration;
 import fr.if26.projet.knotedge_if26.util.MyAdapter;
 
 public class ViewClassFragment extends Fragment {
@@ -36,6 +37,9 @@ public class ViewClassFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        DividerItemDecoration decoration = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
+        recyclerView.addItemDecoration(decoration);
 
         return view;
     }

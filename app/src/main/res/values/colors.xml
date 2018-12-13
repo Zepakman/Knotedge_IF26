@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#5bc8ac</color>
     <color name="colorAccent">#f18d9e</color>
 
+    <color name="colorAccentLight">#ffc9cf</color>
+
     <color name="white">#ffffff</color>
     <color name="ivory">#fffff0</color>
     <color name="lightyellow">#ffffe0</color>
