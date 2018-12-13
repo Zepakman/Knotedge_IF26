@@ -52,7 +52,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
-    private int pk_tag=0;
+    private int pk_tag = 0;
 
     private static final String RELATION_NAME = "relation_name";
 
@@ -61,7 +61,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     private static final String NOTE_CONTENT = "note_content";
     private static final String NOTE_DATE_CREATE = "note_date_create";
     private static final String NOTE_DATE_EDIT = "note_date_edit";
-    private int pk_note=0;
+    private int pk_note = 0;
 
     private static final String PROFILE_ID = "user_id";
     private static final String PROFILE_FIRST_NAME = "user_first_name";
@@ -76,14 +76,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String table_pk_create = "CREATE TABLE IF NOT EXISTS " +
-                TABLE_PK + "(" +
-                PK_NAME + " TEXT primary key, " +
-                PK_NUM + " INTEGER " + ")";
 
         final String table_profile_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_PROFILE + "(" +
-                PROFILE_ID + " INTEGER primary key, " +
+                PROFILE_ID + " INTEGER primary key autoincrement, " +
                 PROFILE_FIRST_NAME + " TEXT, " +
                 PROFILE_LAST_NAME + " TEXT, " +
                 PROFILE_EMAIL + " TEXT, " +
@@ -91,7 +87,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
         final String table_object_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_OBJECT + "(" +
-                OBJECT_ID + " INTEGER primary key, " +
+                OBJECT_ID + " INTEGER primary key autoincrement, " +
                 OBJECT_NAME + " TEXT, " +
                 OBJECT_DESCRIPTION + " TEXT," +
                 OBJECT_DATE + " DATE, " +
@@ -99,19 +95,19 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
         final String table_book_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_BOOK + "(" +
-                BOOK_ID + " INTEGER primary key, " +
+                BOOK_ID + " INTEGER primary key autoincrement, " +
                 BOOK_TITLE + " TEXT, " +
                 BOOK_AUTHOR + " TEXT, " +
                 BOOK_DESCRIPTION + " TEXT" + ")";
 
         final String table_tag_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_TAG + "(" +
-                TAG_ID + " INTEGER primary key, " +
+                TAG_ID + " INTEGER primary key autoincrement, " +
                 TAG_NAME + " TEXT " + ")";
 
         final String table_note_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NOTE + "(" +
-                NOTE_ID + " INTEGER primary key, " +
+                NOTE_ID + " INTEGER primary key autoincrement, " +
                 NOTE_TITLE + " TEXT, " +
                 NOTE_CONTENT + " TEXT, " +
                 NOTE_DATE_CREATE + " TEXT, " +
@@ -148,7 +144,6 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
                 NOTE_ID + " INTEGER, " +
                 "PRIMARY KEY(" + BOOK_ID+ "," + NOTE_ID +"))";
 
-        db.execSQL(table_pk_create);
         db.execSQL(table_profile_create);
         db.execSQL(table_object_create);
         db.execSQL(table_book_create);
@@ -160,35 +155,6 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.execSQL(table_relation_object_note_create);
         db.execSQL(table_relation_book_note_create);
 
-        //Init pk table
-        db = this.getWritableDatabase();
-
-        ContentValues value1 = new ContentValues();
-        value1.put(PK_NAME, TABLE_OBJECT);
-        value1.put(PK_NUM, 0);
-
-        ContentValues value2 = new ContentValues();
-        value2.put(PK_NAME, TABLE_BOOK);
-        value2.put(PK_NUM, 0);
-
-        ContentValues value3 = new ContentValues();
-        value3.put(PK_NAME, TABLE_NOTE);
-        value3.put(PK_NUM, 0);
-
-        ContentValues value4 = new ContentValues();
-        value4.put(PK_NAME, TABLE_TAG);
-        value4.put(PK_NUM, 0);
-
-        ContentValues value5 = new ContentValues();
-        value5.put(PK_NAME, TABLE_PROFILE);
-        value5.put(PK_NUM, 0);
-
-        db.insert(TABLE_PK, null, value1);
-        db.insert(TABLE_PK, null, value2);
-        db.insert(TABLE_PK, null, value3);
-        db.insert(TABLE_PK, null, value4);
-        db.insert(TABLE_PK, null, value5);
-        db.close();
     }
 
     @Override
@@ -199,12 +165,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addPerson(Person p) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("object");
-
         ContentValues values = new ContentValues();
-        values.put(OBJECT_ID, id);
-        p.setId(id);
         values.put(OBJECT_NAME, p.getName());
         values.put(OBJECT_DESCRIPTION, p.getDescription());
         values.put(OBJECT_DATE, p.getDate());
@@ -217,12 +178,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addEvent(Event t) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("object");
-
         ContentValues values = new ContentValues();
-        values.put(OBJECT_ID, id);
-        t.setId(id);
         values.put(OBJECT_NAME, t.getName());
         values.put(OBJECT_DESCRIPTION, t.getDescription());
         values.put(OBJECT_DATE, t.getDate());
@@ -235,12 +191,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addPlace(Place p) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("object");
-
         ContentValues values = new ContentValues();
-        values.put(OBJECT_ID, id);
-        p.setId(id);
         values.put(OBJECT_NAME, p.getName());
         values.put(OBJECT_DESCRIPTION, p.getDescription());
         values.put(OBJECT_DATE, "");
@@ -253,12 +204,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addObject(Object o) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("object");
-
         ContentValues values = new ContentValues();
-        values.put(OBJECT_ID, id);
-        o.setId(id);
         values.put(OBJECT_NAME, o.getName());
         values.put(OBJECT_DESCRIPTION, o.getDescription());
         values.put(OBJECT_DATE, "");
@@ -271,12 +217,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addProfile(Profile p) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = pk_increment(4);
-
         ContentValues values = new ContentValues();
-        values.put(PROFILE_ID, id);
-        p.setId(id);
         values.put(PROFILE_FIRST_NAME, p.getFirstName());
         values.put(PROFILE_LAST_NAME, p.getLastName());
         values.put(PROFILE_EMAIL, p.getEmail());
@@ -289,12 +230,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addBook(Book b) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = pk_increment(1);
-
         ContentValues values = new ContentValues();
-        values.put(BOOK_ID, id);
-        //b.setId(id);
         values.put(BOOK_TITLE, b.getName());
         values.put(BOOK_AUTHOR, b.getAuthor());
         values.put(BOOK_DESCRIPTION, b.getDescription());
@@ -306,12 +242,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addTag(Tag t) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("tag");
-
         ContentValues values = new ContentValues();
-        values.put(TAG_ID, id);
-        t.setId(id);
         values.put(TAG_NAME, t.getName());
 
         db.insert(TABLE_TAG, null, values);
@@ -321,12 +252,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void addNote(Note n) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int id = 0;//pk_increment("note");
-
         ContentValues values = new ContentValues();
-        values.put(NOTE_ID, id);
-        n.setId(id);
         values.put(NOTE_TITLE, n.getTitle());
         values.put(NOTE_CONTENT, n.getContent());
         values.put(NOTE_DATE_CREATE, n.getDate_create());
@@ -469,29 +395,41 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return profile;
     }
 
+/*
+    public int pk_increment(String type) {
 
-    public int pk_increment(int type) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_PK, null, PK_NAME + "= ? ", new String[]{type}, null, null, null);
+        int pk;
+        if (cursor.moveToNext()) {
+            pk = cursor.getInt(cursor.getColumnIndex(PK_NUM));
+        }
+        cursor.close();
+        db.close();
+
+
         switch (type) {
-            case 0 :
+            case TABLE_OBJECT :
                 pk_object++;
                 return pk_object;
-            case 1 :
+            case TABLE_BOOK :
                 pk_book++;
                 return pk_book;
-            case 2 :
+            case TABLE_TAG :
                 pk_tag++;
                 return pk_tag;
-            case 3 :
+            case TABLE_NOTE :
                 pk_note++;
                 return pk_note;
-            case 4 :
+            case TABLE_PROFILE :
                 pk_profile++;
                 return pk_profile;
             default:
                 return 0;
         }
     }
-
+*/
 
     @Override
     public void createDefaultUser() {
