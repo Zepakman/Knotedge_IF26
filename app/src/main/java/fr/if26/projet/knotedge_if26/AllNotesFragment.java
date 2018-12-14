@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,10 @@ public class AllNotesFragment extends Fragment {
 
         DividerItemDecoration decoration = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerView.addItemDecoration(decoration);
+
+        if(allNotes.size()==0) {
+            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }

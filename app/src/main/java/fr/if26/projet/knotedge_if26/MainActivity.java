@@ -1,5 +1,7 @@
 package fr.if26.projet.knotedge_if26;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -27,6 +29,7 @@ import fr.if26.projet.knotedge_if26.entity.Person;
 import fr.if26.projet.knotedge_if26.entity.Place;
 import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.entity.Tag;
+import fr.if26.projet.knotedge_if26.util.Tools;
 
 
 //test
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         knotedgePersistance = new KnotedgePersistance(this);
         if(knotedgePersistance.countProfile()==0) {
-           knotedgePersistance.createDefaultUser();
+           createDefaultUser();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int countTag = knotedgePersistance.countTag();
         bundle.putString("firstName", profile.getFirstName());
         bundle.putString("lastName", profile.getLastName());
-        bundle.putString("photo", profile.getPhoto());
+        bundle.putByteArray("photo", Tools.bitmapToByte(profile.getPhoto()));
         bundle.putInt("nNote", countNote);
         bundle.putInt("nClass", countClass);
         bundle.putInt("nBook", countBook);
@@ -153,6 +156,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         profilFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profilFragment).commit();
     }
+
+    @Override
+    public void loadFragmentSettingsProfile() {
+        SettingsProfilFragment fragment = new SettingsProfilFragment();
+        Bundle bundle = new Bundle();
+        Profile profile = knotedgePersistance.getProfile(USER_ID);
+        bundle.putInt("id", profile.getId());
+        bundle.putString("firstName", profile.getFirstName());
+        bundle.putString("lastName", profile.getLastName());
+        bundle.putString("email", profile.getEmail());
+        bundle.putByteArray("photo", Tools.bitmapToByte(profile.getPhoto()));
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+     }
 
     @Override
     public void loadFragmentAllClasses() {
@@ -231,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, "Livre créé", Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public void createNewNote(String title, String content) {
 
@@ -244,7 +260,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, "Note Envoyée", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void modifyProfile (Profile p) {
+        knotedgePersistance.updateProfile(p);
+        Toast.makeText(this, "Your profile has been modified successfully", Toast.LENGTH_LONG).show();
+    }
 
 
+    public void createDefaultUser() {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.lenna);
+
+        Profile p = new Profile("Sifei", "LI", "sifei.li@utt.fr",bitmap);
+        knotedgePersistance.addProfile(p);
+    }
 
 }

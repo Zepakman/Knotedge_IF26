@@ -1,5 +1,6 @@
 package fr.if26.projet.knotedge_if26;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import fr.if26.projet.knotedge_if26.util.Tools;
 
 public class ProfilFragment extends Fragment {
 
@@ -22,7 +25,7 @@ public class ProfilFragment extends Fragment {
 
     private String firstName;
     private String lastName;
-    private String photo;
+    private byte[] photo;
     private int nClass;
     private int nNote;
     private int nBook;
@@ -52,13 +55,18 @@ public class ProfilFragment extends Fragment {
         Bundle bundle = getArguments();
         firstName = bundle.getString("firstName");
         lastName = bundle.getString("lastName");
-        photo = bundle.getString("photo");
+        photo = bundle.getByteArray("photo");
         nClass = bundle.getInt("nClass");
         nNote = bundle.getInt("nNote");
         nBook = bundle.getInt("nBook");
         nTag = bundle.getInt("nTag");
 
         nameProfile.setText(firstName + " " + lastName);
+        Bitmap bmp = Tools.byteToBitmap(photo);
+        //BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bmp);
+        //imageViewProfile.setBackground(bmpdrawable);
+        imageViewProfile.setImageBitmap(bmp);
+
         numberClasses.setText(nClass+"");
         numberTags.setText(nTag+"");
         numberBooks.setText(nBook+"");

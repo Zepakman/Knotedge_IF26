@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.media.Image;
 
 import java.util.ArrayList;
 
@@ -17,6 +16,7 @@ import fr.if26.projet.knotedge_if26.entity.Person;
 import fr.if26.projet.knotedge_if26.entity.Place;
 import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.entity.Tag;
+import fr.if26.projet.knotedge_if26.util.Tools;
 
 public class KnotedgePersistance extends SQLiteOpenHelper implements PersistanceEntity, PersistanceProfile, PersistanceRelation {
 
@@ -82,7 +82,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
                 PROFILE_FIRST_NAME + " TEXT, " +
                 PROFILE_LAST_NAME + " TEXT, " +
                 PROFILE_EMAIL + " TEXT, " +
-                PROFILE_PHOTO + " TEXT" + ")";
+                PROFILE_PHOTO + " BLOB" + ")";
 
         final String table_object_create = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_OBJECT + "(" +
@@ -162,6 +162,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     }
 
+    /*
+          ================================  OPERATIONS OF ADDING  ===================================
+    */
+
     @Override
     public void addPerson(Person p) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -215,19 +219,6 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     }
 
     @Override
-    public void addProfile(Profile p) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(PROFILE_FIRST_NAME, p.getFirstName());
-        values.put(PROFILE_LAST_NAME, p.getLastName());
-        values.put(PROFILE_EMAIL, p.getEmail());
-        values.put(PROFILE_PHOTO, p.getPhoto());
-
-        db.insert(TABLE_PROFILE, null, values);
-        db.close();
-    }
-
-    @Override
     public void addBook(Book b) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -262,6 +253,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.insert(TABLE_NOTE, null, values);
         db.close();
     }
+
+    /*
+          ================================  OPERATIONS OF GETTING ALL  ===================================
+    */
 
     @Override
     public ArrayList<Object> getAllObjects() {
@@ -404,8 +399,9 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
         return tagList;
     }
-
-
+/*
+          ================================  OPERATIONS OF GETTING ONE LINE  ===================================
+*/
     @Override
     public Note getNote(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -423,6 +419,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.close();
         return note;
     }
+
+    /*
+          ================================  OPERATIONS OF COUNTING  ===================================
+     */
 
     @Override
     public int countNote() {
@@ -468,6 +468,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return count;
     }
 
+    /*
+          ================================  OPERATIONS OF RELATIONS  ===================================
+    */
+
     @Override
     public void addTagObject(Tag t, Object o) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -504,11 +508,34 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.close();
     }
 
-    @Override
-    public void updateProfilePhoto(Image i) {
+    /*
+          ================================  OPERATIONS OF PROFILE  ===================================
+     */
 
+    @Override
+    public void addProfile(Profile p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PROFILE_FIRST_NAME, p.getFirstName());
+        values.put(PROFILE_LAST_NAME, p.getLastName());
+        values.put(PROFILE_EMAIL, p.getEmail());
+        values.put(PROFILE_PHOTO, Tools.bitmapToByte(p.getPhoto()));
+
+        db.insert(TABLE_PROFILE, null, values);
+        db.close();
     }
 
+    @Override
+    public void updateProfile(Profile p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PROFILE_FIRST_NAME, p.getFirstName());
+        contentValues.put(PROFILE_LAST_NAME, p.getLastName());
+        contentValues.put(PROFILE_EMAIL, p.getEmail());
+        contentValues.put(PROFILE_PHOTO, Tools.bitmapToByte(p.getPhoto()));
+        db.update(TABLE_PROFILE, contentValues, PROFILE_ID+"=?", new String[]{p.getId()+""});
+        db.close();
+    }
 
     @Override
     public int countProfile() {
@@ -525,14 +552,14 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     public Profile getProfile(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_PROFILE, null, PROFILE_ID + "= ? ", new String[]{id+""}, null, null, null);
-        Profile profile = new Profile("","","","");
+        Profile profile = new Profile("","","",null);
         if (cursor.moveToNext()) {
-            profile = new Profile("","","","");
+            profile = new Profile("","","",null);
             profile.setId(cursor.getInt(cursor.getColumnIndex(PROFILE_ID)));
             profile.setFirstName(cursor.getString(cursor.getColumnIndex(PROFILE_FIRST_NAME)));
             profile.setLastName(cursor.getString(cursor.getColumnIndex(PROFILE_LAST_NAME)));
             profile.setEmail(cursor.getString(cursor.getColumnIndex(PROFILE_EMAIL)));
-            profile.setPhoto(cursor.getString(cursor.getColumnIndex(PROFILE_PHOTO)));
+            profile.setPhoto(Tools.byteToBitmap(cursor.getBlob(cursor.getColumnIndex(PROFILE_PHOTO))));
         }
         cursor.close();
         db.close();
@@ -544,21 +571,9 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return null;
     }
 
-    @Override
-    public void createDefaultUser() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(PROFILE_ID, 1);
-        values.put(PROFILE_FIRST_NAME, "Sifei");
-        values.put(PROFILE_LAST_NAME, "LI");
-        values.put(PROFILE_EMAIL, "doe.john@utt.fr");
-        values.put(PROFILE_PHOTO, "");
-
-        db.insert(TABLE_PROFILE, null, values);
-        db.close();
-
-    }
+    /*
+              ================================  Others  ===================================
+    */
 
     public void testInit() {
         Person p1 = new Person("p1", "123", "2014-02-02");
@@ -568,4 +583,5 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Note n1 = new Note("title1", "contentnote","2014-02-02", "2014-02-02");
         addNote(n1);
     }
+
 }

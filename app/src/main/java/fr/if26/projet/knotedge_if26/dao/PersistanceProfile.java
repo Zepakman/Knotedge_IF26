@@ -1,7 +1,5 @@
 package fr.if26.projet.knotedge_if26.dao;
 
-import android.media.Image;
-
 import java.util.ArrayList;
 
 import fr.if26.projet.knotedge_if26.entity.Profile;
@@ -10,13 +8,12 @@ public interface PersistanceProfile {
 
     void addProfile(Profile p);
 
-    void updateProfilePhoto(Image i);
-
-    void createDefaultUser();
+    void updateProfile(Profile p);
 
     int countProfile();
 
     Profile getProfile(int id);
 
     ArrayList<Profile> getAllProfiles();
+
 }

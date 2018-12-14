@@ -1,14 +1,18 @@
 package fr.if26.projet.knotedge_if26.entity;
 
-public class Profile {
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
+public class Profile implements Serializable {
 
     private int id;
     private String firstName;
     private String lastName;
     private String email;
-    private String photo;
+    private Bitmap photo;
 
-    public Profile (String firstName, String lastName, String email, String photo) {
+    public Profile (String firstName, String lastName, String email, Bitmap photo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -47,11 +51,11 @@ public class Profile {
         this.id = id;
     }
 
-    public String getPhoto() {
+    public Bitmap getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(Bitmap photo) {
         this.photo = photo;
     }
 }

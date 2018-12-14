@@ -21,30 +21,53 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import fr.if26.projet.knotedge_if26.entity.Profile;
+import fr.if26.projet.knotedge_if26.util.Tools;
 
 //https://www.youtube.com/watch?v=i5UcFAdKe5M&ab_channel=WintechTutorials
 //Tutorial for photo
 public class SettingsProfilFragment extends Fragment {
 
-    private Button profilePictureButton;
+    private Button profilePictureButton, saveProfileButton;
+    private EditText editName, editSurname, editEmail;
+
     private Integer REQUEST_CAMERA = 1, SELECT_FILE = 0;
     public Intent cropIntent, CamIntent, GaleryIntent;
     public Uri uri;
     final int RequestPermissionCode = 1;
+    private Profile p = null;
+    private Bitmap bitmap = null;
+
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private byte[] photo;
+
+    private String newFirstName;
+    private String newLastName;
+    private String newEmail;
+    private Bitmap newPhoto;
 
     private TransmissionListener listener;
     @Override
     public void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
-
         listener = (TransmissionListener) getActivity();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.fragment_settings_profil, container, false);
 
+        editName = (EditText) view.findViewById(R.id.profile_name);
+        editSurname = (EditText) view.findViewById(R.id.profile_surname);
+        editEmail = (EditText) view.findViewById(R.id.profile_email);
         profilePictureButton = view.findViewById(R.id.profil_picture_button);
+        saveProfileButton = (Button) view.findViewById(R.id.button_save_profil);
         profilePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +80,39 @@ public class SettingsProfilFragment extends Fragment {
         if (permissionCheck == PackageManager.PERMISSION_DENIED) {
             RequestRuntimePermission();
         }
+
+        Bundle bundle = getArguments();
+        id = bundle.getInt("id");
+        firstName = bundle.getString("firstName");
+        lastName = bundle.getString("lastName");
+        email = bundle.getString("email");
+        photo = bundle.getByteArray("photo");
+
+        editEmail.setText(email);
+        editName.setText(lastName);
+        editSurname.setText(firstName);
+        bitmap = Tools.byteToBitmap(photo);
+        BitmapDrawable bmpdrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
+        profilePictureButton.setBackground(bmpdrawable);
+        p = new Profile(firstName, lastName, email, bitmap);
+        p.setId(id);
+
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newEmail = editEmail.getText().toString();
+                newFirstName = editSurname.getText().toString();
+                newLastName = editName.getText().toString();
+
+                newPhoto = bitmap;
+                p.setEmail(newEmail);
+                p.setFirstName(newFirstName);
+                p.setLastName(newLastName);
+                p.setPhoto(newPhoto);
+                listener.modifyProfile(p);
+            }
+        });
+
         return view;
     }
 
@@ -125,8 +181,8 @@ public class SettingsProfilFragment extends Fragment {
                 //uri = data.getData();
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
-                    Bitmap bmp = bundle.getParcelable("data");
-                    BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bmp);
+                    bitmap = bundle.getParcelable("data");
+                    BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bitmap);
                     profilePictureButton.setBackground(bmpdrawable);
                 }
 
