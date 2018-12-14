@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            knotedgePersistance.createDefaultUser();
         }
 
-        //for test
-        //knotedgePersistance.testInit();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -103,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
                 break;
             case R.id.nav_help:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HelpFragment()).commit();
                 break;
         }
 
