@@ -96,8 +96,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
                 TABLE_BOOK + "(" +
                 BOOK_ID + " INTEGER primary key autoincrement, " +
                 BOOK_TITLE + " TEXT, " +
-                BOOK_AUTHOR + " TEXT, " +
                 BOOK_DESCRIPTION + " TEXT, " +
+                BOOK_AUTHOR + " TEXT, " +
                 BOOK_DATE + " TEXT" + ")";
 
         final String table_tag_create = "CREATE TABLE IF NOT EXISTS " +
@@ -232,8 +232,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BOOK_TITLE, b.getName());
-        values.put(BOOK_AUTHOR, b.getAuthor());
         values.put(BOOK_DESCRIPTION, b.getDescription());
+        values.put(BOOK_AUTHOR, b.getAuthor());
         values.put(BOOK_DATE, b.getDate());
 
         db.insert(TABLE_BOOK, null, values);
@@ -291,7 +291,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Person> personList = new ArrayList<>();
         Person p;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             p = new Person("", "","");
             p.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
             p.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
@@ -311,7 +311,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Event> eventList = new ArrayList<>();
         Event e;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             e = new Event("", "", "");
             e.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
             e.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
@@ -331,7 +331,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Place> placeList = new ArrayList<>();
         Place p;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             p = new Place("", "", "");
             p.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
             p.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
@@ -350,13 +350,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         String sql = "SELECT * FROM " + TABLE_BOOK + ";";
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Book> bookList = new ArrayList<>();
-        Book b;
-        if (cursor.moveToNext()) {
-            b = new Book("", "", "", "");
+        while (cursor.moveToNext()) {
+            Book b = new Book("", "", "", "");
             b.setId(cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
-            b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
             b.setName(cursor.getString(cursor.getColumnIndex(BOOK_TITLE)));
             b.setDescription(cursor.getString(cursor.getColumnIndex(BOOK_DESCRIPTION)));
+            b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
             b.setDate(cursor.getString(cursor.getColumnIndex(BOOK_DATE)));
             bookList.add(b);
         }
@@ -372,7 +371,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Note> noteList = new ArrayList<>();
         Note note;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             note = new Note("", "", "", "");
             note.setId(cursor.getInt(cursor.getColumnIndex(NOTE_ID)));
             note.setTitle(cursor.getString(cursor.getColumnIndex(NOTE_TITLE)));
@@ -394,7 +393,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Tag> tagList = new ArrayList<>();
         Tag t;
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             t = new Tag("");
             t.setId(cursor.getInt(cursor.getColumnIndex(TAG_ID)));
             t.setName(cursor.getString(cursor.getColumnIndex(TAG_NAME)));

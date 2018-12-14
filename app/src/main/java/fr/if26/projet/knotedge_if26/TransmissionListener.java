@@ -8,4 +8,12 @@ public interface TransmissionListener {
 
     void createNewNote(String title, String content);
 
+    void loadFragmentAllClasses();
+
+    void loadFragmentAllNotes();
+
+    void loadFragmentAllBooks();
+
+    void loadFragmentAllTags();
+
 }

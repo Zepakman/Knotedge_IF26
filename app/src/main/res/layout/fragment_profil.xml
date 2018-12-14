@@ -50,7 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="4"
+                android:paddingTop="10dp">
 
                 <LinearLayout
                     android:gravity="center"
@@ -65,11 +66,11 @@
                         android:text="Notes"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/notes_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        style="@android:style/Widget.Holo.Button.Borderless"
                         android:text="0"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp"
@@ -90,11 +91,11 @@
                         android:text="Classes"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/classes_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        style="@android:style/Widget.Holo.Button.Borderless"
                         android:text="0"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp"
@@ -115,11 +116,11 @@
                         android:text="Books"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/books_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        style="@android:style/Widget.Holo.Button.Borderless"
                         android:text="0"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp"
@@ -140,11 +141,11 @@
                         android:text="Tags"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/tags_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        style="@android:style/Widget.Holo.Button.Borderless"
                         android:text="0"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp"

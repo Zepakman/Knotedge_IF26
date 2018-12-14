@@ -14,14 +14,14 @@ import java.util.List;
 import fr.if26.projet.knotedge_if26.R;
 import fr.if26.projet.knotedge_if26.entity.Object;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolderObject> {
 
     private LayoutInflater layoutInflater;
     private Context context;
     private List<Object> datas;
 
 
-    public MyAdapter(Context context, List<Object> datas) {
+    public AdapterObject(Context context, List<Object> datas) {
         this.context = context;
         this.datas = datas;
         layoutInflater = LayoutInflater.from(context);
@@ -29,14 +29,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = layoutInflater.inflate(R.layout.item_recycle_view, viewGroup, false);
-        MyViewHolder myViewHolder = new MyViewHolder(view);
+    public ViewHolderObject onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = layoutInflater.inflate(R.layout.item_recycle_view_object, viewGroup, false);
+        ViewHolderObject myViewHolder = new ViewHolderObject(view);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int pos) {
+    public void onBindViewHolder(ViewHolderObject holder, int pos) {
         holder.nameTextView.setText(datas.get(pos).getName());
         holder.typeTextView.setText(datas.get(pos).getType());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -53,12 +53,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return datas.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolderObject extends RecyclerView.ViewHolder {
 
         TextView nameTextView;
         TextView typeTextView;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public ViewHolderObject(@NonNull View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_item_recycle_view);
             typeTextView = (TextView) itemView.findViewById(R.id.type_item_recycle_view);

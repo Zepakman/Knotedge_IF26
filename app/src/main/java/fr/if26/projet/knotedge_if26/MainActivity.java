@@ -26,6 +26,7 @@ import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.entity.Person;
 import fr.if26.projet.knotedge_if26.entity.Place;
 import fr.if26.projet.knotedge_if26.entity.Profile;
+import fr.if26.projet.knotedge_if26.entity.Tag;
 
 
 //test
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private KnotedgePersistance knotedgePersistance;
     private ArrayList<Object> listAllClasses;
+    private ArrayList<Note> listAllNotes;
+    private ArrayList<Book> listAllBooks;
+    private ArrayList<Tag> listAllTags;
 
     //TODO: À changer
     private int USER_ID = 1;
@@ -152,11 +156,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profilFragment).commit();
     }
 
+    @Override
     public void loadFragmentAllClasses() {
         ViewClassFragment fragment = new ViewClassFragment();
         Bundle bundle = new Bundle();
         listAllClasses = knotedgePersistance.getAllObjects();
         bundle.putSerializable("classes", listAllClasses);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadFragmentAllNotes() {
+        AllNotesFragment fragment = new AllNotesFragment();
+        Bundle bundle = new Bundle();
+        listAllNotes = knotedgePersistance.getAllNotes();
+        bundle.putSerializable("notes", listAllNotes);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadFragmentAllBooks() {
+        AllBooksFragment fragment = new AllBooksFragment();
+        Bundle bundle = new Bundle();
+        listAllBooks = knotedgePersistance.getAllBooks();
+        bundle.putSerializable("books", listAllBooks);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadFragmentAllTags() {
+        AllTagsFragment fragment = new AllTagsFragment();
+        Bundle bundle = new Bundle();
+        listAllTags = knotedgePersistance.getAllTags();
+        bundle.putSerializable("tags", listAllTags);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
@@ -210,6 +245,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         knotedgePersistance.addNote(n);
         Toast.makeText(this, "Note Envoyée", Toast.LENGTH_SHORT).show();
     }
+
+
 
 
 }

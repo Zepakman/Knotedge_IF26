@@ -1,6 +1,8 @@
 package fr.if26.projet.knotedge_if26.entity;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
 
     private int id;
     private String name;
