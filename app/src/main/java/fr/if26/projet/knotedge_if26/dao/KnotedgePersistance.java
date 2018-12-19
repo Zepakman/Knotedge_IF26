@@ -267,6 +267,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_TAG, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
+        db.delete(TABLE_RELATION_TAG_BOOK, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
+        db.delete(TABLE_RELATION_TAG_OBJECT, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
         db.close();
     }
 
@@ -275,21 +277,21 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_BOOK, BOOK_ID + " = ?", new String[]{String.valueOf(b.getId())});
+        db.delete(TABLE_RELATION_TAG_BOOK, BOOK_ID + " = ?", new String[]{String.valueOf(b.getId())});
         db.close();
     }
 
     @Override
     public void removeObject(Object o) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.delete(TABLE_OBJECT, OBJECT_ID + " = ?", new String[]{String.valueOf(o.getId())});
+        db.delete(TABLE_RELATION_TAG_OBJECT, OBJECT_ID + " = ?", new String[]{String.valueOf(o.getId())});
         db.close();
     }
 
     @Override
     public void removeNote(Note n) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.delete(TABLE_NOTE, NOTE_ID + " = ?", new String[]{String.valueOf(n.getId())});
         db.close();
     }
