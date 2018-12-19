@@ -13,17 +13,23 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import fr.if26.projet.knotedge_if26.util.DividerItemDecoration;
+import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.util.AdapterObject;
+import fr.if26.projet.knotedge_if26.util.DividerItemDecoration;
 
 public class ViewClassFragment extends Fragment {
 
     private View view;
-    private ArrayList allClasses;
+    private ArrayList<Object> allClasses;
     private AdapterObject adapter;
     private RecyclerView recyclerView;
 
-
+    private TransmissionListener listener;
+    @Override
+    public void onCreate(Bundle savedBundleInstance) {
+        super.onCreate(savedBundleInstance);
+        listener = (TransmissionListener) getActivity();
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +49,14 @@ public class ViewClassFragment extends Fragment {
 
         DividerItemDecoration decoration = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerView.addItemDecoration(decoration);
+
+        adapter.setOnItemClickListener(new AdapterObject.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view , int position){
+                int id = allClasses.get(position).getId();
+                listener.loadDetailObject(id);
+            }
+        });
 
 
         return view;

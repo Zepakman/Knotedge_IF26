@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +24,13 @@ public class AllBooksFragment extends Fragment {
     private AdapterBook adapter;
     private RecyclerView recyclerView;
 
+    private TransmissionListener listener;
+    @Override
+    public void onCreate(Bundle savedBundleInstance) {
+        super.onCreate(savedBundleInstance);
+
+        listener = (TransmissionListener) getActivity();
+    }
 
     @Nullable
     @Override
@@ -35,7 +40,7 @@ public class AllBooksFragment extends Fragment {
         Bundle bundle = getArguments();
         allBooks = (ArrayList) bundle.getSerializable("books");
 
-        adapter = new AdapterBook(view.getContext(), allBooks);
+        adapter = new AdapterBook(this.getContext(), allBooks);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
@@ -48,8 +53,15 @@ public class AllBooksFragment extends Fragment {
             Toast.makeText(getContext(), "No Books", Toast.LENGTH_SHORT).show();
         }
 
+        adapter.setOnItemClickListener(new AdapterBook.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view , int position){
+                int id = allBooks.get(position).getId();
+                listener.loadDetailBook(id);
+            }
+        });
+
         return view;
     }
-
 
 }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,13 +17,14 @@ import fr.if26.projet.knotedge_if26.R;
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Book;
 
-public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook> {
+public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook> implements View.OnClickListener {
 
     private LayoutInflater layoutInflater;
     private Context context;
     private List<Book> datas;
     private View view;
 
+    private OnItemClickListener mOnItemClickListener = null;
 
     public AdapterBook(Context context, List<Book> datas) {
         this.context = context;
@@ -37,6 +37,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook
     public ViewHolderBook onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = layoutInflater.inflate(R.layout.item_recycle_view_book, viewGroup, false);
         AdapterBook.ViewHolderBook myViewHolderBook = new AdapterBook.ViewHolderBook(view);
+        view.setOnClickListener(this);
         return myViewHolderBook;
     }
 
@@ -44,18 +45,12 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook
     public void onBindViewHolder(@NonNull ViewHolderBook holder, int pos) {
         final int position = pos;
         holder.nameTextView.setText(datas.get(pos).getName());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO:
-                Toast.makeText(context, "itemView clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        holder.itemView.setTag(pos);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //TODO:
                 AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppTheme));
 
                 alert.setMessage("Voulez-vous supprimer ce livre ainsi que ses liens ?");
@@ -63,11 +58,10 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //do your work here
                         KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
                         knotedgePersistance.removeBook(datas.get(position));
                         notifyDataSetChanged();
-
+                        deleteItem(position);
                         dialog.dismiss();
 
                     }
@@ -90,9 +84,25 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook
 
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    public void deleteItem(int pos) {
+        datas.remove(pos);
+        notifyItemChanged(pos);
+    }
+
     @Override
     public int getItemCount() {
         return datas.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
 
     class ViewHolderBook extends RecyclerView.ViewHolder {
@@ -104,5 +114,10 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolderBook
             nameTextView = (TextView) itemView.findViewById(R.id.name_book_item_recycle_view);
         }
     }
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
+    }
+
 
 }

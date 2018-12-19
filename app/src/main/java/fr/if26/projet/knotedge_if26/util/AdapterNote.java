@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import fr.if26.projet.knotedge_if26.R;
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Note;
 
-public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote> {
+public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote> implements View.OnClickListener {
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -27,6 +26,9 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
     private View view;
 
     private List<Integer> heights;
+
+    private OnItemClickListener mOnItemClickListener = null;
+
 
     public AdapterNote(Context context, List<Note> datas) {
         this.context = context;
@@ -44,6 +46,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
     public AdapterNote.ViewHolderNote onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = layoutInflater.inflate(R.layout.item_recycle_view_note, viewGroup, false);
         AdapterNote.ViewHolderNote myViewHolderBook = new AdapterNote.ViewHolderNote(view);
+        view.setOnClickListener(this);
         return myViewHolderBook;
     }
 
@@ -51,13 +54,8 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
     public void onBindViewHolder(@NonNull ViewHolderNote holder, int pos) {
         final int position = pos;
         holder.nameTextView.setText(datas.get(pos).getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO:
-                Toast.makeText(context, "itemView clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        holder.itemView.setTag(pos);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -74,7 +72,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
                         KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
                         knotedgePersistance.removeNote(datas.get(position));
                         notifyDataSetChanged();
-
+                        deleteItem(position);
                         dialog.dismiss();
 
                     }
@@ -97,9 +95,26 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
 
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+
+    public void deleteItem(int pos) {
+        datas.remove(pos);
+        notifyItemChanged(pos);
+    }
+
     @Override
     public int getItemCount() {
         return datas.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
 
     class ViewHolderNote extends RecyclerView.ViewHolder {
@@ -110,5 +125,9 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.title_note_item_recycle_view);
         }
+    }
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
     }
 }

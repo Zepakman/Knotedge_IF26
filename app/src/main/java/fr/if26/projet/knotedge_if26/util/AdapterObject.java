@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,13 +17,14 @@ import fr.if26.projet.knotedge_if26.R;
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Object;
 
-public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolderObject> {
+public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolderObject> implements View.OnClickListener {
 
     private LayoutInflater layoutInflater;
     private Context context;
     private List<Object> datas;
     private View view;
 
+    private OnItemClickListener mOnItemClickListener = null;
 
     public AdapterObject(Context context, List<Object> datas) {
         this.context = context;
@@ -37,6 +37,7 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
     public ViewHolderObject onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = layoutInflater.inflate(R.layout.item_recycle_view_object, viewGroup, false);
         ViewHolderObject myViewHolder = new ViewHolderObject(view);
+        view.setOnClickListener(this);
         return myViewHolder;
     }
 
@@ -44,14 +45,7 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
     public void onBindViewHolder(@NonNull AdapterObject.ViewHolderObject holder, int pos) {
         final int position = pos;
         holder.nameTextView.setText(datas.get(pos).getName());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO:
-                Toast.makeText(context, "itemView clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        holder.itemView.setTag(pos);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -67,7 +61,7 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
                         KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
                         knotedgePersistance.removeObject(datas.get(position));
                         notifyDataSetChanged();
-
+                        deleteItem(position);
                         dialog.dismiss();
 
                     }
@@ -90,9 +84,25 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
 
     }
 
+    public void deleteItem(int pos) {
+        datas.remove(pos);
+        notifyItemChanged(pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
     @Override
     public int getItemCount() {
         return datas.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
 
     class ViewHolderObject extends RecyclerView.ViewHolder {
@@ -105,6 +115,10 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
             nameTextView = (TextView) itemView.findViewById(R.id.name_item_recycle_view);
             typeTextView = (TextView) itemView.findViewById(R.id.type_item_recycle_view);
         }
+    }
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
     }
 }
 

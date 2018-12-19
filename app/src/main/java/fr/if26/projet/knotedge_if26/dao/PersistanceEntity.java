@@ -29,7 +29,7 @@ public interface PersistanceEntity {
 
     void addNote(Note n);
 
-    /* ----------------- add ----------------- */
+    /* ----------------- remove ----------------- */
 
     void removeTag(Tag t);
 
@@ -59,15 +59,20 @@ public interface PersistanceEntity {
 
     ArrayList<String> getAllTagsName();
 
-    /* ----------------- get ----------------- */
+    /* ----------------- getters ----------------- */
 
-    Note getNote(int id);
+    Note getNoteById(int id);
+
+    Object getObjectById(int id);
+
+    Book getBookById(int id);
 
     Tag getTag(String t);
 
     Object getLastObject();
 
     Book getLastBook();
+
 
     /* ----------------- count ----------------- */
     int countNote();

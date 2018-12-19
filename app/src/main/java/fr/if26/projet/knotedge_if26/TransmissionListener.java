@@ -1,9 +1,9 @@
 package fr.if26.projet.knotedge_if26;
 
 import fr.if26.projet.knotedge_if26.entity.Book;
+import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.entity.Tag;
-import fr.if26.projet.knotedge_if26.entity.Object;
 
 public interface TransmissionListener {
 
@@ -29,4 +29,9 @@ public interface TransmissionListener {
 
     void modifyProfile(Profile p);
 
+    void loadDetailBook(int id);
+
+    void loadDetailNote(int id);
+
+    void loadDetailObject(int id);
 }

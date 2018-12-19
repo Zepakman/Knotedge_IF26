@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.util.Tools;
 
@@ -33,6 +38,7 @@ public class SettingsProfilFragment extends Fragment {
 
     private Button profilePictureButton, saveProfileButton;
     private EditText editName, editSurname, editEmail;
+    private View view;
 
     private Integer REQUEST_CAMERA = 1, SELECT_FILE = 0;
     public Intent cropIntent, CamIntent, GaleryIntent;
@@ -51,7 +57,8 @@ public class SettingsProfilFragment extends Fragment {
     private String newLastName;
     private String newEmail;
     private Bitmap newPhoto;
-    private View view;
+
+    private String filePath = Environment.getRootDirectory() + "/"+"temp1.png";
 
     private TransmissionListener listener;
     @Override
@@ -151,20 +158,38 @@ public class SettingsProfilFragment extends Fragment {
     }
 
     private void CameraOpen() {
-        CamIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        CamIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
-        CamIntent.putExtra("crop", "true");
-        CamIntent.putExtra("aspectX", 1);
-        CamIntent.putExtra("aspectY", 1);
-        try {
 
-            CamIntent.putExtra("return-data", true);
-            startActivityForResult(CamIntent, REQUEST_CAMERA);
-
-        } catch (ActivityNotFoundException e) {
-// Do nothing for now
+        List<String> permissionList = new ArrayList<String>();
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
+        if(ContextCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(ContextCompat.checkSelfPermission(getContext(),Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.CAMERA);
+        }
+        if(!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(getActivity(), permissions,1);
+        } else {
+            CamIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //CamIntent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
+
+            //CamIntent.putExtra("crop", "true");
+            //CamIntent.putExtra("aspectX", 1);
+            //CamIntent.putExtra("aspectY", 1);
+            //CamIntent.putExtra("return-data", true);
+            uri = Uri.fromFile(new File(filePath));
+            CamIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri.toString());
+            startActivityForResult(CamIntent, REQUEST_CAMERA);
+            try {
+
+            } catch (ActivityNotFoundException e) {
+                // Do nothing for now
+            }
+        }
+
 
     }
 
@@ -179,15 +204,16 @@ public class SettingsProfilFragment extends Fragment {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
-                //uri = data.getData();
+
                 Bundle bundle = data.getExtras();
+                CropImage();
                 if (bundle != null) {
-                    bitmap = bundle.getParcelable("data");
-                    BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bitmap);
+                    bitmap = (Bitmap) bundle.get("data");
+                    BitmapDrawable bmpdrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
                     profilePictureButton.setBackground(bmpdrawable);
                 }
 
-                //CropImage();
+
             } else if (requestCode == SELECT_FILE) {
                 if (data != null) {
                     uri = data.getData();
@@ -198,8 +224,8 @@ public class SettingsProfilFragment extends Fragment {
                 if (data != null) {
 
                     Bundle bundle = data.getExtras();
-                    Bitmap bmp = bundle.getParcelable("data");
-                    BitmapDrawable bmpdrawable = new BitmapDrawable(getView().getContext().getResources(), bmp);
+                    bitmap = bundle.getParcelable("data");
+                    BitmapDrawable bmpdrawable = new BitmapDrawable(view.getContext().getResources(), bitmap);
                     profilePictureButton.setBackground(bmpdrawable);
 
 

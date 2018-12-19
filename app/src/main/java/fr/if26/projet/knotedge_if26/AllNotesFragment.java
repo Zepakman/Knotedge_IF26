@@ -24,6 +24,13 @@ public class AllNotesFragment extends Fragment {
     private AdapterNote adapter;
     private RecyclerView recyclerView;
 
+    private TransmissionListener listener;
+    @Override
+    public void onCreate(Bundle savedBundleInstance) {
+        super.onCreate(savedBundleInstance);
+
+        listener = (TransmissionListener) getActivity();
+    }
 
     @Nullable
     @Override
@@ -45,6 +52,14 @@ public class AllNotesFragment extends Fragment {
         if(allNotes.size()==0) {
             Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
         }
+
+        adapter.setOnItemClickListener(new AdapterNote.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view , int position){
+                int id = allNotes.get(position).getId();
+                listener.loadDetailNote(id);
+            }
+        });
 
         return view;
     }

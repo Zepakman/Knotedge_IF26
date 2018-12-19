@@ -10,8 +10,6 @@ import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +30,6 @@ import java.util.Locale;
 
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Tag;
-import fr.if26.projet.knotedge_if26.MultiSelectionSpinner;
 
 public class NewClassFragment extends Fragment implements AdapterView.OnItemSelectedListener, fr.if26.projet.knotedge_if26.MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
@@ -49,6 +46,8 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     private Button addTagButton;
     private fr.if26.projet.knotedge_if26.MultiSelectionSpinner spinnerTag;
     private List<String> listSelectedTags;
+
+    private KnotedgePersistance knotedgePersistance;
 
     private String m_Text;
 
@@ -68,6 +67,8 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_new_class, container, false);
+
+        knotedgePersistance = new KnotedgePersistance(this.getContext());
 
 
         //SET LAYOUT AUTHOR HIDDING
@@ -121,7 +122,6 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
 
         //SELECT TAGS SPINNER
         spinnerTag = view.findViewById(R.id.list_of_tags_spinner);
-        KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
         final ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
         // Specify the layout to use when the list of choices appears
         if (tagList.isEmpty()) {
@@ -198,7 +198,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                         for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
                             String t = i.next();
                             //KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
-                            //listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
+                            listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
                             //Toast.makeText(view.getContext(), knotedgePersistance.countRelationsObjectTag(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -213,7 +213,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                         for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
                             String t = i.next();
                             //KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
-                            //listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getLastBook());
+                            listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getLastBook());
                             //Toast.makeText(view.getContext(), knotedgePersistance.countRelationsBookTag(), Toast.LENGTH_SHORT).show();
                         }
                     }

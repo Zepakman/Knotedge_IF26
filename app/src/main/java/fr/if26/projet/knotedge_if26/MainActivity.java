@@ -214,6 +214,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
+    @Override
+    public void loadDetailBook(int id) {
+        DetailBookFragment fragment = new DetailBookFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadDetailNote(int id) {
+        DetailNoteFragment fragment = new DetailNoteFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadDetailObject(int id) {
+        DetailClassFragment fragment = new DetailClassFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
 
     @Override
     public void createNewObject(String name, String date, String description, int type) {
@@ -281,12 +307,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, "Your profile has been modified successfully", Toast.LENGTH_LONG).show();
     }
 
-
     public void createDefaultUser() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lenna);
 
         Profile p = new Profile("Sifei", "LI", "sifei.li@utt.fr", bitmap);
         knotedgePersistance.addProfile(p);
     }
+
 
 }
