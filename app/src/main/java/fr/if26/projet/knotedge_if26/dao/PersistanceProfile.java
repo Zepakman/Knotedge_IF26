@@ -6,6 +6,7 @@ import fr.if26.projet.knotedge_if26.entity.Profile;
 
 public interface PersistanceProfile {
 
+
     void addProfile(Profile p);
 
     void updateProfile(Profile p);

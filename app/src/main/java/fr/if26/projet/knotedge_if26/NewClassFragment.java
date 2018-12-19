@@ -1,11 +1,17 @@
 package fr.if26.projet.knotedge_if26;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,30 +21,44 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
-public class NewClassFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
+import fr.if26.projet.knotedge_if26.entity.Tag;
+import fr.if26.projet.knotedge_if26.MultiSelectionSpinner;
+
+public class NewClassFragment extends Fragment implements AdapterView.OnItemSelectedListener, fr.if26.projet.knotedge_if26.MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
     private View view;
     final Calendar myCalendar = Calendar.getInstance();
 
     private LinearLayout layoutAuthorHide;
-    private Spinner spinner;
+    private Spinner spinnerClass;
     private EditText txtName;
     private EditText txtDate;
     private EditText txtDescription;
     private EditText txtAuthor;
     private Button createClassButton;
+    private Button addTagButton;
+    private fr.if26.projet.knotedge_if26.MultiSelectionSpinner spinnerTag;
+    private List<String> listSelectedTags;
+
+    private String m_Text;
+
 
     private int typeClass = 0;
 
     private TransmissionListener listener;
 
     @Override
-    public void onCreate (Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         listener = (TransmissionListener) getActivity();
@@ -49,25 +69,26 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_new_class, container, false);
 
+
         //SET LAYOUT AUTHOR HIDDING
         layoutAuthorHide = view.findViewById(R.id.layout_author_for_hide);
-
         //SET NAME CODE
         txtName = view.findViewById(R.id.new_class_name);
-        //SET DESCRPTION CODE
-        txtDescription = view.findViewById(R.id.new_class_name2);
+        //SET DESCRIPTION CODE
+        txtDescription = view.findViewById(R.id.description);
         //SET AUTHOR CODE
         txtAuthor = view.findViewById(R.id.new_author);
 
+
         //SPINNER CODE
-        spinner = view.findViewById(R.id.class_spinner);
+        spinnerClass = view.findViewById(R.id.class_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.classes_string_array, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        spinnerClass.setAdapter(adapter);
+        spinnerClass.setOnItemSelectedListener(this);
 
 
         //DATE PICKER CODE
@@ -97,8 +118,69 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
-        createClassButton = (Button) view.findViewById(R.id.buttonCreateClass);
 
+        //SELECT TAGS SPINNER
+        spinnerTag = view.findViewById(R.id.list_of_tags_spinner);
+        KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+        final ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
+        // Specify the layout to use when the list of choices appears
+        if (tagList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<String>();
+            debugList.add("You don't have any tags set");
+            spinnerTag.setItems(debugList);
+        }
+        else {
+            spinnerTag.setItems(tagList);
+        }
+        // Apply the adapter to the spinner
+        spinnerTag.setListener(this);
+
+
+        //ADD TAG BUTTON
+        addTagButton = (Button) view.findViewById(R.id.buttonAddTag);
+        addTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppTheme));
+                builder.setTitle("Tag à ajouter");
+
+                // Set up the input
+                final EditText newTag = new EditText(view.getContext());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                newTag.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(newTag);
+
+                // Set up the buttons
+                builder.setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        m_Text = newTag.getText().toString();
+                        Tag tag = new Tag(m_Text);
+                        KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+                        ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
+                        if (!tagList.contains(m_Text)) {
+                            knotedgePersistance.addTag(tag);
+                            spinnerTag.invalidate();
+
+                        } else {
+                            Toast.makeText(view.getContext(), "Tag déjà présent dans la liste", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+
+        //CREATE CLASS BUTTON
+        createClassButton = (Button) view.findViewById(R.id.buttonCreateClass);
         createClassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,14 +189,40 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                 String description = txtDescription.getText().toString();
                 String author = txtAuthor.getText().toString();
 
+                /* ----------------- create object ----------------- */
+
                 if (name != null && !name.equals("") && typeClass != 0) {
                     listener.createNewObject(name, date, description, typeClass);
+                    if (!tagList.isEmpty()) {
+                        listSelectedTags = spinnerTag.getSelectedStrings();
+                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                            String t = i.next();
+                            //KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+                            //listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
+                            //Toast.makeText(view.getContext(), knotedgePersistance.countRelationsObjectTag(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                /* ----------------- create book ----------------- */
+
                 } else if (name != null && !name.equals("") && typeClass == 0) {
                     listener.createNewBook(name, date, description, author);
+                    if (!tagList.isEmpty()) {
+                        listSelectedTags = spinnerTag.getSelectedStrings();
+
+                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                            String t = i.next();
+                            //KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+                            //listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getLastBook());
+                            //Toast.makeText(view.getContext(), knotedgePersistance.countRelationsBookTag(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
+
+
+
             }
         });
-
 
         return view;
     }
@@ -123,7 +231,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
         typeClass = position;
-        if(typeClass == 0) {
+        if (typeClass == 0) {
             txtAuthor.setVisibility(View.VISIBLE);
             layoutAuthorHide.setVisibility(View.VISIBLE);
         } else {
@@ -144,6 +252,15 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     }
 
 
+    @Override
+    public void selectedIndices(List<Integer> indices) {
+
+    }
+
+    @Override
+    public void selectedStrings(List<String> strings) {
+        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
+    }
 }
 
 

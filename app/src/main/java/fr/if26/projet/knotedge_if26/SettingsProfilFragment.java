@@ -51,6 +51,7 @@ public class SettingsProfilFragment extends Fragment {
     private String newLastName;
     private String newEmail;
     private Bitmap newPhoto;
+    private View view;
 
     private TransmissionListener listener;
     @Override
@@ -61,7 +62,7 @@ public class SettingsProfilFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_settings_profil, container, false);
+        view = inflater.inflate(R.layout.fragment_settings_profil, container, false);
 
         editName = (EditText) view.findViewById(R.id.profile_name);
         editSurname = (EditText) view.findViewById(R.id.profile_surname);
@@ -118,7 +119,7 @@ public class SettingsProfilFragment extends Fragment {
 
     private void RequestRuntimePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-            Toast.makeText(getView().getContext(), "L'accès à la Caméra nous permet de changer la photo de profil", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "L'accès à la Caméra nous permet de changer la photo de profil", Toast.LENGTH_SHORT).show();
         } else {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, RequestPermissionCode);
         }

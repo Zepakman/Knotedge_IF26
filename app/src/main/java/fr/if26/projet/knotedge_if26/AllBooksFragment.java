@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ public class AllBooksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_all_books, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view_all_books);
-
         Bundle bundle = getArguments();
         allBooks = (ArrayList) bundle.getSerializable("books");
 
@@ -49,4 +50,6 @@ public class AllBooksFragment extends Fragment {
 
         return view;
     }
+
+
 }

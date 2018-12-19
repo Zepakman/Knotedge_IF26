@@ -33,8 +33,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_chevron_right" />
-                            <entry key="sourceFile" value="C:\Users\marti" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_add_tag" />
+                            <entry key="sourceFile" value="D:\Downloads\Add Tag-595b40b75ba036ed117d78b6.svg" />
                           </map>
                         </option>
                       </PersistentState>

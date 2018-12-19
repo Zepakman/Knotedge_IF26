@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         knotedgePersistance = new KnotedgePersistance(this);
-        if(knotedgePersistance.countProfile()==0) {
-           createDefaultUser();
+        if (knotedgePersistance.countProfile() == 0) {
+            createDefaultUser();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
+        }else if (getFragmentManager().getBackStackEntryCount() > 1) {
+            getFragmentManager().popBackStack();
+
         } else {
             super.onBackPressed();
         }
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundle.putByteArray("photo", Tools.bitmapToByte(profile.getPhoto()));
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
-     }
+    }
 
     @Override
     public void loadFragmentAllClasses() {
@@ -215,27 +218,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void createNewObject(String name, String date, String description, int type) {
         switch (type) {
-            case 1 :
+            case 1:
                 Person p = new Person(name, description, date);
                 knotedgePersistance.addPerson(p);
                 Toast.makeText(this, "Personne créée", Toast.LENGTH_SHORT).show();
                 break;
-            case 2 :
+            case 2:
                 Event e = new Event(name, description, date);
                 knotedgePersistance.addEvent(e);
                 Toast.makeText(this, "Événement créé", Toast.LENGTH_SHORT).show();
                 break;
-            case 3 :
+            case 3:
                 Place pl = new Place(name, description, "");
                 knotedgePersistance.addPlace(pl);
                 Toast.makeText(this, "Lieu créée", Toast.LENGTH_SHORT).show();
                 break;
-            case 4 :
-                Object o = new Object(name, description, "","object");
+            case 4:
+                Object o = new Object(name, description, "", "object");
                 knotedgePersistance.addObject(o);
                 Toast.makeText(this, "Objet créée", Toast.LENGTH_SHORT).show();
                 break;
-            default :
+            default:
                 Toast.makeText(this, "Erreur", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -261,16 +264,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void modifyProfile (Profile p) {
+    public void createNewRelationTagObject(Tag t, Object o) {
+        knotedgePersistance.addTagObject(t, o);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createNewRelationTagBook(Tag t, Book b) {
+        knotedgePersistance.addTagBook(t, b);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void modifyProfile(Profile p) {
         knotedgePersistance.updateProfile(p);
         Toast.makeText(this, "Your profile has been modified successfully", Toast.LENGTH_LONG).show();
     }
 
 
     public void createDefaultUser() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.lenna);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lenna);
 
-        Profile p = new Profile("Sifei", "LI", "sifei.li@utt.fr",bitmap);
+        Profile p = new Profile("Sifei", "LI", "sifei.li@utt.fr", bitmap);
         knotedgePersistance.addProfile(p);
     }
 
