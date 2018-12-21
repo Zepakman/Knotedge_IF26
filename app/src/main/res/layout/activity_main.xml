@@ -27,10 +27,16 @@
             android:popupTheme="@style/AppTheme"
             android:theme="@style/AppTheme" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        </ScrollView>
+
 
     </LinearLayout>
 

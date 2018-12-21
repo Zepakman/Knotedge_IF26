@@ -3,6 +3,7 @@ package fr.if26.projet.knotedge_if26.dao;
 import java.util.ArrayList;
 
 import fr.if26.projet.knotedge_if26.entity.Book;
+import fr.if26.projet.knotedge_if26.entity.Note;
 import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.entity.Tag;
 
@@ -16,6 +17,10 @@ public interface PersistanceRelation {
 
     void addRelationObjects(Object o1, Object o2);
 
+    void addNoteObject(Note n, Object o);
+
+    void addBookObject(Note n, Book b);
+
     /* ----------------- count ----------------- */
 
     int countRelationsBookTag();
@@ -26,4 +31,19 @@ public interface PersistanceRelation {
     ArrayList<String> getAllTagsByBook(int bkId);
 
     ArrayList<String> getAllTagsByClass(int objId);
+
+    ArrayList<Note> getAllNotesByBook(int bkId);
+
+    ArrayList<Note> getAllNoteByObject(int clsId);
+
+
+    /* ----------------- remove ----------------- */
+
+    void removeAllRelationsWithObject(int clsId);
+
+    void removeAllRelationsWithBook(int bkId);
+
+    void removeAllRelationsWithNote(int noteId);
+
+    void removeAllRelationsWithTag(int tagId);
 }

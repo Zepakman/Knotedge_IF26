@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp">
+    android:layout_marginHorizontal="20dp"
+    android:gravity="center">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,10 +20,11 @@
             style="@style/DatePickerTheme"
             android:textColor="@color/colorAccent"
             android:theme="@style/DatePickerTheme" />
-        <TextView
-            android:id="@+id/detail_note_title"
+        <EditText
+            android:id="@+id/edit_note_title"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:maxLength="50"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:textColor="@color/navy"
@@ -36,8 +37,8 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="5">
-        <TextView
-            android:id="@+id/detail_note_content"
+        <EditText
+            android:id="@+id/edit_note_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
@@ -64,41 +65,31 @@
             style="@style/DatePickerTheme"
             android:textColor="@color/colorAccent"
             android:theme="@style/DatePickerTheme"/>
-        <ListView
-            android:id="@+id/detail_note_classes"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            style="@style/DatePickerTheme"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1">
         <Button
-            android:id="@+id/detail_note_edit"
+            android:id="@+id/edit_note_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:theme="@style/AppTheme"
-            android:text="@string/edit"/>
+            android:text="@string/cancel"/>
         <Button
-            android:id="@+id/detail_note_back"
+            android:id="@+id/edit_note_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:theme="@style/AppTheme"
-            android:text="@string/back"
+            android:text="@string/ok"
             android:layout_marginLeft="32dp"/>
     </LinearLayout>
-
 </LinearLayout>

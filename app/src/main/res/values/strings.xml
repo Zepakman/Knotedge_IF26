@@ -4,9 +4,9 @@
     <string name="save">Sauvegarder</string>
     <string name="new_class">New Class</string>
     <string name="new_class_categorie">Catégorie :</string>
-    <string name="new_class_date">Date :</string>
+    <string name="class_date">Date :</string>
     <string name="new_class_nom">Nom :</string>
-    <string name="new_class_description">Description :</string>
+    <string name="class_description">Description :</string>
     <string name="new_class_tag">Choisissez un ou plusieurs Tags</string>
     <string name="new_class_create">Créer</string>
     <string name="new_note">New Note</string>
@@ -23,6 +23,22 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="back">Back</string>
+    <string name="class_name">Class Name </string>
+    <string name="class_type">Class Type </string>
+    <string name="tag">Tag </string>
+    <string name="book_name">Book Name </string>
+    <string name="book_author">Author</string>
+    <string name="note_title">Title </string>
+    <string name="description">Description:</string>
+    <string name="date">Date:</string>
+    <string name="relation_class">Related Classes</string>
+    <string name="relation_note">Related Notes</string>
+    <string name="action_tag_timeline">By TimeLine</string>
+    <string name="action_tag_relation">By Relation</string>
 
     <string-array name="classes_string_array">
         <item>Livre</item>

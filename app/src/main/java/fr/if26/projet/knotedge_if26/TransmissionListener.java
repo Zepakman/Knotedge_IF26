@@ -34,4 +34,14 @@ public interface TransmissionListener {
     void loadDetailNote(int id);
 
     void loadDetailObject(int id);
+
+    void loadEditNote(int id);
+
+    void loadEditClass(int id);
+
+    void loadEditBook(int id);
+
+    void loadFragmentViewTagTimeLine();
+
+    void loadFragmentViewTagRelation();
 }

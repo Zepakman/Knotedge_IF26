@@ -2,48 +2,170 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="20dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Class name:  "/>
-        <TextView
-            android:id="@+id/detail_class_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Type:  "/>
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1">
         <TextView
             android:id="@+id/detail_class_type"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/class_type"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
+        <TextView
+            android:id="@+id/detail_class_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            style="@style/DatePickerTheme"
+            android:theme="@style/DatePickerTheme"/>
     </LinearLayout>
+
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tags:  "/>
+            android:text="@string/class_description"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
+        <TextView
+            android:id="@+id/detail_class_description"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            style="@style/DatePickerTheme"
+            android:theme="@style/DatePickerTheme"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/class_date"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
+        <TextView
+            android:id="@+id/detail_class_date"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/colorAccent"
+            style="@style/DatePickerTheme"
+            android:theme="@style/DatePickerTheme"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tag"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
         <TextView
             android:id="@+id/detail_class_tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/relation_class"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
+        <ListView
+            android:id="@+id/detail_class_objects"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/relation_note"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"/>
+        <ListView
+            android:id="@+id/detail_class_notes"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1">
         <Button
             android:id="@+id/detail_class_edit"
             android:layout_width="wrap_content"
@@ -52,7 +174,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:theme="@style/AppTheme"
-            android:text="Edit"/>
+            android:text="@string/edit"/>
         <Button
             android:id="@+id/detail_class_back"
             android:layout_width="wrap_content"
@@ -61,7 +183,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:theme="@style/AppTheme"
-            android:text="Back"/>
+            android:text="@string/back"
+            android:layout_marginLeft="32dp"/>
     </LinearLayout>
-
 </LinearLayout>

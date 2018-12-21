@@ -59,7 +59,7 @@ public class DetailNoteFragment extends Fragment {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.loadEditNote(idNote);
             }
         });
 

@@ -1,12 +1,11 @@
-package fr.if26.projet.knotedge_if26;
+package fr.if26.projet.knotedge_if26.util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.support.v7.widget.AppCompatSpinner;
 import android.widget.SpinnerAdapter;
 
 import java.util.Arrays;

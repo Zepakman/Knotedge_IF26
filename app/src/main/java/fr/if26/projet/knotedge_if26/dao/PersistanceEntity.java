@@ -5,11 +5,9 @@ import java.util.ArrayList;
 
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Event;
-import fr.if26.projet.knotedge_if26.entity.Note;
 import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.entity.Person;
 import fr.if26.projet.knotedge_if26.entity.Place;
-import fr.if26.projet.knotedge_if26.entity.Tag;
 
 public interface PersistanceEntity {
 
@@ -25,21 +23,19 @@ public interface PersistanceEntity {
 
     void addBook(Book b);
 
-    void addTag(Tag t);
-
-    void addNote(Note n);
-
     /* ----------------- remove ----------------- */
-
-    void removeTag(Tag t);
 
     void removeBook(Book b);
 
     void removeObject(Object o);
 
-    void removeNote(Note n);
 
     /* ----------------- update ----------------- */
+
+    void updateBook(Book b);
+
+    void updateClass(Object o);
+
 
     /* ----------------- get All ----------------- */
 
@@ -53,33 +49,21 @@ public interface PersistanceEntity {
 
     ArrayList<Book> getAllBooks();
 
-    ArrayList<Note> getAllNotes();
-
-    ArrayList<Tag> getAllTags();
-
-    ArrayList<String> getAllTagsName();
 
     /* ----------------- getters ----------------- */
 
-    Note getNoteById(int id);
 
     Object getObjectById(int id);
 
     Book getBookById(int id);
 
-    Tag getTag(String t);
-
     Object getLastObject();
 
     Book getLastBook();
 
-
     /* ----------------- count ----------------- */
-    int countNote();
 
     int countClass();
-
-    int countTag();
 
     int countBook();
 

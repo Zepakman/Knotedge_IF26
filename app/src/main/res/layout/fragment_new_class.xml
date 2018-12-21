@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context="fr.if26.projet.knotedge_if26.MainActivity">
 
-
     //SPINNER
 
     <LinearLayout
@@ -20,10 +19,10 @@
         <TextView
             android:layout_width="115dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="24dp"
-            android:fontFamily="@font/montserrat_regular"
             android:gravity="center"
             android:text="@string/new_class_categorie"
+            android:layout_marginHorizontal="24dp"
+            android:fontFamily="@font/montserrat_regular"
             android:textAlignment="textStart"
             android:textSize="16sp" />
 
@@ -61,12 +60,12 @@
 
             <EditText
                 android:id="@+id/new_class_name"
-                style="@style/DatePickerTheme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="Nom"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
-                android:hint="Nom"
+                style="@style/DatePickerTheme"
                 android:textColor="@color/colorAccent"
                 android:theme="@style/DatePickerTheme"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -173,7 +172,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <fr.if26.projet.knotedge_if26.MultiSelectionSpinner
+            <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
             android:id="@+id/list_of_tags_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -210,6 +209,42 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_marginHorizontal="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"
+            android:text="@string/relation_class"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_marginHorizontal="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            style="@style/DatePickerTheme"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme"
+            android:text="@string/relation_note"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -227,8 +262,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/rounded_button"
                 android:text="@string/new_class_create"
+                android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -237,6 +272,5 @@
                 app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-
 
 </LinearLayout>

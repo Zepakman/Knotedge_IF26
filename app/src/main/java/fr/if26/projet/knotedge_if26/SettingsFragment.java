@@ -11,10 +11,11 @@ import android.widget.Button;
 
 public class SettingsFragment extends Fragment {
 
-    private Button editProfilButton;
-
+    private Button editProfilButton, changeLanguageButton;
 
     private TransmissionListener listener;
+    private View view;
+
     @Override
     public void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
@@ -23,13 +24,20 @@ public class SettingsFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        editProfilButton = (Button) view.findViewById(R.id.edit_profil_button);
+        view  = inflater.inflate(R.layout.fragment_settings, container, false);
+        editProfilButton = view.findViewById(R.id.edit_profil_button);
+        changeLanguageButton = view.findViewById(R.id.change_language_button);
 
         editProfilButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.loadFragmentSettingsProfile();
+            }
+        });
+
+        changeLanguageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
 

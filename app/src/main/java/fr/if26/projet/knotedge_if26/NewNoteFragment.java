@@ -10,7 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewNoteFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
+import fr.if26.projet.knotedge_if26.entity.Object;
+import fr.if26.projet.knotedge_if26.util.MultiSelectionObjectSpinner;
+import fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner;
+
+public class NewNoteFragment extends Fragment implements MultiSelectionObjectSpinner.OnMultipleItemsSelectedListener {
 
     private Button writeNoteButton;
     private EditText noteTitle;
@@ -18,6 +26,13 @@ public class NewNoteFragment extends Fragment {
     private View view;
     private String title;
     private String content;
+    private KnotedgePersistance knotedgePersistance;
+
+    private MultiSelectionSpinner spinnerClass;
+    private ArrayList<Object> selectedClasses;
+    private List<String> selectedClassesNames;
+    private ArrayList<Object> allClassesList;
+    private ArrayList<String> allClassesNames;
 
     private TransmissionListener listener;
 
@@ -35,17 +50,31 @@ public class NewNoteFragment extends Fragment {
 
         writeNoteButton = (Button) view.findViewById(R.id.button_write_note);
         noteTitle = (EditText) view.findViewById(R.id.new_note_title);
-        noteContent = (EditText) view.findViewById(R.id.nav_new_note);
+        noteContent = (EditText) view.findViewById(R.id.new_note_note);
+
+        knotedgePersistance = new KnotedgePersistance(this.getContext());
+
 
         writeNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 title = noteTitle.getText().toString();
-                content = noteTitle.getText().toString();
+                content = noteContent.getEditableText().toString();
+
                 listener.createNewNote(title, content);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void selectedIndices(List<Integer> indices) {
+
+    }
+
+    @Override
+    public void selectedStrings(List<String> strings) {
+
     }
 }

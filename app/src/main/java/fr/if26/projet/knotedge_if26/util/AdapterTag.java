@@ -9,8 +9,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,9 +23,7 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolderTag> {
     private LayoutInflater layoutInflater;
     private Context context;
     private List<Tag> datas;
-
     public View view;
-
 
     public AdapterTag(Context context, List<Tag> datas) {
         this.context = context;
@@ -45,54 +43,73 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolderTag> {
     public void onBindViewHolder(@NonNull ViewHolderTag holder, int pos) {
         final int position = pos;
         holder.nameTextView.setText(datas.get(pos).getName());
-        //holder.idTextView.setText(datas.get(pos).getId()+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:
-                Toast.makeText(context, "itemView clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                //TODO:
                 AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppTheme));
-
-                alert.setMessage("Voulez-vous supprimer ce tag ainsi que ses liens ?");
+                final EditText fieldTagName = new EditText(context);
+                fieldTagName.setText(datas.get(position).getName());
+                alert.setView(fieldTagName);
+                alert.setMessage("Mofidifier nom du tag");
                 alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //do your work here
                         KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
-                        knotedgePersistance.removeTag(datas.get(position));
-                        notifyDataSetChanged();
-                        deleteItem(position);
+                        Tag newTag = datas.get(position);
+                        newTag.setName(fieldTagName.getText().toString());
+                        knotedgePersistance.updateTag(newTag);
+                        modifyItem(position);
                         dialog.dismiss();
-
                     }
                 });
                 alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                notifyDataSetChanged();
+                alert.show();
+            }
+        });
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppTheme));
+                alert.setMessage("Voulez-vous supprimer ce tag ainsi que ses liens ?");
+                alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+                        knotedgePersistance.removeTag(datas.get(position));
+                        notifyDataSetChanged();
+                        deleteItem(position);
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
                 notifyDataSetChanged();
                 alert.show();
                 return true;
-
             }
         });
-
     }
 
     public void deleteItem(int pos) {
         datas.remove(pos);
+        notifyItemChanged(pos);
+    }
+
+    public void modifyItem(int pos) {
         notifyItemChanged(pos);
     }
 
@@ -102,15 +119,10 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolderTag> {
     }
 
     class ViewHolderTag extends RecyclerView.ViewHolder {
-
         TextView nameTextView;
-
         public ViewHolderTag(@NonNull View itemView) {
             super(itemView);
-            //idTextView = (TextView) itemView.findViewById(R.id.id_tag_item_recycle_view);
             nameTextView = (TextView) itemView.findViewById(R.id.name_tag_item_recycle_view);
         }
-
     }
-
 }

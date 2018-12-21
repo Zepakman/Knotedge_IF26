@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_profil:
                 loadFragmentProfile();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfilFragment()).commit();
                 break;
             case R.id.nav_new_class:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewClassFragment()).commit();
@@ -95,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_view_classes:
                 loadFragmentAllClasses();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewClassFragment()).commit();
                 break;
             case R.id.nav_view_by:
+                loadFragmentViewTagTimeLine();
                 break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
@@ -110,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -242,6 +242,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void loadEditNote(int id) {
+        EditNoteFragment fragment = new EditNoteFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadEditClass(int id) {
+        EditClassFragment fragment = new EditClassFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadEditBook(int id) {
+        EditBookFragment fragment = new EditBookFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadFragmentViewTagTimeLine() {
+        TagTimeLineFragment fragment = new TagTimeLineFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
+    public void loadFragmentViewTagRelation() {
+        TagRelationFragment fragment = new TagRelationFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    @Override
     public void createNewObject(String name, String date, String description, int type) {
         switch (type) {
             case 1:
@@ -279,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void createNewNote(String title, String content) {
-
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Calendar calendar = Calendar.getInstance();

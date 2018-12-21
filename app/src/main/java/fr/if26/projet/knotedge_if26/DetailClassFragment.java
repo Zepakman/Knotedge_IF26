@@ -76,7 +76,7 @@ public class DetailClassFragment extends Fragment {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.loadEditClass(idClass);
             }
         });
 

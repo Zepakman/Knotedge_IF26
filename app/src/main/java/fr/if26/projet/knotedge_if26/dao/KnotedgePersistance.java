@@ -18,11 +18,11 @@ import fr.if26.projet.knotedge_if26.entity.Profile;
 import fr.if26.projet.knotedge_if26.entity.Tag;
 import fr.if26.projet.knotedge_if26.util.Tools;
 
-public class KnotedgePersistance extends SQLiteOpenHelper implements PersistanceEntity, PersistanceProfile, PersistanceRelation {
+public class KnotedgePersistance extends SQLiteOpenHelper implements PersistanceEntity, PersistanceProfile, PersistanceRelation, PersistanceTag, PersistanceNote {
 
-    public static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
 
-    public static final String DATABASE_NAME = "knotedge.db";
+    private static final String DATABASE_NAME = "knotedge.db";
 
     private static final String TABLE_OBJECT = "object";
     private static final String TABLE_BOOK = "book";
@@ -33,6 +33,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     private static final String TABLE_NOTE = "note";
     private static final String TABLE_RELATION_OBJECT_NOTE = "relation_object_note";
     private static final String TABLE_RELATION_BOOK_NOTE = "relation_book_note";
+    private static final String TABLE_RELATION_TAG_BOOK = "relation_tag_book";
 
     private static final String OBJECT_NAME = "name_obj";
     private static final String OBJECT_DATE = "date_obj";
@@ -69,10 +70,6 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     private static final String PROFILE_PHOTO = "user_photo";
 
 
-    private static final String TABLE_RELATION_TAG_BOOK = "relation_tag_book";
-    private static final String ID_RELATION_TAG_BOOK = "id_tag_book";
-    private static final String TAG_RELATION_TAG_BOOK = "tag_tag_book";
-    private static final String BOOK_RELATION_TAG_BOOK = "book_tag_book";
 
 
     public KnotedgePersistance(Context context) {
@@ -168,7 +165,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     }
 
     /*
-          ================================  OPERATIONS OF ADDING  ===================================
+          ================================  ADD OBJECT  ===================================
     */
 
     @Override
@@ -236,41 +233,10 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.close();
     }
 
-    @Override
-    public void addTag(Tag t) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TAG_NAME, t.getName());
-        db.insert(TABLE_TAG, null, values);
-        db.close();
-    }
-
-    @Override
-    public void addNote(Note n) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(NOTE_TITLE, n.getTitle());
-        values.put(NOTE_CONTENT, n.getContent());
-        values.put(NOTE_DATE_CREATE, n.getDate_create());
-        values.put(NOTE_DATE_EDIT, n.getDate_edit());
-
-        db.insert(TABLE_NOTE, null, values);
-        db.close();
-    }
 
      /*
-          ================================  OPERATIONS OF REMOVING  ===================================
+          ================================  *REMOVE  ===================================
      */
-
-    @Override
-    public void removeTag(Tag t) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.delete(TABLE_TAG, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
-        db.delete(TABLE_RELATION_TAG_BOOK, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
-        db.delete(TABLE_RELATION_TAG_OBJECT, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
-        db.close();
-    }
 
     @Override
     public void removeBook(Book b) {
@@ -289,15 +255,36 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         db.close();
     }
 
+    /*
+          ================================  *UPDATE  ===================================
+     */
+
     @Override
-    public void removeNote(Note n) {
+    public void updateBook(Book b) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NOTE, NOTE_ID + " = ?", new String[]{String.valueOf(n.getId())});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BOOK_TITLE, b.getName());
+        contentValues.put(BOOK_DESCRIPTION, b.getDescription());
+        contentValues.put(BOOK_AUTHOR, b.getAuthor());
+        contentValues.put(BOOK_DATE, b.getDate());
+        db.update(TABLE_BOOK, contentValues, BOOK_ID + "=?", new String[]{b.getId() + ""});
+        db.close();
+    }
+
+    @Override
+    public void updateClass(Object o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OBJECT_NAME, o.getName());
+        contentValues.put(OBJECT_DESCRIPTION, o.getDescription());
+        contentValues.put(OBJECT_DATE, o.getDate());
+        contentValues.put(OBJECT_TYPE, o.getType());
+        db.update(TABLE_OBJECT, contentValues, OBJECT_ID + "=?", new String[]{o.getId() + ""});
         db.close();
     }
 
     /*
-          ================================  OPERATIONS OF GETTING ALL  ===================================
+          ================================  *GETALL  ===================================
     */
 
     @Override
@@ -401,6 +388,450 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return bookList;
     }
 
+    /*
+          ================================  *GETONE  ===================================
+    */
+
+    @Override
+    public Object getObjectById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{id + ""}, null, null, null);
+        Object o = new Object("","","","");
+        if (cursor.moveToNext()) {
+            o.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
+            o.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
+            o.setDescription(cursor.getString(cursor.getColumnIndex(OBJECT_DESCRIPTION)));
+            o.setDate(cursor.getString(cursor.getColumnIndex(OBJECT_DATE)));
+            o.setType(cursor.getString(cursor.getColumnIndex(OBJECT_TYPE)));
+        }
+        cursor.close();
+        db.close();
+        return o;
+    }
+
+
+    @Override
+    public Object getLastObject() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_OBJECT;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToLast();
+        Object o = new Object("", "", "", "");
+        o.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
+        o.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
+        o.setDescription(cursor.getString(cursor.getColumnIndex(OBJECT_DESCRIPTION)));
+        o.setDate(cursor.getString(cursor.getColumnIndex(OBJECT_DATE)));
+        o.setType(cursor.getString(cursor.getColumnIndex(OBJECT_TYPE)));
+        cursor.close();
+        db.close();
+        return o;
+    }
+
+    @Override
+    public Book getBookById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{id + ""}, null, null, null);
+        Book b = new Book("","","","");
+        if (cursor.moveToNext()) {
+            b.setId(cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
+            b.setName(cursor.getString(cursor.getColumnIndex(BOOK_TITLE)));
+            b.setDescription(cursor.getString(cursor.getColumnIndex(BOOK_DESCRIPTION)));
+            b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
+            b.setDate(cursor.getString(cursor.getColumnIndex(BOOK_DATE)));
+        }
+        cursor.close();
+        db.close();
+        return b;
+    }
+
+    @Override
+    public Book getLastBook() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_BOOK;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToLast();
+        Book b;
+        b = new Book("", ""," ","");
+        b.setId(cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
+        b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
+        b.setDescription(cursor.getString(cursor.getColumnIndex(BOOK_DESCRIPTION)));
+        b.setDate(cursor.getString(cursor.getColumnIndex(BOOK_DATE)));
+        b.setName(cursor.getString(cursor.getColumnIndex(BOOK_TITLE)));
+        cursor.close();
+        db.close();
+        return b;
+    }
+
+    /*
+          ================================  *COUNT  ===================================
+     */
+
+    @Override
+    public int countBook() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_BOOK, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    @Override
+    public int countClass() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_OBJECT, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+
+    @Override
+    public int countRelationsBookTag() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_RELATION_TAG_BOOK, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    @Override
+    public int countRelationsObjectTag() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_RELATION_TAG_OBJECT, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+
+
+    /*
+          ================================  RELATIONS  ===================================
+    */
+
+    @Override
+    public void addTagObject(Tag t, Object o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TAG_ID, t.getId());
+        values.put(OBJECT_ID, o.getId());
+
+        db.insert(TABLE_RELATION_TAG_OBJECT, null, values);
+        db.close();
+    }
+
+    @Override
+    public void addTagBook(Tag t, Book b) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TAG_ID, t.getId());
+        values.put(BOOK_ID, b.getId());
+
+        db.insert(TABLE_RELATION_TAG_BOOK, null, values);
+        db.close();
+    }
+
+    @Override
+    public void addRelationObjects(Object o1, Object o2) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(OBJECT_ID + "1", o1.getId());
+        values.put(OBJECT_ID + "2", o2.getId());
+
+        db.insert(TABLE_RELATION_OBJECTS, null, values);
+        db.close();
+    }
+
+    @Override
+    public void addNoteObject(Note n, Object o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(OBJECT_ID, o.getId());
+        values.put(NOTE_ID, n.getId());
+
+        db.insert(TABLE_RELATION_OBJECT_NOTE, null, values);
+        db.close();
+    }
+
+    @Override
+    public void addBookObject(Note n, Book b) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(BOOK_ID, b.getId());
+        values.put(NOTE_ID, n.getId());
+
+        db.insert(TABLE_RELATION_BOOK_NOTE, null, values);
+        db.close();
+    }
+
+    @Override
+    public ArrayList<String> getAllTagsByBook(int bkId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listTagId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_TAG_BOOK, null, BOOK_ID + "= ?", new String[]{bkId + ""}, null, null, null);
+        int i = 0;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(TAG_ID)));
+            listTagId.add(i);
+        }
+        cursor.close();
+        ArrayList<String> listTagString = new ArrayList<>();
+        String name;
+        int tagId;
+        for(int j=0; j<listTagId.size();j++) {
+            tagId = listTagId.get(j);
+            Cursor cursor2 =db.query(TABLE_TAG, null, TAG_ID + "= ?", new String[]{tagId+ ""}, null, null, null);
+            if(cursor2.moveToNext()){
+                name = (cursor2.getString(cursor2.getColumnIndex(TAG_NAME)));
+                listTagString.add(name);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listTagString;
+    }
+//TODO: TEST!!!
+    @Override
+    public ArrayList<String> getAllTagsByClass(int objId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listTagId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_TAG_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
+        int i = 0;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(TAG_ID)));
+            listTagId.add(i);
+        }
+        cursor.close();
+        ArrayList<String> listTagString = new ArrayList<>();
+        String name;
+        int tagId;
+        for(int j=0; j<listTagId.size();j++) {
+            tagId = listTagId.get(j);
+            Cursor cursor2 =db.query(TABLE_TAG, null, TAG_ID + "= ?", new String[]{tagId+ ""}, null, null, null);
+            if(cursor2.moveToNext()){
+                name = (cursor2.getString(cursor2.getColumnIndex(TAG_NAME)));
+                listTagString.add(name);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listTagString;
+    }
+//TODO:TEST!!!!
+    @Override
+    public ArrayList<Note> getAllNotesByBook(int bkId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listNoteId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_BOOK_NOTE, null, BOOK_ID + "= ?", new String[]{bkId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(NOTE_ID)));
+            listNoteId.add(i);
+        }
+        cursor.close();
+        ArrayList<Note> listNote = new ArrayList<>();
+        Note n = new Note("", "", "", "");
+        int noteId;
+        for(int j=0; j<listNoteId.size();j++) {
+            noteId = listNoteId.get(j);
+            Cursor cursor2 =db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{noteId+ ""}, null, null, null);
+            if(cursor2.moveToNext()){
+                n.setId(cursor2.getInt(cursor2.getColumnIndex(NOTE_ID)));
+                n.setTitle((cursor2.getString(cursor2.getColumnIndex(NOTE_TITLE))));
+                n.setContent(cursor2.getString(cursor2.getColumnIndex(NOTE_CONTENT)));
+                n.setDate_create(cursor2.getString(cursor2.getColumnIndex(NOTE_DATE_CREATE)));
+                n.setDate_edit(cursor2.getString(cursor2.getColumnIndex(NOTE_DATE_EDIT)));
+                listNote.add(n);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listNote;
+    }
+
+    @Override
+    public ArrayList<Note> getAllNoteByObject(int clsId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listNoteId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_OBJECT_NOTE, null, OBJECT_ID + "= ?", new String[]{clsId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(NOTE_ID)));
+            listNoteId.add(i);
+        }
+        cursor.close();
+        ArrayList<Note> listNote = new ArrayList<>();
+        Note n = new Note("", "", "", "");
+        int noteId;
+        for(int j=0; j<listNoteId.size();j++) {
+            noteId = listNoteId.get(j);
+            Cursor cursor2 =db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{noteId+ ""}, null, null, null);
+            if(cursor2.moveToNext()){
+                n.setId(cursor2.getInt(cursor2.getColumnIndex(NOTE_ID)));
+                n.setTitle((cursor2.getString(cursor2.getColumnIndex(NOTE_TITLE))));
+                n.setContent(cursor2.getString(cursor2.getColumnIndex(NOTE_CONTENT)));
+                n.setDate_create(cursor2.getString(cursor2.getColumnIndex(NOTE_DATE_CREATE)));
+                n.setDate_edit(cursor2.getString(cursor2.getColumnIndex(NOTE_DATE_EDIT)));
+                listNote.add(n);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listNote;
+    }
+
+    //TODO:test!!!
+    @Override
+    public void removeAllRelationsWithObject(int clsId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_RELATION_TAG_OBJECT, OBJECT_ID + " = ?", new String[]{clsId+""});
+        db.delete(TABLE_RELATION_OBJECTS, OBJECT_ID + "1 = ?", new String[]{clsId+""});
+        db.delete(TABLE_RELATION_OBJECTS, OBJECT_ID + "2 = ?", new String[]{clsId+""});
+        db.delete(TABLE_RELATION_OBJECT_NOTE, OBJECT_ID + " = ?", new String[]{clsId+""});
+        db.close();
+    }
+
+    @Override
+    public void removeAllRelationsWithBook(int bkId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_RELATION_TAG_BOOK, BOOK_ID + " = ?", new String[]{bkId+""});
+        db.delete(TABLE_RELATION_BOOK_NOTE, BOOK_ID + " = ?", new String[]{bkId+""});
+        db.close();
+    }
+
+    @Override
+    public void removeAllRelationsWithNote(int noteId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_RELATION_BOOK_NOTE, NOTE_ID + " = ?", new String[]{noteId+""});
+        db.delete(TABLE_RELATION_OBJECT_NOTE, NOTE_ID + " = ?", new String[]{noteId+""});
+        db.close();
+    }
+
+    @Override
+    public void removeAllRelationsWithTag(int tagId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_RELATION_TAG_BOOK, TAG_ID + " = ?", new String[]{tagId+""});
+        db.delete(TABLE_RELATION_TAG_OBJECT, TAG_ID + " = ?", new String[]{tagId+""});
+        db.close();
+    }
+    /*
+          ================================  *NOTE  ===================================
+    */
+
+    @Override
+    public void addNote(Note n) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NOTE_TITLE, n.getTitle());
+        values.put(NOTE_CONTENT, n.getContent());
+        values.put(NOTE_DATE_CREATE, n.getDate_create());
+        values.put(NOTE_DATE_EDIT, n.getDate_edit());
+
+        db.insert(TABLE_NOTE, null, values);
+        db.close();
+    }
+
+    @Override
+    public int countNote() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NOTE, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    @Override
+    public Note getNoteById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{id + ""}, null, null, null);
+        Note note = new Note("","","","");
+        if (cursor.moveToNext()) {
+            note.setId(cursor.getInt(cursor.getColumnIndex(NOTE_ID)));
+            note.setTitle(cursor.getString(cursor.getColumnIndex(NOTE_TITLE)));
+            note.setContent(cursor.getString(cursor.getColumnIndex(NOTE_CONTENT)));
+            note.setDate_create(cursor.getString(cursor.getColumnIndex(NOTE_DATE_CREATE)));
+            note.setDate_edit(cursor.getString(cursor.getColumnIndex(NOTE_DATE_EDIT)));
+        }
+        cursor.close();
+        db.close();
+        return note;
+    }
+
+    @Override
+    public void updateNote(Note n) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NOTE_TITLE, n.getTitle());
+        contentValues.put(NOTE_CONTENT, n.getContent());
+        contentValues.put(NOTE_DATE_CREATE, n.getDate_create());
+        contentValues.put(NOTE_DATE_EDIT, n.getDate_edit());
+        db.update(TABLE_NOTE, contentValues, NOTE_ID + "=?", new String[]{n.getId() + ""});
+        db.close();
+    }
+
+    @Override
+    public void removeNote(Note n) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTE, NOTE_ID + " = ?", new String[]{String.valueOf(n.getId())});
+        db.close();
+    }
+    /*
+          ================================  *TAG  ===================================
+    */
+
+    @Override
+    public void addTag(Tag t) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TAG_NAME, t.getName());
+        db.insert(TABLE_TAG, null, values);
+        db.close();
+    }
+
+    @Override
+    public int countTag() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TAG, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    @Override
+    public Tag getTag(String t) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_TAG, null, TAG_NAME + "= ?", new String[]{t + ""}, null, null, null);
+        Tag tag = new Tag("");
+        int id = 0;
+        String name = "";
+        if (cursor.moveToNext()) {
+            id = cursor.getInt(cursor.getColumnIndex(TAG_ID));
+            name = cursor.getString(cursor.getColumnIndex(TAG_NAME));
+        }
+        tag.setId(id);
+        tag.setName(name);
+        cursor.close();
+        db.close();
+        return tag;
+    }
+
     @Override
     public ArrayList<Note> getAllNotes() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -459,286 +890,28 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return tagList;
     }
 
-
-    /*
-              ================================  OPERATIONS OF GETTING ONE LINE  ===================================
-    */
     @Override
-    public Note getNoteById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{id + ""}, null, null, null);
-        Note note = new Note("","","","");
-        if (cursor.moveToNext()) {
-            note.setId(cursor.getInt(cursor.getColumnIndex(NOTE_ID)));
-            note.setTitle(cursor.getString(cursor.getColumnIndex(NOTE_TITLE)));
-            note.setContent(cursor.getString(cursor.getColumnIndex(NOTE_CONTENT)));
-            note.setDate_create(cursor.getString(cursor.getColumnIndex(NOTE_DATE_CREATE)));
-            note.setDate_edit(cursor.getString(cursor.getColumnIndex(NOTE_DATE_EDIT)));
-        }
-        cursor.close();
-        db.close();
-        return note;
-    }
-
-    @Override
-    public Object getObjectById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{id + ""}, null, null, null);
-        Object o = new Object("","","","");
-        if (cursor.moveToNext()) {
-            o.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
-            o.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
-            o.setDescription(cursor.getString(cursor.getColumnIndex(OBJECT_DESCRIPTION)));
-            o.setDate(cursor.getString(cursor.getColumnIndex(OBJECT_DATE)));
-            o.setType(cursor.getString(cursor.getColumnIndex(OBJECT_TYPE)));
-        }
-        cursor.close();
-        db.close();
-        return o;
-    }
-
-    @Override
-    public Tag getTag(String t) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_TAG, null, TAG_NAME + "= ?", new String[]{t + ""}, null, null, null);
-        Tag tag = new Tag("");
-        int id = 0;
-        String name = "";
-        if (cursor.moveToNext()) {
-            id = cursor.getInt(cursor.getColumnIndex(TAG_ID));
-            name = cursor.getString(cursor.getColumnIndex(TAG_NAME));
-        }
-        tag.setId(id);
-        tag.setName(name);
-        cursor.close();
-        db.close();
-        return tag;
-    }
-
-    @Override
-    public Object getLastObject() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT  * FROM " + TABLE_OBJECT;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToLast();
-        Object o = new Object("", "", "", "");
-        //if (cursor.moveToNext()) {
-            o.setId(cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
-            o.setName(cursor.getString(cursor.getColumnIndex(OBJECT_NAME)));
-            o.setDescription(cursor.getString(cursor.getColumnIndex(OBJECT_DESCRIPTION)));
-            o.setDate(cursor.getString(cursor.getColumnIndex(OBJECT_DATE)));
-            o.setType(cursor.getString(cursor.getColumnIndex(OBJECT_TYPE)));
-        //}
-        cursor.close();
-        db.close();
-        return o;
-    }
-
-    @Override
-    public Book getBookById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{id + ""}, null, null, null);
-        Book b = new Book("","","","");
-        if (cursor.moveToNext()) {
-            b.setId(cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
-            b.setName(cursor.getString(cursor.getColumnIndex(BOOK_TITLE)));
-            b.setDescription(cursor.getString(cursor.getColumnIndex(BOOK_DESCRIPTION)));
-            b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
-            b.setDate(cursor.getString(cursor.getColumnIndex(BOOK_DATE)));
-        }
-        cursor.close();
-        db.close();
-        return b;
-    }
-
-    @Override
-    public Book getLastBook() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT  * FROM " + TABLE_BOOK;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToLast();
-        Book b = new Book("", ""," ","");
-        //if (cursor.moveToNext()) {
-            b = new Book("", ""," ","");
-            b.setId(cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
-            b.setAuthor(cursor.getString(cursor.getColumnIndex(BOOK_AUTHOR)));
-            b.setDescription(cursor.getString(cursor.getColumnIndex(BOOK_DESCRIPTION)));
-            b.setDate(cursor.getString(cursor.getColumnIndex(BOOK_DATE)));
-            b.setName(cursor.getString(cursor.getColumnIndex(BOOK_TITLE)));
-        //}
-        cursor.close();
-        db.close();
-        return b;
-    }
-
-    /*
-          ================================  OPERATIONS OF COUNTING  ===================================
-     */
-
-    @Override
-    public int countNote() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NOTE, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    @Override
-    public int countBook() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_BOOK, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    @Override
-    public int countClass() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_OBJECT, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    @Override
-    public int countTag() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TAG, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    @Override
-    public int countRelationsBookTag() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_RELATION_TAG_BOOK, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    @Override
-    public int countRelationsObjectTag() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_RELATION_TAG_OBJECT, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-
-
-    /*
-          ================================  OPERATIONS OF RELATIONS  ===================================
-    */
-
-    @Override
-    public void addTagObject(Tag t, Object o) {
+    public void removeTag(Tag t) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(TAG_ID, t.getId());
-        values.put(OBJECT_ID, o.getId());
-
-        db.insert(TABLE_RELATION_TAG_OBJECT, null, values);
+        db.delete(TABLE_TAG, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
+        db.delete(TABLE_RELATION_TAG_BOOK, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
+        db.delete(TABLE_RELATION_TAG_OBJECT, TAG_ID + " = ?", new String[]{String.valueOf(t.getId())});
         db.close();
     }
 
     @Override
-    public void addTagBook(Tag t, Book b) {
+    public void updateTag(Tag t) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(TAG_ID, t.getId());
-        values.put(BOOK_ID, b.getId());
-
-        db.insert(TABLE_RELATION_TAG_BOOK, null, values);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TAG_NAME, t.getName());
+        db.update(TABLE_TAG, contentValues, TAG_ID + "=?", new String[]{t.getId() + ""});
         db.close();
     }
 
-    @Override
-    public void addRelationObjects(Object o1, Object o2) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(OBJECT_ID + "1", o1.getId());
-        values.put(OBJECT_ID + "2", o2.getId());
-
-        db.insert(TABLE_RELATION_OBJECTS, null, values);
-        db.close();
-    }
-
-    @Override
-    public ArrayList<String> getAllTagsByBook(int bkId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Integer> listTagId = new ArrayList<Integer>();
-        Cursor cursor = db.query(TABLE_RELATION_TAG_BOOK, null, BOOK_ID + "= ?", new String[]{bkId + ""}, null, null, null);
-        int i = 0;
-        while (cursor.moveToNext()) {
-            i = (cursor.getInt(cursor.getColumnIndex(TAG_ID)));
-            listTagId.add(i);
-        }
-        cursor.close();
-        ArrayList<String> listTagString = new ArrayList<String>();
-        String name = "";
-        int tagId = 0;
-        for(int j=0; j<listTagId.size();j++) {
-            tagId = listTagId.get(j);
-            Cursor cursor2 =db.query(TABLE_TAG, null, TAG_ID + "= ?", new String[]{tagId+ ""}, null, null, null);
-            if(cursor2.moveToNext()){
-                name = (cursor2.getString(cursor2.getColumnIndex(TAG_NAME)));
-                listTagString.add(name);
-            }
-            cursor2.close();
-        }
-        db.close();
-        return listTagString;
-    }
-
-    @Override
-    public ArrayList<String> getAllTagsByClass(int objId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Integer> listTagId = new ArrayList<Integer>();
-        Cursor cursor = db.query(TABLE_RELATION_TAG_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
-        int i = 0;
-        while (cursor.moveToNext()) {
-            i = (cursor.getInt(cursor.getColumnIndex(TAG_ID)));
-            listTagId.add(i);
-        }
-        cursor.close();
-        ArrayList<String> listTagString = new ArrayList<String>();
-        String name = "";
-        int tagId = 0;
-        for(int j=0; j<listTagId.size();j++) {
-            tagId = listTagId.get(j);
-            Cursor cursor2 =db.query(TABLE_TAG, null, TAG_ID + "= ?", new String[]{tagId+ ""}, null, null, null);
-            if(cursor2.moveToNext()){
-                name = (cursor2.getString(cursor2.getColumnIndex(TAG_NAME)));
-                listTagString.add(name);
-            }
-            cursor2.close();
-        }
-        db.close();
-        return listTagString;
-    }
 
     /*
-          ================================  OPERATIONS OF PROFILE  ===================================
+          ================================  *PROFILE  ===================================
      */
 
     @Override
@@ -803,14 +976,5 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     /*
               ================================  Others  ===================================
     */
-
-    public void testInit() {
-        Person p1 = new Person("p1", "123", "2014-02-02");
-        addPerson(p1);
-        Tag t1 = new Tag("tag1");
-        addTag(t1);
-        Note n1 = new Note("title1", "contentnote", "2014-02-02", "2014-02-02");
-        addNote(n1);
-    }
 
 }
