@@ -104,6 +104,11 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolderTag> {
         });
     }
 
+    public void insertItem(Tag t) {
+        datas.add(t);
+        notifyItemChanged(datas.size());
+    }
+
     public void deleteItem(int pos) {
         datas.remove(pos);
         notifyItemChanged(pos);

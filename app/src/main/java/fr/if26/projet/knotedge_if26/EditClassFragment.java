@@ -94,6 +94,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
 
         spinnerTag = view.findViewById(R.id.edit_class_list_tag);
         final ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
+        final ArrayList<String> selectedTagList = knotedgePersistance.getAllTagsByClass(idClass);
         // Specify the layout to use when the list of choices appears
         if (tagList.isEmpty()) {
             ArrayList<String> debugList = new ArrayList<String>();
@@ -102,8 +103,8 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
         }
         else {
             spinnerTag.setItems(tagList);
+            spinnerTag.setSelection(selectedTagList);
         }
-        // TODO: tag par défaut
         spinnerTag.setListener(this);
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {

@@ -129,6 +129,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
         }
         else {
             spinnerTag.setItems(tagList);
+            spinnerTag.setSelection(new ArrayList<String>());
         }
         // Apply the adapter to the spinner
         spinnerTag.setListener(this);
@@ -158,6 +159,9 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                         ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
                         if (!tagList.contains(m_Text)) {
                             knotedgePersistance.addTag(tag);
+                            //the new created tag has no id so cannot added to tagList directly
+                            tagList = knotedgePersistance.getAllTagsName();
+                            spinnerTag.setItems(tagList);
                             spinnerTag.invalidate();
 
                         } else {

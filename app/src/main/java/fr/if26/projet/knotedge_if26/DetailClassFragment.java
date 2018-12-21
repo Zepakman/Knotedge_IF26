@@ -22,12 +22,12 @@ public class DetailClassFragment extends Fragment {
 
     private KnotedgePersistance knotedgePersistance;
 
-    private TextView tvName, tvType, tvListTag;
+    private TextView tvName, tvType, tvDescription, tvDate, tvListTag;
     private Button buttonBack,buttonEdit;
 
     private int idClass = 0;
     private Object object;
-    private List<String> listTagNameOfThis = new ArrayList<String>();
+    private List<String> listTagNameOfThis = new ArrayList<>();
 
     private TransmissionListener listener;
     @Override
@@ -41,11 +41,13 @@ public class DetailClassFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_detail_class, container, false);
 
-        tvName = (TextView) view.findViewById(R.id.detail_class_name);
-        tvType = (TextView) view.findViewById(R.id.detail_class_type);
-        tvListTag = (TextView) view.findViewById(R.id.detail_class_tags);
-        buttonBack = (Button) view.findViewById(R.id.detail_class_back);
-        buttonEdit = (Button) view.findViewById(R.id.detail_class_edit);
+        tvName = view.findViewById(R.id.detail_class_name);
+        tvType = view.findViewById(R.id.detail_class_type);
+        tvDescription = view.findViewById(R.id.detail_class_description);
+        tvDate = view.findViewById(R.id.detail_class_date);
+        tvListTag = view.findViewById(R.id.detail_class_tags);
+        buttonBack = view.findViewById(R.id.detail_class_back);
+        buttonEdit = view.findViewById(R.id.detail_class_edit);
 
         knotedgePersistance = new KnotedgePersistance(getContext());
 
@@ -56,8 +58,10 @@ public class DetailClassFragment extends Fragment {
 
         tvName.setText(object.getName());
         tvType.setText(object.getType());
+        tvDescription.setText(object.getDescription());
+        tvDate.setText(object.getDate());
 
-        String tags = new String();
+        String tags;
         StringBuffer buffer = new StringBuffer();
 
 

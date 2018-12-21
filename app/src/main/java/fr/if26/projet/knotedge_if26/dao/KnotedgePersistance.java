@@ -693,6 +693,20 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return listNote;
     }
 
+    @Override
+    public ArrayList<Object> getAllObjectsByTagName(String nameTag) {
+
+        //TODO:
+        return null;
+    }
+
+    @Override
+    public ArrayList<Book> getAllBooksByTagName(String nameTag) {
+
+        //TODO:
+        return null;
+    }
+
     //TODO:test!!!
     @Override
     public void removeAllRelationsWithObject(int clsId) {

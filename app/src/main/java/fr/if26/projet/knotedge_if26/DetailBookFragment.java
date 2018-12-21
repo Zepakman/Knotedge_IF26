@@ -22,7 +22,7 @@ public class DetailBookFragment extends Fragment {
 
     private KnotedgePersistance knotedgePersistance;
 
-    private TextView tvName, tvAuthor,tvListTag;
+    private TextView tvName, tvAuthor, tvDescription, tvDate, tvListTag;
     private Button buttonBack,buttonEdit;
 
     private int idBook = 0;
@@ -41,14 +41,15 @@ public class DetailBookFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_detail_book, container, false);
 
-        tvName = (TextView) view.findViewById(R.id.detail_book_name);
-        tvAuthor = (TextView) view.findViewById(R.id.detail_book_author);
-        tvListTag = (TextView) view.findViewById(R.id.detail_book_tags);
-        buttonBack = (Button) view.findViewById(R.id.detail_book_back);
-        buttonEdit = (Button) view.findViewById(R.id.detail_book_edit);
+        tvName = view.findViewById(R.id.detail_book_name);
+        tvAuthor = view.findViewById(R.id.detail_book_author);
+        tvListTag = view.findViewById(R.id.detail_book_tags);
+        tvDescription = view.findViewById(R.id.detail_book_description);
+        tvDate = view.findViewById(R.id.detail_book_date);
+        buttonBack = view.findViewById(R.id.detail_book_back);
+        buttonEdit = view.findViewById(R.id.detail_book_edit);
 
         knotedgePersistance = new KnotedgePersistance(getContext());
-
 
         Bundle bundle = getArguments();
         idBook = bundle.getInt("id");
@@ -58,7 +59,7 @@ public class DetailBookFragment extends Fragment {
         tvName.setText(book.getName());
         tvAuthor.setText(book.getAuthor());
 
-        String tags = new String();
+        String tags;
         StringBuffer buffer = new StringBuffer();
 
 

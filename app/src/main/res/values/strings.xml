@@ -39,6 +39,8 @@
     <string name="relation_note">Related Notes</string>
     <string name="action_tag_timeline">By TimeLine</string>
     <string name="action_tag_relation">By Relation</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="filter">Filter</string>
 
     <string-array name="classes_string_array">
         <item>Livre</item>

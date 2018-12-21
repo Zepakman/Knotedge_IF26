@@ -35,10 +35,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
         this.datas = datas;
         layoutInflater = LayoutInflater.from(context);
 
-        heights = new ArrayList<Integer>();
-        for (int i = 0; i < datas.size() ; i++) {
-            heights.add((int)(100+Math.random()*300));
-        }
+
     }
 
     @NonNull
@@ -52,9 +49,30 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderNote holder, int pos) {
-        final int position = pos;
-        holder.nameTextView.setText(datas.get(pos).getTitle());
 
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+
+        final int position = pos;
+        holder.tvTitle.setText(datas.get(pos).getTitle());
+        holder.tvText.setText(datas.get(pos).getContent());
+
+        heights = new ArrayList<>();
+        List<Integer> ligne = new ArrayList<>();
+        for (int i = 0; i < datas.size() ; i++) {
+            int lengthContent = datas.get(pos).getContent().length();
+            int lengthHeight = (int) Math.ceil((lengthContent+0.0)/25);
+            ligne.add(lengthHeight);
+            if(lengthContent==0) {
+                heights.add(100);
+            } else if(lengthContent>440) {
+                heights.add(500);
+            } else {
+                heights.add(160 + lengthHeight*20);
+            }
+        }
+        layoutParams.height = heights.get(pos);
+
+        holder.itemView.setLayoutParams(layoutParams);
         holder.itemView.setTag(pos);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -119,11 +137,13 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolderNote
 
     class ViewHolderNote extends RecyclerView.ViewHolder {
 
-        TextView nameTextView;
+        TextView tvTitle;
+        TextView tvText;
 
         public ViewHolderNote(@NonNull View itemView) {
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.title_note_item_recycle_view);
+            tvTitle = itemView.findViewById(R.id.title_note_item_recycle_view);
+            tvText = itemView.findViewById(R.id.text_note_item_recycle_view);
         }
     }
 

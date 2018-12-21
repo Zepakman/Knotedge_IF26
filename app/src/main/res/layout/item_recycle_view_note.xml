@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
@@ -7,8 +8,21 @@
 
     <TextView
         android:id="@+id/title_note_item_recycle_view"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="center"/>
+        android:paddingTop="4dp"
+        android:paddingLeft="8dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="top"/>
+    <TextView
+        android:id="@+id/text_note_item_recycle_view"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
 
 </LinearLayout>

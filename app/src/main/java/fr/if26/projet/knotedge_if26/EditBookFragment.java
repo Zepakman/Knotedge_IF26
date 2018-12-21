@@ -27,7 +27,7 @@ import fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner;
 public class EditBookFragment extends Fragment implements MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
     private View view;
-    private Button buttonEdit, buttonCancel, buttonTag;
+    private Button buttonEdit, buttonCancel, buttonAddTag;
     private EditText etName, etDescription, etDate, etAuthor;
     private int idBook;
     private Book book;
@@ -52,12 +52,12 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
         view = inflater.inflate(R.layout.fragment_edit_book, container, false);
 
         knotedgePersistance = new KnotedgePersistance(getContext());
-        buttonCancel = (Button) view.findViewById(R.id.edit_book_cancel);
-        buttonEdit = (Button) view.findViewById(R.id.edit_book_ok);
-        etName = (EditText) view.findViewById(R.id.edit_book_name);
-        etDescription = (EditText) view.findViewById(R.id.edit_book_description);
-        etAuthor = (EditText) view.findViewById(R.id.edit_book_author);
-        etDate = (EditText) view.findViewById(R.id.edit_book_date);
+        buttonCancel = view.findViewById(R.id.edit_book_cancel);
+        buttonEdit = view.findViewById(R.id.edit_book_ok);
+        etName = view.findViewById(R.id.edit_book_name);
+        etDescription = view.findViewById(R.id.edit_book_description);
+        etAuthor = view.findViewById(R.id.edit_book_author);
+        etDate = view.findViewById(R.id.edit_book_date);
 
         Bundle bundle = getArguments();
         idBook = bundle.getInt("id");
@@ -92,16 +92,17 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
 
         spinnerTag = view.findViewById(R.id.edit_book_list_tag);
         final ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
+        final ArrayList<String> selectedTagList = knotedgePersistance.getAllTagsByBook(idBook);
         // Specify the layout to use when the list of choices appears
         if (tagList.isEmpty()) {
-            ArrayList<String> debugList = new ArrayList<String>();
+            ArrayList<String> debugList = new ArrayList<>();
             debugList.add("You don't have any tags set");
             spinnerTag.setItems(debugList);
         }
         else {
             spinnerTag.setItems(tagList);
+            spinnerTag.setSelection(selectedTagList);
         }
-        // TODO: tag par défaut
         spinnerTag.setListener(this);
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {

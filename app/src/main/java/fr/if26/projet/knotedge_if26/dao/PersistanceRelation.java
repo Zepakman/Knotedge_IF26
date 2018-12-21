@@ -36,6 +36,10 @@ public interface PersistanceRelation {
 
     ArrayList<Note> getAllNoteByObject(int clsId);
 
+    ArrayList<Object> getAllObjectsByTagName(String nameTag);
+
+    ArrayList<Book> getAllBooksByTagName(String nameTag);
+
 
     /* ----------------- remove ----------------- */
 
