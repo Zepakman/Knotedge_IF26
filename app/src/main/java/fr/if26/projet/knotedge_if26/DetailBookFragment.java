@@ -58,6 +58,8 @@ public class DetailBookFragment extends Fragment {
 
         tvName.setText(book.getName());
         tvAuthor.setText(book.getAuthor());
+        tvDate.setText(book.getDate());
+        tvDescription.setText(book.getDescription());
 
         String tags;
         StringBuffer buffer = new StringBuffer();
