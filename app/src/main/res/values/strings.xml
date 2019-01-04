@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Knotedge</string>
     <string name="profil">Profil</string>
-    <string name="save">Sauvegarder</string>
+    <string name="save">Save</string>
     <string name="new_class">New Class</string>
-    <string name="new_class_categorie">Catégorie :</string>
-    <string name="class_date">Date :</string>
-    <string name="new_class_nom">Nom :</string>
-    <string name="class_description">Description :</string>
-    <string name="new_class_tag">Choisissez un ou plusieurs Tags</string>
-    <string name="new_class_create">Créer</string>
+    <string name="new_class_categorie">Category: </string>
+    <string name="class_date">Date: </string>
+    <string name="new_class_nom">Name: </string>
+    <string name="class_description">Description: </string>
+    <string name="new_class_tag">Choose one or more Tags</string>
+    <string name="new_class_create">Create</string>
     <string name="new_note">New Note</string>
-    <string name="new_note_create">Ecrire</string>
+    <string name="new_note_create">Write</string>
     <string name="view_classes">View Classes</string>
     <string name="view_by">View By...</string>
     <string name="settings">Settings</string>
@@ -30,23 +30,23 @@
     <string name="class_name">Class Name </string>
     <string name="class_type">Class Type </string>
     <string name="tag">Tag </string>
-    <string name="book_name">Book Name </string>
-    <string name="book_author">Author</string>
-    <string name="note_title">Title </string>
-    <string name="description">Description:</string>
-    <string name="date">Date:</string>
-    <string name="relation_class">Related Classes</string>
-    <string name="relation_note">Related Notes</string>
+    <string name="book_name">Book Name: </string>
+    <string name="book_author">Author: </string>
+    <string name="note_title">Title: </string>
+    <string name="description">Description: </string>
+    <string name="date">Date: </string>
+    <string name="relation_class">Related Classes: </string>
+    <string name="relation_note">Related Notes: </string>
     <string name="action_tag_timeline">By TimeLine</string>
     <string name="action_tag_relation">By Relation</string>
     <string name="add_tag">Add Tag</string>
     <string name="filter">Filter</string>
 
     <string-array name="classes_string_array">
-        <item>Livre</item>
-        <item>Personne</item>
-        <item>Evenement</item>
-        <item>Lieu</item>
-        <item>Objet</item>
+        <item>Book</item>
+        <item>Person</item>
+        <item>Event</item>
+        <item>Place</item>
+        <item>Object</item>
     </string-array>
 </resources>

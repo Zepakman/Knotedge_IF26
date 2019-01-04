@@ -1,4 +1,5 @@
 package fr.if26.projet.knotedge_if26.util;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,10 +63,10 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
     @Override
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Choisissez un Tag");
+        builder.setTitle("Please select!!!");
         builder.setMultiChoiceItems(_items, mSelection, this);
         _itemsAtStart = getSelectedItemsAsString();
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.arraycopy(mSelection, 0, mSelectionAtStart, 0, mSelection.length);
@@ -73,8 +74,7 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
                 listener.selectedStrings(getSelectedStrings());
             }
         });
-
-        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 simple_adapter.clear();
@@ -82,7 +82,6 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
                 System.arraycopy(mSelectionAtStart, 0, mSelection, 0, mSelectionAtStart.length);
             }
         });
-
         builder.show();
         return true;
     }

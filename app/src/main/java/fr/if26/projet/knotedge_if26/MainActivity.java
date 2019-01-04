@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 loadFragmentProfile();
                 break;
             case R.id.nav_new_class:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewClassFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewClassFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_new_note:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewNoteFragment()).commit();
@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
-        }else if (getFragmentManager().getBackStackEntryCount() > 1) {
-            getFragmentManager().popBackStack();
+        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+            loadFragmentProfile();
 
         } else {
             super.onBackPressed();
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void createNewBook(String name, String description, String author, String date) {
+    public void createNewBook(String name, String date, String description, String author) {
         Book b = new Book(name, description, author, date);
         knotedgePersistance.addBook(b);
         Toast.makeText(this, "Livre créé", Toast.LENGTH_SHORT).show();
@@ -336,6 +336,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void createNewRelationTagBook(Tag t, Book b) {
         knotedgePersistance.addTagBook(t, b);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createNewRelationObjectBook(Object o, Book b) {
+        knotedgePersistance.addObjectBook(o, b);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createNewRelationBooks(Book b1, Book b2) {
+        knotedgePersistance.addRelationBooks(b1, b2);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createNewRelationObjects(Object o1, Object o2) {
+        knotedgePersistance.addRelationObjects(o1, o2);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createNewRelationNoteBook(Note n, Book b) {
+        knotedgePersistance.addNoteBook(n, b);
+        Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void creatNewRelationNoteObject(Note n, Object o) {
+        knotedgePersistance.addNoteObject(n, o);
         Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
     }
 

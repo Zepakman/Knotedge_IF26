@@ -47,6 +47,8 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     private Button addTagButton;
     private MultiSelectionSpinner spinnerTag;
     private List<String> listSelectedTags;
+    private List<String> listSelectedObjects;
+    private MultiSelectionSpinner spinnerRelatedClasses;
 
     private KnotedgePersistance knotedgePersistance;
 
@@ -126,8 +128,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
             ArrayList<String> debugList = new ArrayList<>();
             debugList.add("You don't have any tags set");
             spinnerTag.setItems(debugList);
-        }
-        else {
+        } else {
             spinnerTag.setItems(tagList);
             spinnerTag.setSelection(new ArrayList<String>());
         }
@@ -180,6 +181,28 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
+        //ADD ClASS RELATIONSHIP
+        spinnerRelatedClasses = view.findViewById(R.id.list_related_class_spinner);
+        final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
+        final ArrayList<String> objectList = new ArrayList<>();
+        String object;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerRelatedClasses.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < objectDoubleList.size(); i++) {
+                object = objectDoubleList.get(i); // + " : " + objectDoubleList.get(0).get(1);
+                objectList.add(object);
+            }
+            spinnerRelatedClasses.setItems(objectList);
+            spinnerRelatedClasses.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerRelatedClasses.setListener(this);
+
 
         //CREATE CLASS BUTTON
         createClassButton = view.findViewById(R.id.buttonCreateClass);
@@ -197,29 +220,54 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                     listener.createNewObject(name, date, description, typeClass);
                     if (!tagList.isEmpty()) {
                         listSelectedTags = spinnerTag.getSelectedStrings();
-                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext(); ) {
                             String t = i.next();
                             listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
                         }
                     }
+                    if (!objectList.isEmpty()) {
+                        listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
+                        for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
+                            String t[] = i.next().split(" ");
+                            if (t[0] == "Book") {
+                                listener.createNewRelationObjectBook(knotedgePersistance.getLastObject(), knotedgePersistance.getBookByTitle(t[2]));
+                            } else {
+                                listener.createNewRelationObjects(knotedgePersistance.getLastObject(), knotedgePersistance.getObjectByName(t[2]));
+                            }
 
-                /* ----------------- create book ----------------- */
+                        }
+                    }
+
+                    /* ----------------- create book ----------------- */
 
                 } else if (name != null && !name.equals("") && typeClass == 0) {
                     listener.createNewBook(name, date, description, author);
                     if (!tagList.isEmpty()) {
                         listSelectedTags = spinnerTag.getSelectedStrings();
 
-                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                        for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext(); ) {
                             String t = i.next();
                             listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getLastBook());
                         }
                     }
+                    if (!objectList.isEmpty()) {
+                        listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
+                        for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
+                            String t[] = i.next().split(" ");
+                            if (t[0] == "Book") {
+                                listener.createNewRelationBooks(knotedgePersistance.getLastBook(), knotedgePersistance.getBookByTitle(t[2]));
+                            } else {
+                                listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[2]), knotedgePersistance.getLastBook());
+                            }
+
+                        }
+                    }
                 }
 
-
+                listener.loadFragmentProfile();
 
             }
+
         });
 
         return view;

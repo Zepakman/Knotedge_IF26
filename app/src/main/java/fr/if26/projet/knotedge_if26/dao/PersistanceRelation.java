@@ -19,7 +19,11 @@ public interface PersistanceRelation {
 
     void addNoteObject(Note n, Object o);
 
-    void addBookObject(Note n, Book b);
+    void addRelationBooks(Book b1, Book b2);
+
+    void addObjectBook(Object o, Book b);
+
+    void addNoteBook(Note n, Book b);
 
     /* ----------------- count ----------------- */
 
@@ -39,6 +43,10 @@ public interface PersistanceRelation {
     ArrayList<Object> getAllObjectsByTagName(String nameTag);
 
     ArrayList<Book> getAllBooksByTagName(String nameTag);
+
+    ArrayList<Book> getAllBooksByBook(int bkId);
+
+    //ArrayList<Book> getAllBooksByObjects(int objId);
 
 
     /* ----------------- remove ----------------- */

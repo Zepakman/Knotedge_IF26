@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,239 +10,261 @@
 
     //SPINNER
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-
-        <TextView
-            android:layout_width="115dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/new_class_categorie"
-            android:layout_marginHorizontal="24dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:textAlignment="textStart"
-            android:textSize="16sp" />
-
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Spinner
-                android:id="@+id/class_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:textSize="16sp"
-                android:theme="@style/AppTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-    </LinearLayout>
-
-    //NAME OF THE OBJECT
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:orientation="horizontal">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/new_class_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Nom"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                style="@style/DatePickerTheme"
-                android:textColor="@color/colorAccent"
-                android:theme="@style/DatePickerTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-
-
-    </LinearLayout>
-
-    //AUTHOR
-
-    <LinearLayout
-        android:id="@+id/layout_author_for_hide"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:orientation="horizontal">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/new_author"
-                style="@style/DatePickerTheme"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:hint="Auteur"
-                android:textColor="@color/colorAccent"
-                android:theme="@style/DatePickerTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-
-
-    </LinearLayout>
-
-
-    //DATE PICKER
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:orientation="horizontal">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/objDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="JJ/MM/YY"
-                android:inputType="date"
-                android:longClickable="false"
-                android:textColor="@color/colorAccent"
-                android:theme="@style/DatePickerTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-    </LinearLayout>
-
-
-    //Description
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="187dp"
-        android:orientation="vertical">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
-                android:id="@+id/description"
-                style="@style/DatePickerTheme"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:layout_weight="1"
-                android:hint="Description"
-                android:textColor="@color/colorAccent"
-                android:theme="@style/DatePickerTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
-            android:id="@+id/list_of_tags_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="24dp"
-                android:textSize="16sp"
-                android:theme="@style/AppTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/buttonAddTag"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/buttonAddTag"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_button"
-                android:drawableTop="@drawable/ic_add_tag"
-                android:paddingTop="13dp"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:theme="@style/AppTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_marginHorizontal="24dp"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            style="@style/DatePickerTheme"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme"
-            android:text="@string/relation_class"/>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_marginHorizontal="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            style="@style/DatePickerTheme"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme"
-            android:text="@string/relation_note"/>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="115dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="24dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:gravity="center"
+                        android:text="@string/new_class_categorie"
+                        android:textAlignment="textStart"
+                        android:textSize="16sp" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Spinner
+                            android:id="@+id/class_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp"
+                            android:textSize="16sp"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:orientation="horizontal">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/new_class_name"
+                            style="@style/DatePickerTheme"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Nom"
+                            android:textColor="@color/colorAccent"
+                            android:theme="@style/DatePickerTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_author_for_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:orientation="horizontal">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/new_author"
+                            style="@style/DatePickerTheme"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Auteur"
+                            android:textColor="@color/colorAccent"
+                            android:theme="@style/DatePickerTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:orientation="horizontal">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/objDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="JJ/MM/YY"
+                            android:inputType="date"
+                            android:longClickable="false"
+                            android:textColor="@color/colorAccent"
+                            android:theme="@style/DatePickerTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/description"
+                            style="@style/DatePickerTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_weight="1"
+                            android:hint="Description"
+                            android:textColor="@color/colorAccent"
+                            android:theme="@style/DatePickerTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
+                            android:id="@+id/list_of_tags_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginBottom="24dp"
+                            android:textSize="16sp"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/buttonAddTag"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <Button
+                            android:id="@+id/buttonAddTag"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/rounded_button"
+                            android:drawableTop="@drawable/ic_add_tag"
+                            android:gravity="center"
+                            android:paddingTop="13dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </LinearLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        style="@style/DatePickerTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:text="@string/relation_class"
+                        android:textColor="@color/colorAccent"
+                        android:theme="@style/DatePickerTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
+                        android:id="@+id/list_related_class_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textSize="16sp"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"></LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -262,8 +284,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="16dp"
-                android:text="@string/new_class_create"
                 android:background="@drawable/rounded_button"
+                android:text="@string/new_class_create"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -273,4 +295,14 @@
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 
-</LinearLayout>
+    //NAME OF THE OBJECT
+
+    //AUTHOR
+
+
+    //DATE PICKER
+
+
+    //Description
+
+</FrameLayout>

@@ -3,8 +3,8 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:background="@color/colorAccentLight">
+    android:layout_height="40dp"
+    android:background="@drawable/fragment_detail_background">
 
     <TextView
         android:id="@+id/name_tag_item_recycle_view"

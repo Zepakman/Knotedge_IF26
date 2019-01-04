@@ -4,22 +4,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@color/colorAccentLight">
+    android:background="@drawable/fragment_detail_background">
 
     <TextView
         android:id="@+id/title_note_item_recycle_view"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:paddingTop="4dp"
+        android:paddingTop="3dp"
         android:paddingLeft="8dp"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:gravity="top"/>
     <TextView
         android:id="@+id/text_note_item_recycle_view"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp"
+        android:paddingVertical="4dp"
         android:textSize="12sp"
         android:textStyle="italic"
         android:layout_height="wrap_content"

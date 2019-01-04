@@ -34,8 +34,8 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
     private KnotedgePersistance knotedgePersistance;
     final Calendar myCalendar = Calendar.getInstance();
 
-    private MultiSelectionSpinner spinnerTag;
-    private List<String> listSelectedTags;
+    private MultiSelectionSpinner spinnerTag, spinnerClass, spinnerNotes;
+    private List<String> listSelectedTags, listSelectedNotes, listSelectedObjects;
 
     private String newName, newDescription, newDate, newAuthor;
 
@@ -105,6 +105,50 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
         }
         spinnerTag.setListener(this);
 
+        spinnerClass=view.findViewById(R.id.edit_book_related_classes);
+        final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
+        final ArrayList<String> objectList = new ArrayList<>();
+        String object;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerClass.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < objectDoubleList.size(); i++) {
+                object = objectDoubleList.get(i);
+                objectList.add(object);
+            }
+            spinnerClass.setItems(objectList);
+            spinnerClass.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerClass.setListener(this);
+
+        spinnerNotes=view.findViewById(R.id.edit_book_related_notes);
+        final ArrayList<String> notesDoubleList = knotedgePersistance.getAllNotesByTitle();
+        final ArrayList<String> notesList = new ArrayList<>();
+        String notes;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerNotes.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < notesDoubleList.size(); i++) {
+                notes = notesDoubleList.get(i);
+                notesList.add(notes);
+            }
+            spinnerNotes.setItems(notesList);
+            spinnerNotes.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerNotes.setListener(this);
+
+
+
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +175,27 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
                     for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
                         String t = i.next();
                         listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getBookById(idBook));
+                    }
+                }
+
+                if (!notesList.isEmpty()) {
+                    listSelectedNotes = spinnerNotes.getSelectedStrings();
+                    for (Iterator<String> i = listSelectedNotes.iterator(); i.hasNext();) {
+                        String t = i.next();
+                        listener.createNewRelationNoteBook(knotedgePersistance.getNoteByTitle(t), knotedgePersistance.getBookById(idBook));
+                    }
+                }
+
+                if (!objectList.isEmpty()) {
+                    listSelectedObjects = spinnerClass.getSelectedStrings();
+                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
+                        String t[] = i.next().split(" ");
+                        if (t[0] == "Book") {
+                            listener.createNewRelationBooks(knotedgePersistance.getBookById(idBook), knotedgePersistance.getBookByTitle(t[2]));
+                        } else {
+                            listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[2]), knotedgePersistance.getBookById(idBook));
+                        }
+
                     }
                 }
 

@@ -45,7 +45,7 @@ public class AdapterObject extends RecyclerView.Adapter<AdapterObject.ViewHolder
     public void onBindViewHolder(@NonNull AdapterObject.ViewHolderObject holder, int pos) {
         final int position = pos;
         holder.nameTextView.setText(datas.get(pos).getName());
-        holder.typeTextView.setText(datas.get(pos).getType());
+        holder.typeTextView.setText(datas.get(pos).getType() + ": ");
         holder.itemView.setTag(pos);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

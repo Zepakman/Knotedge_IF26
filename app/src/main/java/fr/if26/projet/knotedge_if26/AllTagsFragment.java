@@ -2,6 +2,7 @@ package fr.if26.projet.knotedge_if26;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,7 +33,14 @@ public class AllTagsFragment extends Fragment {
     public AdapterTag adapter;
     public RecyclerView recyclerView;
     private KnotedgePersistance knotedgePersistance;
+    private TransmissionListener listener;
 
+    @Override
+    public void onCreate(Bundle savedBundleInstance) {
+        super.onCreate(savedBundleInstance);
+
+        listener = (TransmissionListener) getActivity();
+    }
 
     @Nullable
     @Override
@@ -66,6 +74,7 @@ public class AllTagsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.return_menu, menu);
         inflater.inflate(R.menu.add_tag_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -98,6 +107,11 @@ public class AllTagsFragment extends Fragment {
                 });
                 alert.show();
                 return true;
+            case R.id.action_return:
+
+                listener.loadFragmentProfile();
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

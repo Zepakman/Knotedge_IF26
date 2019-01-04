@@ -2,6 +2,7 @@ package fr.if26.projet.knotedge_if26.dao;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Event;
@@ -50,16 +51,23 @@ public interface PersistanceEntity {
     ArrayList<Book> getAllBooks();
 
 
+
     /* ----------------- getters ----------------- */
 
 
     Object getObjectById(int id);
+
+    ArrayList<String> getAllObjectsName();
 
     Book getBookById(int id);
 
     Object getLastObject();
 
     Book getLastBook();
+
+    Book getBookByTitle (String b);
+
+    Object getObjectByName (String obj);
 
     /* ----------------- count ----------------- */
 

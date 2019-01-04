@@ -1,98 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="20dp"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/new_note_title"
-        style="@style/DatePickerTheme"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:hint="Title: less than 50 caracters"
-        android:maxLength="50"
-        android:text=""
-        android:inputType="text"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:theme="@style/DatePickerTheme" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginHorizontal="16dp">
-        <EditText
-            android:id="@+id/new_note_note"
-            style="@style/DatePickerTheme"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:background="@android:color/transparent"
-            android:gravity="top"
-            android:hint="Note"
-            android:text=""
-            android:inputType="textMultiLine"
-            android:textColor="@color/colorAccent"
-            android:textSize="16dp"
-            android:theme="@style/DatePickerTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/new_note_title"
+                style="@style/DatePickerTheme"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:hint="Title: less than 50 caracters"
+                android:inputType="text"
+                android:maxLength="50"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:theme="@style/DatePickerTheme" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="16dp">
-        <TextView
-            style="@style/DatePickerTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:background="@android:color/transparent"
-            android:gravity="top"
-            android:text="@string/relation_class"
-            android:inputType="textMultiLine"
-            android:textColor="@color/colorAccent"
-            android:textSize="16dp"
-            android:theme="@style/DatePickerTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
-            android:id="@+id/new_note_classes"
-            style="@style/DatePickerTheme"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/DatePickerTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:text="@string/relation_class"
+                android:textColor="@color/colorAccent"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+            <fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner
+                android:id="@+id/list_of_related_classes_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:theme="@style/AppTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+            <EditText
+                android:id="@+id/new_note_note"
+                style="@style/DatePickerTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Note"
+                android:inputType="textMultiLine"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:textSize="16dp"
+                android:theme="@style/DatePickerTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:id="@+id/button_write_note"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="100dp"
-            android:background="@drawable/rounded_button"
-            android:text="@string/new_note_create"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:theme="@style/AppTheme"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/button_write_note"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/new_note_create"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</android.widget.LinearLayout>
+
+</FrameLayout>

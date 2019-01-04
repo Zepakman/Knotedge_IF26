@@ -39,7 +39,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
     private String newDescription;
     private String newDate;
 
-    private MultiSelectionSpinner spinnerTag;
+    private MultiSelectionSpinner spinnerTag, spinnerClass, spinnerNotes;
     private List<String> listSelectedTags;
 
     private TransmissionListener listener;
@@ -106,6 +106,48 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
             spinnerTag.setSelection(selectedTagList);
         }
         spinnerTag.setListener(this);
+
+        spinnerClass=view.findViewById(R.id.edit_class_related_classes);
+        final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
+        final ArrayList<String> objectList = new ArrayList<>();
+        String className;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerClass.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < objectDoubleList.size(); i++) {
+                className = objectDoubleList.get(i);
+                objectList.add(className);
+            }
+            spinnerClass.setItems(objectList);
+            spinnerClass.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerClass.setListener(this);
+
+        spinnerNotes=view.findViewById(R.id.edit_class_related_notes);
+        final ArrayList<String> notesDoubleList = knotedgePersistance.getAllNotesByTitle();
+        final ArrayList<String> notesList = new ArrayList<>();
+        String notes;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerNotes.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < notesDoubleList.size(); i++) {
+                notes = notesDoubleList.get(i);
+                notesList.add(notes);
+            }
+            spinnerNotes.setItems(notesList);
+            spinnerNotes.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerNotes.setListener(this);
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override

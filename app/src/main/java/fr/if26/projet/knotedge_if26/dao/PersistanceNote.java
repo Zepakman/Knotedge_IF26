@@ -16,5 +16,11 @@ public interface PersistanceNote {
 
     ArrayList<Note> getAllNotes();
 
+    ArrayList<String> getAllNotesByTitle();
+
+    Note getNoteByTitle(String title);
+
+    Note getLastNote();
+
     Note getNoteById(int id);
 }

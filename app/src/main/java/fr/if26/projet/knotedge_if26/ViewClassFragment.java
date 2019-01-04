@@ -8,6 +8,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,6 +38,7 @@ public class ViewClassFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_view_class, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view_all_classes);
+        setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
         allClasses = (ArrayList) bundle.getSerializable("classes");
@@ -42,9 +46,7 @@ public class ViewClassFragment extends Fragment {
         adapter = new AdapterObject(view.getContext(), allClasses);
         recyclerView.setAdapter(adapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(),2));
 
         DividerItemDecoration decoration = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerView.addItemDecoration(decoration);
@@ -59,5 +61,21 @@ public class ViewClassFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.return_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_return:
+                listener.loadFragmentProfile();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
