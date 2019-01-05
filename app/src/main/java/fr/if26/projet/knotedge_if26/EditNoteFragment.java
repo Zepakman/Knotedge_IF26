@@ -9,15 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Note;
+import fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner;
 
-public class EditNoteFragment extends Fragment {
+public class EditNoteFragment extends Fragment implements MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
     private View view;
     private Button buttonEdit, buttonCancel;
@@ -25,6 +30,9 @@ public class EditNoteFragment extends Fragment {
     private int idNote;
     private Note note;
     private KnotedgePersistance knotedgePersistance;
+
+    private MultiSelectionSpinner spinnerClass;
+    private List<String> listSelectedObjects;
 
     private String newTitle;
     private String newContent;
@@ -54,6 +62,27 @@ public class EditNoteFragment extends Fragment {
         etTitle.setText(note.getTitle());
         etContent.setText(note.getContent());
 
+        spinnerClass=view.findViewById(R.id.edit_note_related_classes);
+        final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
+        final ArrayList<String> objectList = new ArrayList<>();
+        String object;
+        // Specify the layout to use when the list of choices appears
+        if (objectDoubleList.isEmpty()) {
+            ArrayList<String> debugList = new ArrayList<>();
+            debugList.add("You don't have any other objects yet");
+            spinnerClass.setItems(debugList);
+
+        } else {
+            for (int i = 0; i < objectDoubleList.size(); i++) {
+                object = objectDoubleList.get(i);
+                objectList.add(object);
+            }
+            spinnerClass.setItems(objectList);
+            spinnerClass.setSelection(new ArrayList<String>());
+        }
+        // Apply the adapter to the spinner
+        spinnerClass.setListener(this);
+
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,10 +103,37 @@ public class EditNoteFragment extends Fragment {
                 note.setContent(newContent);
                 note.setDate_edit(date);
                 knotedgePersistance.updateNote(note);
+
+                knotedgePersistance.removeAllRelationsWithNote(idNote);
+
+                if (!objectList.isEmpty()) {
+                    listSelectedObjects = spinnerClass.getSelectedStrings();
+                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
+                        String t[] = i.next().split(" ");
+                        if (t[0] == "Book") {
+                            listener.createNewRelationNoteBook(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getBookByTitle(t[2]));
+                        } else {
+                            listener.creatNewRelationNoteObject(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getObjectByName(t[2]));
+                        }
+
+                    }
+                }
+
                 listener.loadDetailNote(idNote);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void selectedIndices(List<Integer> indices) {
+
+    }
+
+    @Override
+    public void selectedStrings(List<String> strings) {
+
+        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

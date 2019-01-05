@@ -842,16 +842,132 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
 
     @Override
     public ArrayList<Object> getAllObjectsByTagName(String nameTag) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listObjId = new ArrayList<>();
+        Tag t = this.getTag(nameTag);
+        Cursor cursor = db.query(TABLE_RELATION_TAG_OBJECT, null, TAG_ID + "= ?", new String[]{t.getId() + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
+            listObjId.add(i);
+        }
+        cursor.close();
+        ArrayList<Object> listObject = new ArrayList<>();
+        Object o = new Object("", "", "", "");
+        int objId;
+        for (int j = 0; j < listObjId.size(); j++) {
+            objId = listObjId.get(j);
+            Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
+                o.setType((cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE))));
+                o.setName(cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME)));
+                o.setDate(cursor2.getString(cursor2.getColumnIndex(OBJECT_DATE)));
+                o.setDescription(cursor2.getString(cursor2.getColumnIndex(OBJECT_DESCRIPTION)));
+                listObject.add(o);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listObject;
 
-        //TODO:
-        return null;
+    }
+
+    public ArrayList<Object> getAllObjectsByTag(Tag t) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listObjId = new ArrayList<>();
+        //Tag t = this.getTag(nameTag);
+        Cursor cursor = db.query(TABLE_RELATION_TAG_OBJECT, null, TAG_ID + "= ?", new String[]{t.getId() + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
+            listObjId.add(i);
+        }
+        cursor.close();
+        ArrayList<Object> listObject = new ArrayList<>();
+        Object o = new Object("", "", "", "");
+        int objId;
+        for (int j = 0; j < listObjId.size(); j++) {
+            objId = listObjId.get(j);
+            Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
+                o.setType((cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE))));
+                o.setName(cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME)));
+                o.setDate(cursor2.getString(cursor2.getColumnIndex(OBJECT_DATE)));
+                o.setDescription(cursor2.getString(cursor2.getColumnIndex(OBJECT_DESCRIPTION)));
+                listObject.add(o);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listObject;
+
     }
 
     @Override
     public ArrayList<Book> getAllBooksByTagName(String nameTag) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listBookId = new ArrayList<>();
+        Tag t = this.getTag(nameTag);
+        int tId = t.getId();
+        Cursor cursor = db.query(TABLE_RELATION_TAG_BOOK, null, TAG_ID + "= ?", new String[]{tId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
+            listBookId.add(i);
+        }
+        cursor.close();
+        ArrayList<Book> listBook = new ArrayList<>();
+        Book b = new Book("", "", "", "");
+        int bookId;
+        for (int j = 0; j < listBookId.size(); j++) {
+            bookId = listBookId.get(j);
+            Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
+                b.setDescription((cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION))));
+                b.setDate(cursor2.getString(cursor2.getColumnIndex(BOOK_DATE)));
+                b.setAuthor(cursor2.getString(cursor2.getColumnIndex(BOOK_AUTHOR)));
+                b.setName(cursor2.getString(cursor2.getColumnIndex(BOOK_TITLE)));
+                listBook.add(b);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listBook;
+    }
 
-        //TODO:
-        return null;
+    public ArrayList<Book> getAllBooksByTag(Tag t) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listBookId = new ArrayList<>();
+        //Tag t = this.getTag(nameTag);
+        int tId = t.getId();
+        Cursor cursor = db.query(TABLE_RELATION_TAG_BOOK, null, TAG_ID + "= ?", new String[]{tId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
+            listBookId.add(i);
+        }
+        cursor.close();
+        ArrayList<Book> listBook = new ArrayList<>();
+        Book b = new Book("", "", "", "");
+        int bookId;
+        for (int j = 0; j < listBookId.size(); j++) {
+            bookId = listBookId.get(j);
+            Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
+                b.setDescription((cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION))));
+                b.setDate(cursor2.getString(cursor2.getColumnIndex(BOOK_DATE)));
+                b.setAuthor(cursor2.getString(cursor2.getColumnIndex(BOOK_AUTHOR)));
+                b.setName(cursor2.getString(cursor2.getColumnIndex(BOOK_TITLE)));
+                listBook.add(b);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listBook;
     }
 
     //TODO:test!!!

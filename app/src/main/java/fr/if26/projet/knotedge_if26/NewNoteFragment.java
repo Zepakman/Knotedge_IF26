@@ -58,8 +58,6 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
         knotedgePersistance = new KnotedgePersistance(this.getContext());
 
 
-
-
         //ADD ClASS RELATIONSHIP
         spinnerRelatedClasses = view.findViewById(R.id.list_of_related_classes_spinner);
         final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
@@ -93,11 +91,11 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext();) {
-                        String t[] = i.next().split(" ");
+                        String t[] = i.next().split(" : ");
                         if (t[0] == "Book") {
-                            listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[2]));
+                            listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[1]));
                         }
-                        else {listener.creatNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[2]));}
+                        else {listener.creatNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[1]));}
 
                     }
                 }
