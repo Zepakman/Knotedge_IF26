@@ -1,230 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="20dp"
     android:layout_marginLeft="24dp"
     android:layout_marginRight="24dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/DatePickerTheme"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/class_name"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
-
-        <TextView
-            android:id="@+id/detail_class_name"
-            style="@style/DatePickerTheme"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
 
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/class_type"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
+                <TextView
+                    style="@style/DatePickerTheme"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/class_name"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
 
-        <TextView
-            android:id="@+id/detail_class_type"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/detail_class_name"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/class_type"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
+
+                <TextView
+                    android:id="@+id/detail_class_type"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/class_description"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/class_description"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
 
-        <TextView
-            android:id="@+id/detail_class_description"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/detail_class_description"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/class_date"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/class_date"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
 
-        <TextView
-            android:id="@+id/detail_class_date"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/detail_class_date"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/tag"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/tag"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
 
-        <TextView
-            android:id="@+id/detail_class_tags"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/detail_class_tags"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <TextView
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/relation_note"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/relation_note"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="3"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_class_notes"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_class_notes"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <TextView
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/relation_class"
-            android:textColor="@color/grey"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <TextView
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/relation_class"
+                    android:textColor="@color/grey"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="3"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_class_books"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_class_object"
-            style="@style/DatePickerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:theme="@style/DatePickerTheme" />
-    </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_class_books"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_class_object"
+                    style="@style/DatePickerTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:theme="@style/DatePickerTheme" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/detail_class_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/edit"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:theme="@style/AppTheme" />
 
-        <Button
-            android:id="@+id/detail_class_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:background="@drawable/rounded_button"
-            android:text="@string/back"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:theme="@style/AppTheme" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:gravity="center|top">
+
+                <Button
+                    android:id="@+id/detail_class_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:text="@string/edit"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme" />
+
+                <Button
+                    android:id="@+id/detail_class_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="@string/back"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

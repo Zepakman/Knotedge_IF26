@@ -1,10 +1,14 @@
 package fr.if26.projet.knotedge_if26;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +27,7 @@ import java.util.Locale;
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Object;
+import fr.if26.projet.knotedge_if26.entity.Tag;
 import fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner;
 
 public class EditBookFragment extends Fragment implements MultiSelectionSpinner.OnMultipleItemsSelectedListener {
@@ -37,6 +42,9 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
 
     private MultiSelectionSpinner spinnerTag, spinnerClass, spinnerNotes;
     private List<String> listSelectedTags, listSelectedNotes, listSelectedObjects;
+
+    private String m_Text;
+
 
     private String newName, newDescription, newDate, newAuthor;
 
@@ -91,6 +99,50 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
             }
         });
 
+        buttonAddTag = view.findViewById(R.id.edit_book_add_tag);
+        buttonAddTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppTheme));
+                builder.setTitle("Tag à ajouter");
+
+                // Set up the input
+                final EditText newTag = new EditText(view.getContext());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                newTag.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(newTag);
+
+                // Set up the buttons
+                builder.setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        m_Text = newTag.getText().toString();
+                        Tag tag = new Tag(m_Text);
+                        KnotedgePersistance knotedgePersistance = new KnotedgePersistance(view.getContext());
+                        ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
+                        if (!tagList.contains(m_Text)) {
+                            knotedgePersistance.addTag(tag);
+                            //the new created tag has no id so cannot added to tagList directly
+                            tagList = knotedgePersistance.getAllTagsName();
+                            spinnerTag.setItems(tagList);
+                            spinnerTag.invalidate();
+
+                        } else {
+                            Toast.makeText(view.getContext(), "Tag déjà présent dans la liste", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
         spinnerTag = view.findViewById(R.id.edit_book_list_tag);
         final ArrayList<String> tagList = knotedgePersistance.getAllTagsName();
         final ArrayList<String> selectedTagList = knotedgePersistance.getAllTagsByBook(idBook);
@@ -99,14 +151,13 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
             ArrayList<String> debugList = new ArrayList<>();
             debugList.add("You don't have any tags set");
             spinnerTag.setItems(debugList);
-        }
-        else {
+        } else {
             spinnerTag.setItems(tagList);
             spinnerTag.setSelection(selectedTagList);
         }
         spinnerTag.setListener(this);
 
-        spinnerClass=view.findViewById(R.id.edit_book_related_classes);
+        spinnerClass = view.findViewById(R.id.edit_book_related_classes);
         final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
         final ArrayList<Object> objectSelected = knotedgePersistance.getAllObjectsByBook(idBook);
         final ArrayList<String> objectList = new ArrayList<>();
@@ -121,20 +172,14 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
             for (int i = 0; i < objectDoubleList.size(); i++) {
                 object = objectDoubleList.get(i);
                 objectList.add(object);
-                for (int j = 0; j < objectSelected.size(); i++)
-                    if (object.equals(objectSelected.get(j).getName())) {
-
-                    }
-
             }
-            
             spinnerClass.setItems(objectList);
             spinnerClass.setSelection(new ArrayList<String>());
         }
         // Apply the adapter to the spinner
         spinnerClass.setListener(this);
 
-        spinnerNotes=view.findViewById(R.id.edit_book_related_notes);
+        spinnerNotes = view.findViewById(R.id.edit_book_related_notes);
         final ArrayList<String> notesDoubleList = knotedgePersistance.getAllNotesByTitle();
         final ArrayList<String> notesList = new ArrayList<>();
         String notes;
@@ -154,7 +199,6 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
         }
         // Apply the adapter to the spinner
         spinnerNotes.setListener(this);
-
 
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +224,7 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
 
                 if (!tagList.isEmpty()) {
                     listSelectedTags = spinnerTag.getSelectedStrings();
-                    for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                    for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext(); ) {
                         String t = i.next();
                         listener.createNewRelationTagBook(knotedgePersistance.getTag(t), knotedgePersistance.getBookById(idBook));
                     }
@@ -188,7 +232,7 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
 
                 if (!notesList.isEmpty()) {
                     listSelectedNotes = spinnerNotes.getSelectedStrings();
-                    for (Iterator<String> i = listSelectedNotes.iterator(); i.hasNext();) {
+                    for (Iterator<String> i = listSelectedNotes.iterator(); i.hasNext(); ) {
                         String t = i.next();
                         listener.createNewRelationNoteBook(knotedgePersistance.getNoteByTitle(t), knotedgePersistance.getBookById(idBook));
                     }

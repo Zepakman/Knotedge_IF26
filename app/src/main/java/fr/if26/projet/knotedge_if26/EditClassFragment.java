@@ -142,9 +142,10 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
             for (int i = 0; i < notesDoubleList.size(); i++) {
                 notes = notesDoubleList.get(i);
                 notesList.add(notes);
+                spinnerNotes.setItems(notesList);
+                spinnerNotes.setSelection(new ArrayList<String>());
             }
-            spinnerNotes.setItems(notesList);
-            spinnerNotes.setSelection(new ArrayList<String>());
+
         }
         // Apply the adapter to the spinner
         spinnerNotes.setListener(this);

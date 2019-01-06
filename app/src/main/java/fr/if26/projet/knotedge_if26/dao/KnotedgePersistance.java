@@ -782,6 +782,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         return listNote;
     }
 
+
+
     @Override
     public ArrayList<Book> getAllBooksByBook(int bkId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -790,13 +792,17 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         int i;
         while (cursor.moveToNext()) {
             i = (cursor.getInt(cursor.getColumnIndex(BOOK_ID_2)));
-            listBookId.add(i);
+            if (i!=bkId) {
+                listBookId.add(i);
+            }
         }
         cursor.close();
         Cursor cursor1 = db.query(TABLE_RELATION_BOOKS, null, BOOK_ID_2 + "= ?", new String[]{bkId + ""}, null, null, null);
         while (cursor1.moveToNext()) {
             i = (cursor1.getInt(cursor1.getColumnIndex(BOOK_ID_1)));
-            listBookId.add(i);
+            if (i!=bkId) {
+                listBookId.add(i);
+            }
         }
         cursor.close();
 
@@ -867,7 +873,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         int bookId;
         for (int k = 0; k < listBookId.size(); k++) {
             bookId = listBookId.get(k);
-            Cursor cursor3 = db.query(TABLE_OBJECT, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
+            Cursor cursor3 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
             if (cursor3.moveToNext()) {
                 b.setId(cursor3.getInt(cursor3.getColumnIndex(BOOK_ID)));
                 b.setName((cursor3.getString(cursor3.getColumnIndex(BOOK_TITLE))));
@@ -889,13 +895,17 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         int i;
         while (cursor.moveToNext()) {
             i = (cursor.getInt(cursor.getColumnIndex(OBJECT_ID_2)));
-            listObjId.add(i);
+            if (i!=objId) {
+                listObjId.add(i);
+            }
         }
         cursor.close();
         Cursor cursor1 = db.query(TABLE_RELATION_OBJECTS, null, OBJECT_ID_2 + "= ?", new String[]{objId + ""}, null, null, null);
         while (cursor1.moveToNext()) {
             i = (cursor1.getInt(cursor1.getColumnIndex(OBJECT_ID_1)));
-            listObjId.add(i);
+            if (i!=objId) {
+                listObjId.add(i);
+            }
         }
         cursor.close();
 
@@ -948,6 +958,67 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         db.close();
         return listNote;
+    }
+
+
+    public ArrayList<Object> getAllObjectsByNote(int ntId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listObjectId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_OBJECT_NOTE, null, NOTE_ID + "= ?", new String[]{ntId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(OBJECT_ID)));
+            listObjectId.add(i);
+        }
+        cursor.close();
+        ArrayList<Object> listObject = new ArrayList<>();
+        Object o = new Object("", "", "", "");
+        int objectId;
+        for (int j = 0; j < listObjectId.size(); j++) {
+            objectId = listObjectId.get(j);
+            Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objectId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
+                o.setName((cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME))));
+                o.setDescription(cursor2.getString(cursor2.getColumnIndex(OBJECT_DESCRIPTION)));
+                o.setDate(cursor2.getString(cursor2.getColumnIndex(OBJECT_DATE)));
+                o.setType(cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE)));
+                listObject.add(o);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listObject;
+    }
+
+    public ArrayList<Book> getAllBooksByNote(int ntId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> listBookId = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_RELATION_BOOK_NOTE, null, NOTE_ID + "= ?", new String[]{ntId + ""}, null, null, null);
+        int i;
+        while (cursor.moveToNext()) {
+            i = (cursor.getInt(cursor.getColumnIndex(BOOK_ID)));
+            listBookId.add(i);
+        }
+        cursor.close();
+        ArrayList<Book> listBook = new ArrayList<>();
+        Book b = new Book("", "", "", "");
+        int bookId;
+        for (int j = 0; j < listBookId.size(); j++) {
+            bookId = listBookId.get(j);
+            Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
+            if (cursor2.moveToNext()) {
+                b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
+                b.setName((cursor2.getString(cursor2.getColumnIndex(BOOK_TITLE))));
+                b.setDescription(cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION)));
+                b.setDate(cursor2.getString(cursor2.getColumnIndex(BOOK_DATE)));
+                b.setAuthor(cursor2.getString(cursor2.getColumnIndex(BOOK_AUTHOR)));
+                listBook.add(b);
+            }
+            cursor2.close();
+        }
+        db.close();
+        return listBook;
     }
 
     @Override

@@ -100,7 +100,7 @@ public class DetailClassFragment extends Fragment {
         DividerItemDecoration decorationNotes = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewNotes.addItemDecoration(decorationNotes);
         if(listNotesNameOfThis.size()==0) {
-            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
         }
         adapterNotes.setOnItemClickListener(new AdapterNote.OnItemClickListener(){
             @Override
@@ -117,7 +117,7 @@ public class DetailClassFragment extends Fragment {
         recyclerViewObject.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
         DividerItemDecoration decorationObjects = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewObject.addItemDecoration(decorationObjects);
-        if(listNotesNameOfThis.size()==0) {
+        if(listObjectNameOfThis.size()==0) {
         }
         adapterObject.setOnItemClickListener(new AdapterObject.OnItemClickListener(){
             @Override
@@ -132,13 +132,13 @@ public class DetailClassFragment extends Fragment {
         recyclerViewBooks.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
         DividerItemDecoration decorationBooks = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewBooks.addItemDecoration(decorationBooks);
-        if(listNotesNameOfThis.size()==0) {
+        if(listBookNameOfThis.size()==0) {
         }
         adapterBook.setOnItemClickListener(new AdapterBook.OnItemClickListener(){
             @Override
             public void onItemClick(View view , int position){
                 int id = listBookNameOfThis.get(position).getId();
-                listener.loadDetailObject(id);
+                listener.loadDetailBook(id);
             }
         });
 

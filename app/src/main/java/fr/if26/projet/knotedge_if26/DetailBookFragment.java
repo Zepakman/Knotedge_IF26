@@ -101,7 +101,6 @@ public class DetailBookFragment extends Fragment {
         DividerItemDecoration decorationNotes = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewNotes.addItemDecoration(decorationNotes);
         if(listNotesNameOfThis.size()==0) {
-            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
         }
         adapterNotes.setOnItemClickListener(new AdapterNote.OnItemClickListener(){
             @Override
@@ -111,7 +110,7 @@ public class DetailBookFragment extends Fragment {
             }
         });
 
-
+        Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
         //VIEW CLASSES
         recyclerViewObject = (RecyclerView) view.findViewById(R.id.detail_book_object);
         adapterObject = new AdapterObject(view.getContext(), listObjectNameOfThis);
@@ -120,7 +119,6 @@ public class DetailBookFragment extends Fragment {
         DividerItemDecoration decorationObjects = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewObject.addItemDecoration(decorationObjects);
         if(listNotesNameOfThis.size()==0) {
-            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
         }
         adapterObject.setOnItemClickListener(new AdapterObject.OnItemClickListener(){
             @Override
@@ -136,7 +134,6 @@ public class DetailBookFragment extends Fragment {
         DividerItemDecoration decorationBooks = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewBooks.addItemDecoration(decorationBooks);
         if(listNotesNameOfThis.size()==0) {
-            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
         }
         adapterBook.setOnItemClickListener(new AdapterBook.OnItemClickListener(){
             @Override
@@ -145,7 +142,6 @@ public class DetailBookFragment extends Fragment {
                 listener.loadDetailObject(id);
             }
         });
-
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +156,6 @@ public class DetailBookFragment extends Fragment {
                 listener.loadEditBook(idBook);
             }
         });
-
         return view;
     }
 
