@@ -182,10 +182,17 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="3"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_book_classes"
+            android:id="@+id/detail_book_books"
+            style="@style/DatePickerTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_book_object"
             style="@style/DatePickerTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

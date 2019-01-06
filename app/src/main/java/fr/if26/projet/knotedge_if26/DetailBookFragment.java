@@ -19,7 +19,10 @@ import java.util.List;
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Note;
+import fr.if26.projet.knotedge_if26.entity.Object;
+import fr.if26.projet.knotedge_if26.util.AdapterBook;
 import fr.if26.projet.knotedge_if26.util.AdapterNote;
+import fr.if26.projet.knotedge_if26.util.AdapterObject;
 import fr.if26.projet.knotedge_if26.util.DividerItemDecoration;
 
 public class DetailBookFragment extends Fragment {
@@ -35,9 +38,13 @@ public class DetailBookFragment extends Fragment {
     private Book book;
     private List<String> listTagNameOfThis = new ArrayList<String>();
     private List<Note> listNotesNameOfThis = new ArrayList<Note>();
+    private List<Book> listBookNameOfThis = new ArrayList<Book>();
+    private List<Object> listObjectNameOfThis = new ArrayList<Object>();
 
-    private RecyclerView recyclerViewNotes, recyclerViewClass;
-    private AdapterNote adapterNotes, adapterClasses;
+    private RecyclerView recyclerViewNotes, recyclerViewObject, recyclerViewBooks;
+    private AdapterNote adapterNotes;
+    private AdapterObject adapterObject;
+    private AdapterBook adapterBook;
 
 
     private TransmissionListener listener;
@@ -67,6 +74,8 @@ public class DetailBookFragment extends Fragment {
         book = knotedgePersistance.getBookById(idBook);
         listTagNameOfThis = knotedgePersistance.getAllTagsByBook(idBook);
         listNotesNameOfThis = knotedgePersistance.getAllNotesByBook(idBook);
+        listObjectNameOfThis = knotedgePersistance.getAllObjectsByBook(idBook);
+        listBookNameOfThis = knotedgePersistance.getAllBooksByBook(idBook);
 
         tvName.setText(book.getName());
         tvAuthor.setText(book.getAuthor());
@@ -104,20 +113,36 @@ public class DetailBookFragment extends Fragment {
 
 
         //VIEW CLASSES
-        recyclerViewClass = (RecyclerView) view.findViewById(R.id.detail_book_classes);
-        adapterClasses = new AdapterNote(view.getContext(), listNotesNameOfThis);
-        recyclerViewClass.setAdapter(adapterClasses);
-        recyclerViewClass.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
-        DividerItemDecoration decorationClasses = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
-        recyclerViewClass.addItemDecoration(decorationClasses);
+        recyclerViewObject = (RecyclerView) view.findViewById(R.id.detail_book_object);
+        adapterObject = new AdapterObject(view.getContext(), listObjectNameOfThis);
+        recyclerViewObject.setAdapter(adapterObject);
+        recyclerViewObject.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
+        DividerItemDecoration decorationObjects = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
+        recyclerViewObject.addItemDecoration(decorationObjects);
         if(listNotesNameOfThis.size()==0) {
             Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
         }
-        adapterClasses.setOnItemClickListener(new AdapterNote.OnItemClickListener(){
+        adapterObject.setOnItemClickListener(new AdapterObject.OnItemClickListener(){
             @Override
             public void onItemClick(View view , int position){
-                int id = listNotesNameOfThis.get(position).getId();
-                listener.loadDetailNote(id);
+                int id = listObjectNameOfThis.get(position).getId();
+                listener.loadDetailObject(id);
+            }
+        });
+        recyclerViewBooks = (RecyclerView) view.findViewById(R.id.detail_book_books);
+        adapterBook = new AdapterBook(view.getContext(), listBookNameOfThis);
+        recyclerViewBooks.setAdapter(adapterBook);
+        recyclerViewBooks.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
+        DividerItemDecoration decorationBooks = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
+        recyclerViewBooks.addItemDecoration(decorationBooks);
+        if(listNotesNameOfThis.size()==0) {
+            Toast.makeText(getContext(), "No Notes", Toast.LENGTH_SHORT).show();
+        }
+        adapterBook.setOnItemClickListener(new AdapterBook.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view , int position){
+                int id = listBookNameOfThis.get(position).getId();
+                listener.loadDetailObject(id);
             }
         });
 
@@ -128,6 +153,7 @@ public class DetailBookFragment extends Fragment {
                 listener.loadFragmentAllBooks();
             }
         });
+
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

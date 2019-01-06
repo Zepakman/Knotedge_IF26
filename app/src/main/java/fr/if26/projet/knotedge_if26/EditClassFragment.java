@@ -40,7 +40,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
     private String newDate;
 
     private MultiSelectionSpinner spinnerTag, spinnerClass, spinnerNotes;
-    private List<String> listSelectedTags;
+    private List<String> listSelectedTags, listSelectedObjects, listSelectedNotes;
 
     private TransmissionListener listener;
 
@@ -170,9 +170,31 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
 
                 if (!tagList.isEmpty()) {
                     listSelectedTags = spinnerTag.getSelectedStrings();
-                    for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext();) {
+                    for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext(); ) {
                         String t = i.next();
-                        listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getObjectById(idClass));
+                        listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
+                    }
+                }
+
+                if (!notesList.isEmpty()) {
+                    listSelectedNotes = spinnerNotes.getSelectedStrings();
+                    for (Iterator<String> i = listSelectedNotes.iterator(); i.hasNext();) {
+                        String t = i.next();
+                        listener.createNewRelationNoteObject(knotedgePersistance.getNoteByTitle(t), knotedgePersistance.getObjectById(idClass));
+                    }
+                }
+
+                if (!objectList.isEmpty()) {
+                    listSelectedObjects = spinnerClass.getSelectedStrings();
+                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
+                        String t[] = i.next().split(" : ");
+                        t[0] = t[0].trim();
+                        if (t[0].equals("Book")) {
+                            listener.createNewRelationObjectBook(knotedgePersistance.getLastObject(), knotedgePersistance.getBookByTitle(t[1]));
+                        } else {
+                            listener.createNewRelationObjects(knotedgePersistance.getLastObject(), knotedgePersistance.getObjectByName(t[1]));
+                        }
+
                     }
                 }
 

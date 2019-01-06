@@ -228,11 +228,12 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                     if (!objectList.isEmpty()) {
                         listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
                         for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
-                            String t[] = i.next().split(" ");
-                            if (t[0] == "Book") {
-                                listener.createNewRelationObjectBook(knotedgePersistance.getLastObject(), knotedgePersistance.getBookByTitle(t[2]));
+                            String t[] = i.next().split(" : ");
+                            t[0] = t[0].trim();
+                            if (t[0].equals("Book")) {
+                                listener.createNewRelationObjectBook(knotedgePersistance.getLastObject(), knotedgePersistance.getBookByTitle(t[1]));
                             } else {
-                                listener.createNewRelationObjects(knotedgePersistance.getLastObject(), knotedgePersistance.getObjectByName(t[2]));
+                                listener.createNewRelationObjects(knotedgePersistance.getLastObject(), knotedgePersistance.getObjectByName(t[1]));
                             }
 
                         }
@@ -253,11 +254,12 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
                     if (!objectList.isEmpty()) {
                         listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
                         for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
-                            String t[] = i.next().split(" ");
-                            if (t[0] == "Book") {
-                                listener.createNewRelationBooks(knotedgePersistance.getLastBook(), knotedgePersistance.getBookByTitle(t[2]));
+                            String t[] = i.next().split(" : ");
+                            t[0] = t[0].trim();
+                            if (t[0].equals("Book")) {
+                                listener.createNewRelationBooks(knotedgePersistance.getLastBook(), knotedgePersistance.getBookByTitle(t[1]));
                             } else {
-                                listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[2]), knotedgePersistance.getLastBook());
+                                listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[1]), knotedgePersistance.getLastBook());
                             }
 
                         }

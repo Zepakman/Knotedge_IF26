@@ -26,7 +26,7 @@ public interface TransmissionListener {
 
     void createNewRelationNoteBook(Note n, Book b);
 
-    void creatNewRelationNoteObject(Note n, Object o);
+    void createNewRelationNoteObject(Note n, Object o);
 
     void loadFragmentAllClasses();
 

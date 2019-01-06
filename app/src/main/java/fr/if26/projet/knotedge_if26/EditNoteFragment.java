@@ -109,12 +109,14 @@ public class EditNoteFragment extends Fragment implements MultiSelectionSpinner.
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerClass.getSelectedStrings();
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
-                        String t[] = i.next().split(" ");
-                        if (t[0] == "Book") {
-                            listener.createNewRelationNoteBook(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getBookByTitle(t[2]));
+                        String t[] = i.next().split(" : ");
+                        t[0] = t[0].trim();
+                        if (t[0].equals("Book")) {
+                            listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[1]));
                         } else {
-                            listener.creatNewRelationNoteObject(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getObjectByName(t[2]));
+                            listener.createNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[1]));
                         }
+
 
                     }
                 }

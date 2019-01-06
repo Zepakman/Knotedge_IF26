@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import fr.if26.projet.knotedge_if26.dao.KnotedgePersistance;
 import fr.if26.projet.knotedge_if26.entity.Book;
+import fr.if26.projet.knotedge_if26.entity.Object;
 import fr.if26.projet.knotedge_if26.util.MultiSelectionSpinner;
 
 public class EditBookFragment extends Fragment implements MultiSelectionSpinner.OnMultipleItemsSelectedListener {
@@ -107,6 +108,7 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
 
         spinnerClass=view.findViewById(R.id.edit_book_related_classes);
         final ArrayList<String> objectDoubleList = knotedgePersistance.getAllObjectsName();
+        final ArrayList<Object> objectSelected = knotedgePersistance.getAllObjectsByBook(idBook);
         final ArrayList<String> objectList = new ArrayList<>();
         String object;
         // Specify the layout to use when the list of choices appears
@@ -119,7 +121,13 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
             for (int i = 0; i < objectDoubleList.size(); i++) {
                 object = objectDoubleList.get(i);
                 objectList.add(object);
+                for (int j = 0; j < objectSelected.size(); i++)
+                    if (object.equals(objectSelected.get(j).getName())) {
+
+                    }
+
             }
+            
             spinnerClass.setItems(objectList);
             spinnerClass.setSelection(new ArrayList<String>());
         }
@@ -131,9 +139,9 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
         final ArrayList<String> notesList = new ArrayList<>();
         String notes;
         // Specify the layout to use when the list of choices appears
-        if (objectDoubleList.isEmpty()) {
+        if (notesDoubleList.isEmpty()) {
             ArrayList<String> debugList = new ArrayList<>();
-            debugList.add("You don't have any other objects yet");
+            debugList.add("You don't have any other notes yet");
             spinnerNotes.setItems(debugList);
 
         } else {
@@ -189,11 +197,12 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerClass.getSelectedStrings();
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
-                        String t[] = i.next().split(" ");
-                        if (t[0] == "Book") {
-                            listener.createNewRelationBooks(knotedgePersistance.getBookById(idBook), knotedgePersistance.getBookByTitle(t[2]));
+                        String t[] = i.next().split(" : ");
+                        t[0] = t[0].trim();
+                        if (t[0].equals("Book")) {
+                            listener.createNewRelationBooks(knotedgePersistance.getBookById(idBook), knotedgePersistance.getBookByTitle(t[1]));
                         } else {
-                            listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[2]), knotedgePersistance.getBookById(idBook));
+                            listener.createNewRelationObjectBook(knotedgePersistance.getObjectByName(t[1]), knotedgePersistance.getBookById(idBook));
                         }
 
                     }

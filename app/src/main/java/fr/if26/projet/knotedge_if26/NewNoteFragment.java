@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
     private TransmissionListener listener;
 
     @Override
-    public void onCreate (Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         listener = (TransmissionListener) getActivity();
@@ -69,9 +70,8 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
             debugList.add("You don't have any other objects yet");
             spinnerRelatedClasses.setItems(debugList);
 
-        }
-        else {
-            for (int i = 0; i < objectDoubleList.size(); i++ ) {
+        } else {
+            for (int i = 0; i < objectDoubleList.size(); i++) {
                 object = objectDoubleList.get(i); // + " : " + objectDoubleList.get(0).get(1);
                 objectList.add(object);
             }
@@ -90,12 +90,15 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
                 listener.createNewNote(title, content);
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
-                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext();) {
+                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
                         String t[] = i.next().split(" : ");
-                        if (t[0] == "Book") {
+                        t[0] = t[0].trim();
+                        if (t[0].equals("Book")) {
                             listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[1]));
+                        } else {
+                            listener.createNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[1]));
                         }
-                        else {listener.creatNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[1]));}
+
 
                     }
                 }

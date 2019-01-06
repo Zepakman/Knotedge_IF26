@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void creatNewRelationNoteObject(Note n, Object o) {
+    public void createNewRelationNoteObject(Note n, Object o) {
         knotedgePersistance.addNoteObject(n, o);
         Toast.makeText(this, "Relation Créée", Toast.LENGTH_SHORT).show();
     }

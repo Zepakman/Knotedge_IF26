@@ -133,23 +133,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_weight="3"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
             style="@style/DatePickerTheme"
-            android:layout_width="130dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/relation_class"
+            android:text="@string/relation_note"
             android:textColor="@color/grey"
             android:theme="@style/DatePickerTheme" />
+    </LinearLayout>
 
-        <ListView
-            android:id="@+id/detail_class_object"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_class_notes"
             style="@style/DatePickerTheme"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:theme="@style/DatePickerTheme" />
@@ -157,23 +164,37 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_weight="3"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
             style="@style/DatePickerTheme"
-            android:layout_width="130dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/relation_note"
+            android:text="@string/relation_class"
             android:textColor="@color/grey"
             android:theme="@style/DatePickerTheme" />
+    </LinearLayout>
 
-        <ListView
-            android:id="@+id/detail_class_note"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_class_books"
             style="@style/DatePickerTheme"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/DatePickerTheme" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_class_object"
+            style="@style/DatePickerTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:theme="@style/DatePickerTheme" />
