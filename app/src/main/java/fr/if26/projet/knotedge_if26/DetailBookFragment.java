@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,7 @@ public class DetailBookFragment extends Fragment {
             }
         });
 
-        Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
         //VIEW CLASSES
         recyclerViewObject = (RecyclerView) view.findViewById(R.id.detail_book_object);
         adapterObject = new AdapterObject(view.getContext(), listObjectNameOfThis);

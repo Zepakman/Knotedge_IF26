@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -90,9 +89,11 @@ public class NewNoteFragment extends Fragment implements MultiSelectionSpinner.O
                 listener.createNewNote(title, content);
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerRelatedClasses.getSelectedStrings();
+
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
                         String t[] = i.next().split(" : ");
                         t[0] = t[0].trim();
+                        t[1] = t[1].trim();
                         if (t[0].equals("Book")) {
                             listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[1]));
                         } else {

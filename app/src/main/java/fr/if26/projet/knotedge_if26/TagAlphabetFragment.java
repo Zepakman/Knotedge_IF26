@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TagRelationFragment extends Fragment {
+public class TagAlphabetFragment extends Fragment {
 
     private View view;
 

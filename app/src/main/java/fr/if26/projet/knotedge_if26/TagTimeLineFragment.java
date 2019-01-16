@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +39,8 @@ public class TagTimeLineFragment extends Fragment implements AdapterView.OnItemS
 
     private RecyclerView recyclerViewObjects;
     private AdapterObject adapterObject;
+    private String[] typeList = {"All classes","Book","Person","Event","Place","Object"};
+    private int typeSelected = 0;
 
     private KnotedgePersistance knotedgePersistance;
 
@@ -88,6 +89,7 @@ public class TagTimeLineFragment extends Fragment implements AdapterView.OnItemS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_tag_relation:
+                listener.loadFragmentViewTagAlphabet();
                 return true;
             case R.id.action_tag_timeline:
                 return true;

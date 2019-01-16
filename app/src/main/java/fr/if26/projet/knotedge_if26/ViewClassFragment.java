@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,10 +46,17 @@ public class ViewClassFragment extends Fragment {
         adapter = new AdapterObject(view.getContext(), allClasses);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(),2));
+        //recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(),2));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         DividerItemDecoration decoration = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerView.addItemDecoration(decoration);
+
+        if (allClasses.size() == 0) {
+            Toast.makeText(getContext(), "No classes", Toast.LENGTH_SHORT).show();
+        }
+
 
         adapter.setOnItemClickListener(new AdapterObject.OnItemClickListener(){
             @Override
@@ -58,8 +65,6 @@ public class ViewClassFragment extends Fragment {
                 listener.loadDetailObject(id);
             }
         });
-
-
         return view;
     }
 

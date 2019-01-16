@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +74,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
                 // TODO Auto-generated method stub
+
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -86,9 +86,21 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(view.getContext(), date, myCalendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+
+                //DatePicker datePicker = datePickerDialog.getDatePicker();
+                try {
+                    Calendar cMin = Calendar.getInstance();
+                    cMin.set(Calendar.YEAR, 1000);
+                    cMin.set(Calendar.MONTH, 1);
+                    cMin.set(Calendar.DAY_OF_MONTH, 1);
+                    datePickerDialog.getDatePicker().setMinDate(cMin.getTimeInMillis());
+                } catch (Exception e) {
+
+                }
+                datePickerDialog.show();
             }
         });
 
@@ -173,7 +185,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
                     listSelectedTags = spinnerTag.getSelectedStrings();
                     for (Iterator<String> i = listSelectedTags.iterator(); i.hasNext(); ) {
                         String t = i.next();
-                        listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getLastObject());
+                        listener.createNewRelationTagObject(knotedgePersistance.getTag(t), knotedgePersistance.getObjectById(idClass));
                     }
                 }
 
@@ -190,10 +202,11 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
                         String t[] = i.next().split(" : ");
                         t[0] = t[0].trim();
+                        t[1] = t[1].trim();
                         if (t[0].equals("Book")) {
-                            listener.createNewRelationObjectBook(knotedgePersistance.getLastObject(), knotedgePersistance.getBookByTitle(t[1]));
+                            listener.createNewRelationObjectBook(knotedgePersistance.getObjectById(idClass), knotedgePersistance.getBookByTitle(t[1]));
                         } else {
-                            listener.createNewRelationObjects(knotedgePersistance.getLastObject(), knotedgePersistance.getObjectByName(t[1]));
+                            listener.createNewRelationObjects(knotedgePersistance.getObjectById(idClass), knotedgePersistance.getObjectByName(t[1]));
                         }
 
                     }
@@ -207,7 +220,7 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
     }
 
     private void updateLabel() {
-        String myFormat = "dd/MM/yy"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         etDate.setText(sdf.format(myCalendar.getTime()));
@@ -220,6 +233,6 @@ public class EditClassFragment extends Fragment implements MultiSelectionSpinner
 
     @Override
     public void selectedStrings(List<String> strings) {
-        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

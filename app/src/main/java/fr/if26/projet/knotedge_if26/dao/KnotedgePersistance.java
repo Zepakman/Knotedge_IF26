@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.if26.projet.knotedge_if26.entity.Book;
 import fr.if26.projet.knotedge_if26.entity.Event;
@@ -504,7 +503,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public Object getObjectByName (String obj) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_OBJECT, null, OBJECT_NAME + "= ?", new String[]{obj + ""}, null, null, null);
+        Cursor cursor = db.query(TABLE_OBJECT, null, OBJECT_NAME + "=?", new String[]{obj + ""}, null, null, null);
         Object o = new Object("", "", "", "");
         int id = 0;
 
@@ -763,12 +762,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Note> listNote = new ArrayList<>();
-        Note n = new Note("", "", "", "");
         int noteId;
         for (int j = 0; j < listNoteId.size(); j++) {
             noteId = listNoteId.get(j);
             Cursor cursor2 = db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{noteId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Note n = new Note("", "", "", "");
                 n.setId(cursor2.getInt(cursor2.getColumnIndex(NOTE_ID)));
                 n.setTitle((cursor2.getString(cursor2.getColumnIndex(NOTE_TITLE))));
                 n.setContent(cursor2.getString(cursor2.getColumnIndex(NOTE_CONTENT)));
@@ -804,15 +803,15 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
                 listBookId.add(i);
             }
         }
-        cursor.close();
+        cursor1.close();
 
         ArrayList<Book> listBook = new ArrayList<>();
-        Book b = new Book("", "", "", "");
         int bookId;
         for (int j = 0; j < listBookId.size(); j++) {
             bookId = listBookId.get(j);
             Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
-            if (cursor2.moveToNext()) {
+            while (cursor2.moveToNext()) {
+                Book b = new Book("", "", "", "");
                 b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
                 b.setName((cursor2.getString(cursor2.getColumnIndex(BOOK_TITLE))));
                 b.setAuthor(cursor2.getString(cursor2.getColumnIndex(BOOK_AUTHOR)));
@@ -838,12 +837,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         cursor1.close();
 
         ArrayList<Object> listObject = new ArrayList<>();
-        Object o = new Object("", "", "", "");
         int objId;
         for (int k = 0; k < listObjId.size(); k++) {
             objId = listObjId.get(k);
             Cursor cursor3 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
-            if (cursor3.moveToNext()) {
+            while (cursor3.moveToNext()) {
+                Object o = new Object("", "", "", "");
                 o.setId(cursor3.getInt(cursor3.getColumnIndex(OBJECT_ID)));
                 o.setName((cursor3.getString(cursor3.getColumnIndex(OBJECT_NAME))));
                 o.setType(cursor3.getString(cursor3.getColumnIndex(OBJECT_TYPE)));
@@ -869,12 +868,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         cursor1.close();
 
         ArrayList<Book> listBook = new ArrayList<>();
-        Book b = new Book("", "", "", "");
         int bookId;
         for (int k = 0; k < listBookId.size(); k++) {
             bookId = listBookId.get(k);
             Cursor cursor3 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
-            if (cursor3.moveToNext()) {
+            while (cursor3.moveToNext()) {
+                Book b = new Book("", "", "", "");
                 b.setId(cursor3.getInt(cursor3.getColumnIndex(BOOK_ID)));
                 b.setName((cursor3.getString(cursor3.getColumnIndex(BOOK_TITLE))));
                 b.setAuthor(cursor3.getString(cursor3.getColumnIndex(BOOK_AUTHOR)));
@@ -891,7 +890,7 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     public ArrayList<Object> getAllObjectsByObject(int objId) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Integer> listObjId = new ArrayList<>();
-        Cursor cursor = db.query(TABLE_RELATION_OBJECTS, null, OBJECT_ID_1 + "= ?", new String[]{objId + ""}, null, null, null);
+        Cursor cursor = db.query(TABLE_RELATION_OBJECTS, null, OBJECT_ID_1 + "=?", new String[]{objId + ""}, null, null, null);
         int i;
         while (cursor.moveToNext()) {
             i = (cursor.getInt(cursor.getColumnIndex(OBJECT_ID_2)));
@@ -900,22 +899,22 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
             }
         }
         cursor.close();
-        Cursor cursor1 = db.query(TABLE_RELATION_OBJECTS, null, OBJECT_ID_2 + "= ?", new String[]{objId + ""}, null, null, null);
+        Cursor cursor1 = db.query(TABLE_RELATION_OBJECTS, null, OBJECT_ID_2 + "=?", new String[]{objId + ""}, null, null, null);
         while (cursor1.moveToNext()) {
             i = (cursor1.getInt(cursor1.getColumnIndex(OBJECT_ID_1)));
             if (i!=objId) {
                 listObjId.add(i);
             }
         }
-        cursor.close();
+        cursor1.close();
 
         ArrayList<Object> listObjects = new ArrayList<>();
-        Object o = new Object("", "", "", "");
         int objectId;
         for (int j = 0; j < listObjId.size(); j++) {
             objectId = listObjId.get(j);
-            Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objectId + ""}, null, null, null);
+            Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "=?", new String[]{objectId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Object o = new Object("", "", "", "");
                 o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
                 o.setType((cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE))));
                 o.setName(cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME)));
@@ -941,12 +940,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Note> listNote = new ArrayList<>();
-        Note n = new Note("", "", "", "");
         int noteId;
         for (int j = 0; j < listNoteId.size(); j++) {
             noteId = listNoteId.get(j);
             Cursor cursor2 = db.query(TABLE_NOTE, null, NOTE_ID + "= ?", new String[]{noteId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Note n = new Note("", "", "", "");
                 n.setId(cursor2.getInt(cursor2.getColumnIndex(NOTE_ID)));
                 n.setTitle((cursor2.getString(cursor2.getColumnIndex(NOTE_TITLE))));
                 n.setContent(cursor2.getString(cursor2.getColumnIndex(NOTE_CONTENT)));
@@ -972,12 +971,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Object> listObject = new ArrayList<>();
-        Object o = new Object("", "", "", "");
         int objectId;
         for (int j = 0; j < listObjectId.size(); j++) {
             objectId = listObjectId.get(j);
             Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objectId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Object o = new Object("", "", "", "");
                 o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
                 o.setName((cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME))));
                 o.setDescription(cursor2.getString(cursor2.getColumnIndex(OBJECT_DESCRIPTION)));
@@ -1002,12 +1001,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Book> listBook = new ArrayList<>();
-        Book b = new Book("", "", "", "");
         int bookId;
         for (int j = 0; j < listBookId.size(); j++) {
             bookId = listBookId.get(j);
             Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Book b = new Book("", "", "", "");
                 b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
                 b.setName((cursor2.getString(cursor2.getColumnIndex(BOOK_TITLE))));
                 b.setDescription(cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION)));
@@ -1034,12 +1033,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Object> listObject = new ArrayList<>();
-        Object o = new Object("", "", "", "");
         int objId;
         for (int j = 0; j < listObjId.size(); j++) {
             objId = listObjId.get(j);
             Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Object o = new Object("", "", "", "");
                 o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
                 o.setType((cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE))));
                 o.setName(cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME)));
@@ -1066,12 +1065,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Object> listObject = new ArrayList<>();
-        Object o = new Object("", "", "", "");
         int objId;
         for (int j = 0; j < listObjId.size(); j++) {
             objId = listObjId.get(j);
             Cursor cursor2 = db.query(TABLE_OBJECT, null, OBJECT_ID + "= ?", new String[]{objId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Object o = new Object("", "", "", "");
                 o.setId(cursor2.getInt(cursor2.getColumnIndex(OBJECT_ID)));
                 o.setType((cursor2.getString(cursor2.getColumnIndex(OBJECT_TYPE))));
                 o.setName(cursor2.getString(cursor2.getColumnIndex(OBJECT_NAME)));
@@ -1100,12 +1099,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Book> listBook = new ArrayList<>();
-        Book b = new Book("", "", "", "");
         int bookId;
         for (int j = 0; j < listBookId.size(); j++) {
             bookId = listBookId.get(j);
             Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Book b = new Book("", "", "", "");
                 b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
                 b.setDescription((cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION))));
                 b.setDate(cursor2.getString(cursor2.getColumnIndex(BOOK_DATE)));
@@ -1132,12 +1131,12 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
         }
         cursor.close();
         ArrayList<Book> listBook = new ArrayList<>();
-        Book b = new Book("", "", "", "");
         int bookId;
         for (int j = 0; j < listBookId.size(); j++) {
             bookId = listBookId.get(j);
             Cursor cursor2 = db.query(TABLE_BOOK, null, BOOK_ID + "= ?", new String[]{bookId + ""}, null, null, null);
             if (cursor2.moveToNext()) {
+                Book b = new Book("", "", "", "");
                 b.setId(cursor2.getInt(cursor2.getColumnIndex(BOOK_ID)));
                 b.setDescription((cursor2.getString(cursor2.getColumnIndex(BOOK_DESCRIPTION))));
                 b.setDate(cursor2.getString(cursor2.getColumnIndex(BOOK_DATE)));
@@ -1173,8 +1172,8 @@ public class KnotedgePersistance extends SQLiteOpenHelper implements Persistance
     @Override
     public void removeAllRelationsWithNote(int noteId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_RELATION_BOOK_NOTE, NOTE_ID + " = ?", new String[]{noteId + ""});
-        db.delete(TABLE_RELATION_OBJECT_NOTE, NOTE_ID + " = ?", new String[]{noteId + ""});
+        db.delete(TABLE_RELATION_BOOK_NOTE, NOTE_ID + " =?", new String[]{noteId + ""});
+        db.delete(TABLE_RELATION_OBJECT_NOTE, NOTE_ID + " =?", new String[]{noteId + ""});
         db.close();
     }
 

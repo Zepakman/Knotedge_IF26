@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,16 +107,18 @@ public class EditNoteFragment extends Fragment implements MultiSelectionSpinner.
 
                 if (!objectList.isEmpty()) {
                     listSelectedObjects = spinnerClass.getSelectedStrings();
-                    for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
-                        String t[] = i.next().split(" : ");
+                    Iterator<String> it = listSelectedObjects.iterator();
+                    while(it.hasNext()) {
+                        String t[] = it.next().split(":");
                         t[0] = t[0].trim();
+                        t[1] = t[1].trim();
                         if (t[0].equals("Book")) {
-                            listener.createNewRelationNoteBook(knotedgePersistance.getLastNote(), knotedgePersistance.getBookByTitle(t[1]));
+                            knotedgePersistance.addNoteBook(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getBookByTitle(t[1]));
+                            //listener.createNewRelationNoteBook(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getBookByTitle(t[1]));
                         } else {
-                            listener.createNewRelationNoteObject(knotedgePersistance.getLastNote(), knotedgePersistance.getObjectByName(t[1]));
+                            knotedgePersistance.addNoteObject(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getObjectByName(t[1]));
+                            //listener.createNewRelationNoteObject(knotedgePersistance.getNoteById(idNote), knotedgePersistance.getObjectByName(t[1]));
                         }
-
-
                     }
                 }
 
@@ -136,6 +137,6 @@ public class EditNoteFragment extends Fragment implements MultiSelectionSpinner.
     @Override
     public void selectedStrings(List<String> strings) {
 
-        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

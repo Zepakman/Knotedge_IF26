@@ -113,7 +113,8 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(view.getContext(), date, myCalendar
+                new DatePickerDialog(view.getContext(),
+                        date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -292,7 +293,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     private void updateLabel() {
-        String myFormat = "dd/MM/yy"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         txtDate.setText(sdf.format(myCalendar.getTime()));
@@ -306,7 +307,7 @@ public class NewClassFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void selectedStrings(List<String> strings) {
-        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
     }
 }
 

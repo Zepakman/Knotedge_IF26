@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +99,7 @@ public class DetailClassFragment extends Fragment {
         DividerItemDecoration decorationNotes = new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL_LIST);
         recyclerViewNotes.addItemDecoration(decorationNotes);
         if(listNotesNameOfThis.size()==0) {
-            Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
         }
         adapterNotes.setOnItemClickListener(new AdapterNote.OnItemClickListener(){
             @Override

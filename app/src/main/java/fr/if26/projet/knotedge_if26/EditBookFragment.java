@@ -243,6 +243,7 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
                     for (Iterator<String> i = listSelectedObjects.iterator(); i.hasNext(); ) {
                         String t[] = i.next().split(" : ");
                         t[0] = t[0].trim();
+                        t[1] = t[1].trim();
                         if (t[0].equals("Book")) {
                             listener.createNewRelationBooks(knotedgePersistance.getBookById(idBook), knotedgePersistance.getBookByTitle(t[1]));
                         } else {
@@ -274,6 +275,6 @@ public class EditBookFragment extends Fragment implements MultiSelectionSpinner.
     @Override
     public void selectedStrings(List<String> strings) {
 
-        Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(view.getContext(), strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

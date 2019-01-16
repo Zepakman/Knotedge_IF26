@@ -56,5 +56,5 @@ public interface TransmissionListener {
 
     void loadFragmentViewTagTimeLine();
 
-    void loadFragmentViewTagRelation();
+    void loadFragmentViewTagAlphabet();
 }
